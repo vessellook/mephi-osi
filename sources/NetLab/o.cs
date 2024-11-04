@@ -12,7 +12,7 @@ using System.Windows.Forms;
 #nullable disable
 public class o : Form
 {
-  private global::v a;
+  private global::MainWindow a;
   private IContainer b;
   private NumericUpDown c;
   private NumericUpDown d;
@@ -53,7 +53,7 @@ public class o : Form
   private Label am;
   private Label an;
 
-  public o(global::v A_0)
+  public o(global::MainWindow A_0)
   {
     this.a();
     this.a = A_0;
@@ -75,25 +75,25 @@ public class o : Form
     this.k.Value = (Decimal) (int) (this.a.c().d().d().c() * 10000.0);
     this.l.Value = (Decimal) this.a.c().d().d().b().c();
     this.p.Value = (Decimal) this.a.c().d().d().b().b();
-    this.c.Enabled = global::v.f;
-    this.d.Enabled = global::v.f;
-    this.m.Enabled = global::v.f;
-    this.e.Enabled = global::v.f;
-    this.f.Enabled = global::v.f;
-    this.n.Enabled = global::v.f;
-    this.g.Enabled = global::v.f;
-    this.o.Enabled = global::v.f;
-    this.h.Enabled = global::v.f;
-    this.i.Enabled = global::v.f;
-    this.j.Enabled = global::v.f;
-    this.k.Enabled = global::v.f;
-    this.l.Enabled = global::v.f;
-    this.p.Enabled = global::v.f;
+    this.c.Enabled = global::MainWindow.f;
+    this.d.Enabled = global::MainWindow.f;
+    this.m.Enabled = global::MainWindow.f;
+    this.e.Enabled = global::MainWindow.f;
+    this.f.Enabled = global::MainWindow.f;
+    this.n.Enabled = global::MainWindow.f;
+    this.g.Enabled = global::MainWindow.f;
+    this.o.Enabled = global::MainWindow.f;
+    this.h.Enabled = global::MainWindow.f;
+    this.i.Enabled = global::MainWindow.f;
+    this.j.Enabled = global::MainWindow.f;
+    this.k.Enabled = global::MainWindow.f;
+    this.l.Enabled = global::MainWindow.f;
+    this.p.Enabled = global::MainWindow.f;
   }
 
   private void a(object A_0, EventArgs A_1)
   {
-    if (global::v.f)
+    if (global::MainWindow.f)
     {
       this.a.c().d().d().a((int) this.c.Value);
       this.a.c().d().d().i().b((int) this.d.Value);

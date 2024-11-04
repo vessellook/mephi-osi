@@ -14,7 +14,7 @@ using System.Text;
 #nullable disable
 public class ak
 {
-  private v a;
+  private MainWindow a;
   public aa d;
   public SortedList e;
   public SortedList f;
@@ -71,7 +71,7 @@ public class ak
   [SpecialName]
   public void a(SortedList A_0) => this.i = A_0;
 
-  public ak(string A_0, v A_1)
+  public ak(string A_0, MainWindow A_1)
   {
     this.a = A_1;
     this.a(A_0);

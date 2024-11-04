@@ -210,7 +210,7 @@ public class aj
     this.a(Convert.ToInt32(str4.Substring(12)));
   }
 
-  public void a(SortedList A_0, ak A_1, am A_2, v A_3)
+  public void a(SortedList A_0, ak A_1, am A_2, MainWindow A_3)
   {
     if (A_0 == null)
       A_0 = new SortedList();

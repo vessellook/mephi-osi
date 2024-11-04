@@ -40,7 +40,7 @@ public class n : Form
           zipFile.CompressionMethod = (CompressionMethod) 8;
           zipFile.CompressionLevel = (CompressionLevel) 6;
           zipFile.Encryption = (EncryptionAlgorithm) 3;
-          zipFile.Password = v.af;
+          zipFile.Password = MainWindow.realPassword;
           zipFile[this.b].Extract((Stream) data);
           zipFile.Dispose();
         }
@@ -61,28 +61,28 @@ public class n : Form
     switch (this.a)
     {
       case 0:
-        ++v.q.e;
-        v.q.d += DateTime.Now.Subtract(this.c);
+        ++MainWindow.userInfo.e;
+        MainWindow.userInfo.d += DateTime.Now.Subtract(this.c);
         break;
       case 1:
-        ++v.q.g;
-        v.q.f += DateTime.Now.Subtract(this.c);
+        ++MainWindow.userInfo.g;
+        MainWindow.userInfo.f += DateTime.Now.Subtract(this.c);
         break;
       case 2:
-        ++v.q.i;
-        v.q.h += DateTime.Now.Subtract(this.c);
+        ++MainWindow.userInfo.i;
+        MainWindow.userInfo.h += DateTime.Now.Subtract(this.c);
         break;
       case 3:
-        ++v.q.k;
-        v.q.j += DateTime.Now.Subtract(this.c);
+        ++MainWindow.userInfo.k;
+        MainWindow.userInfo.j += DateTime.Now.Subtract(this.c);
         break;
       case 4:
-        ++v.q.m;
-        v.q.l += DateTime.Now.Subtract(this.c);
+        ++MainWindow.userInfo.m;
+        MainWindow.userInfo.l += DateTime.Now.Subtract(this.c);
         break;
       case 5:
-        ++v.q.o;
-        v.q.n += DateTime.Now.Subtract(this.c);
+        ++MainWindow.userInfo.o;
+        MainWindow.userInfo.n += DateTime.Now.Subtract(this.c);
         break;
     }
   }

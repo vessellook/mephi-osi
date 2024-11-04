@@ -45,28 +45,56 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DotfuscatorAttribute.cs" />
-    <Compile Include="c.cs" />
+    <Compile Include="c.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="a.cs" />
     <Compile Include="b.cs" />
-    <Compile Include="d.cs" />
-    <Compile Include="e.cs" />
-    <Compile Include="f.cs" />
-    <Compile Include="g.cs" />
-    <Compile Include="h.cs" />
-    <Compile Include="i.cs" />
-    <Compile Include="j.cs" />
-    <Compile Include="k.cs" />
+    <Compile Include="EventsParams.cs" />
+    <Compile Include="e.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="f.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="g.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="h.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="i.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditorWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SyntaxHighlighter.cs" />
     <Compile Include="l.cs" />
     <Compile Include="m.cs" />
-    <Compile Include="n.cs" />
-    <Compile Include="o.cs" />
-    <Compile Include="p.cs" />
-    <Compile Include="q.cs" />
-    <Compile Include="r.cs" />
-    <Compile Include="s.cs" />
+    <Compile Include="n.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="o.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="p.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NewLabDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="r.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LayerWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="t.cs" />
     <Compile Include="u.cs" />
-    <Compile Include="v.cs" />
+    <Compile Include="MainWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="w.cs" />
     <Compile Include="x.cs" />
     <Compile Include="y.cs" />
@@ -86,11 +114,15 @@
     <Compile Include="am.cs" />
     <Compile Include="an.cs" />
     <Compile Include="ao.cs" />
-    <Compile Include="ap.cs" />
+    <Compile Include="ap.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="aq.cs" />
     <Compile Include="ar.cs" />
     <Compile Include="as.cs" />
-    <Compile Include="at.cs" />
+    <Compile Include="at.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="au.cs" />
     <Compile Include="NetLab\Properties\Resources.cs" />
     <Compile Include="NetLab\Properties\Settings.cs" />
@@ -107,7 +139,9 @@
     <EmbeddedResource Include="i.resx" />
     <EmbeddedResource Include="j.resx" />
     <EmbeddedResource Include="n.resx" />
-    <EmbeddedResource Include="NetLab\Properties\Resources.resx" />
+    <EmbeddedResource Include="NetLab\Properties\Resources.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="o.resx" />
     <EmbeddedResource Include="p.resx" />
     <EmbeddedResource Include="q.resx" />

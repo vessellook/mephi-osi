@@ -13,26 +13,26 @@ using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 
 #nullable disable
-public class s : Form
+public class LayerWindow : Form
 {
-  private an c;
-  private ArrayList d;
+  private an an;
+  private ArrayList editors;
   private IContainer e;
-  private Button f;
-  private Button g;
-  private Button h;
-  private Button i;
-  private Button j;
-  private Button k;
-  private GroupBox l;
-  private RadioButton m;
-  private RadioButton n;
-  private Button o;
-  private Button p;
-  private Button q;
-  private ListBox r;
-  private Label s;
-  private Button t;
+  private Button editButton;
+  private Button addButton;
+  private Button deleteButton;
+  private Button copyButton;
+  private Button reduplicateButton;
+  private Button initButton;
+  private GroupBox activeBankBox;
+  private RadioButton bank1Button;
+  private RadioButton bank0Button;
+  private Button closeButton;
+  private Button leftSystemButton;
+  private Button rightSystemButton;
+  private ListBox eventsListBox;
+  private Label label1;
+  private Button renameButton;
 
   [CompilerGenerated]
   [SpecialName]
@@ -50,11 +50,11 @@ public class s : Form
   [SpecialName]
   public void a(am A_0) => this.b = A_0;
 
-  public s(an A_0)
+  public LayerWindow(an an)
   {
-    this.a();
-    this.c = A_0;
-    this.d = new ArrayList();
+    this.Initialize();
+    this.an = an;
+    this.editors = new ArrayList();
   }
 
   public void b()
@@ -132,7 +132,7 @@ public class s : Form
         default:
           goto label_17;
       }
-      if (v.t)
+      if (MainWindow.t)
       {
         switch (this.c().b())
         {
@@ -149,20 +149,20 @@ public class s : Form
             throw new IndexOutOfRangeException(Resources.ErrorUnknownSystem);
         }
       }
-      this.p.Visible = v.t;
-      this.q.Visible = v.t;
+      this.leftSystemButton.Visible = MainWindow.t;
+      this.rightSystemButton.Visible = MainWindow.t;
       int index1 = this.d().h().IndexOfKey((object) key);
       if (index1 >= 0)
         (this.d().h().GetByIndex(index1) as aj).a(true);
       if (this.d().i() == (byte) 0)
-        this.n.Checked = true;
+        this.bank0Button.Checked = true;
       else
-        this.m.Checked = true;
-      this.r.Items.Clear();
+        this.bank1Button.Checked = true;
+      this.eventsListBox.Items.Clear();
       for (int index2 = 0; index2 < this.d().h().Count; ++index2)
       {
         if (!(this.d().h().GetByIndex(index2) as aj).n())
-          this.r.Items.Add((object) (this.d().h().GetByIndex(index2) as aj).o());
+          this.eventsListBox.Items.Add((object) (this.d().h().GetByIndex(index2) as aj).o());
       }
       return;
     }
@@ -170,9 +170,9 @@ label_17:
     throw new IndexOutOfRangeException(Resources.ErrorUnknownLevel);
   }
 
-  private void l(object A_0, EventArgs A_1) => this.Close();
+  private void OnCloseButtonClick(object A_0, EventArgs A_1) => this.Close();
 
-  private void k(object A_0, EventArgs A_1)
+  private void OnRightSystemButtonClick(object A_0, EventArgs A_1)
   {
     switch (this.c().b())
     {
@@ -185,8 +185,8 @@ label_17:
             case 2:
               if (str1 == "UE")
               {
-                this.a(this.c.c());
-                this.a(this.c.c().j());
+                this.a(this.an.c());
+                this.a(this.an.c().j());
                 goto label_56;
               }
               else
@@ -197,8 +197,8 @@ label_17:
                 case 'N':
                   if (str1 == "Network")
                   {
-                    this.a(this.c.c());
-                    this.a(this.c.c().e());
+                    this.a(this.an.c());
+                    this.a(this.an.c().e());
                     goto label_56;
                   }
                   else
@@ -206,8 +206,8 @@ label_17:
                 case 'P':
                   if (str1 == "Process")
                   {
-                    this.a(this.c.c());
-                    this.a(this.c.c().k());
+                    this.a(this.an.c());
+                    this.a(this.an.c().k());
                     goto label_56;
                   }
                   else
@@ -215,8 +215,8 @@ label_17:
                 case 'S':
                   if (str1 == "Session")
                   {
-                    this.a(this.c.c());
-                    this.a(this.c.c().g());
+                    this.a(this.an.c());
+                    this.a(this.an.c().g());
                     goto label_56;
                   }
                   else
@@ -226,8 +226,8 @@ label_17:
             case 9:
               if (str1 == "Transport")
               {
-                this.a(this.c.c());
-                this.a(this.c.c().f());
+                this.a(this.an.c());
+                this.a(this.an.c().f());
                 goto label_56;
               }
               else
@@ -235,8 +235,8 @@ label_17:
             case 11:
               if (str1 == "Application")
               {
-                this.a(this.c.c());
-                this.a(this.c.c().i());
+                this.a(this.an.c());
+                this.a(this.an.c().i());
                 goto label_56;
               }
               else
@@ -244,8 +244,8 @@ label_17:
             case 12:
               if (str1 == "Presentation")
               {
-                this.a(this.c.c());
-                this.a(this.c.c().h());
+                this.a(this.an.c());
+                this.a(this.an.c().h());
                 goto label_56;
               }
               else
@@ -262,8 +262,8 @@ label_17:
             case 2:
               if (str2 == "UE")
               {
-                this.a(this.c.b());
-                this.a(this.c.b().j());
+                this.a(this.an.b());
+                this.a(this.an.b().j());
                 goto label_56;
               }
               else
@@ -274,8 +274,8 @@ label_17:
                 case 'N':
                   if (str2 == "Network")
                   {
-                    this.a(this.c.b());
-                    this.a(this.c.b().e());
+                    this.a(this.an.b());
+                    this.a(this.an.b().e());
                     goto label_56;
                   }
                   else
@@ -283,8 +283,8 @@ label_17:
                 case 'P':
                   if (str2 == "Process")
                   {
-                    this.a(this.c.b());
-                    this.a(this.c.b().k());
+                    this.a(this.an.b());
+                    this.a(this.an.b().k());
                     goto label_56;
                   }
                   else
@@ -292,8 +292,8 @@ label_17:
                 case 'S':
                   if (str2 == "Session")
                   {
-                    this.a(this.c.b());
-                    this.a(this.c.b().g());
+                    this.a(this.an.b());
+                    this.a(this.an.b().g());
                     goto label_56;
                   }
                   else
@@ -303,8 +303,8 @@ label_17:
             case 9:
               if (str2 == "Transport")
               {
-                this.a(this.c.b());
-                this.a(this.c.b().f());
+                this.a(this.an.b());
+                this.a(this.an.b().f());
                 goto label_56;
               }
               else
@@ -312,8 +312,8 @@ label_17:
             case 11:
               if (str2 == "Application")
               {
-                this.a(this.c.b());
-                this.a(this.c.b().i());
+                this.a(this.an.b());
+                this.a(this.an.b().i());
                 goto label_56;
               }
               else
@@ -321,8 +321,8 @@ label_17:
             case 12:
               if (str2 == "Presentation")
               {
-                this.a(this.c.b());
-                this.a(this.c.b().h());
+                this.a(this.an.b());
+                this.a(this.an.b().h());
                 goto label_56;
               }
               else
@@ -339,8 +339,8 @@ label_17:
             case 2:
               if (str3 == "UE")
               {
-                this.a(this.c.d());
-                this.a(this.c.d().j());
+                this.a(this.an.d());
+                this.a(this.an.d().j());
                 goto label_56;
               }
               else
@@ -351,8 +351,8 @@ label_17:
                 case 'N':
                   if (str3 == "Network")
                   {
-                    this.a(this.c.d());
-                    this.a(this.c.d().e());
+                    this.a(this.an.d());
+                    this.a(this.an.d().e());
                     goto label_56;
                   }
                   else
@@ -360,8 +360,8 @@ label_17:
                 case 'P':
                   if (str3 == "Process")
                   {
-                    this.a(this.c.d());
-                    this.a(this.c.d().k());
+                    this.a(this.an.d());
+                    this.a(this.an.d().k());
                     goto label_56;
                   }
                   else
@@ -369,8 +369,8 @@ label_17:
                 case 'S':
                   if (str3 == "Session")
                   {
-                    this.a(this.c.d());
-                    this.a(this.c.d().g());
+                    this.a(this.an.d());
+                    this.a(this.an.d().g());
                     goto label_56;
                   }
                   else
@@ -380,8 +380,8 @@ label_17:
             case 9:
               if (str3 == "Transport")
               {
-                this.a(this.c.d());
-                this.a(this.c.d().f());
+                this.a(this.an.d());
+                this.a(this.an.d().f());
                 goto label_56;
               }
               else
@@ -389,8 +389,8 @@ label_17:
             case 11:
               if (str3 == "Application")
               {
-                this.a(this.c.d());
-                this.a(this.c.d().i());
+                this.a(this.an.d());
+                this.a(this.an.d().i());
                 goto label_56;
               }
               else
@@ -398,8 +398,8 @@ label_17:
             case 12:
               if (str3 == "Presentation")
               {
-                this.a(this.c.d());
-                this.a(this.c.d().h());
+                this.a(this.an.d());
+                this.a(this.an.d().h());
                 goto label_56;
               }
               else
@@ -414,7 +414,7 @@ label_56:
     this.b();
   }
 
-  private void j(object A_0, EventArgs A_1)
+  private void OnLeftSystemButtonClick(object A_0, EventArgs A_1)
   {
     switch (this.c().b())
     {
@@ -427,8 +427,8 @@ label_56:
             case 2:
               if (str1 == "UE")
               {
-                this.a(this.c.c());
-                this.a(this.c.c().j());
+                this.a(this.an.c());
+                this.a(this.an.c().j());
                 goto label_56;
               }
               else
@@ -439,8 +439,8 @@ label_56:
                 case 'N':
                   if (str1 == "Network")
                   {
-                    this.a(this.c.c());
-                    this.a(this.c.c().e());
+                    this.a(this.an.c());
+                    this.a(this.an.c().e());
                     goto label_56;
                   }
                   else
@@ -448,8 +448,8 @@ label_56:
                 case 'P':
                   if (str1 == "Process")
                   {
-                    this.a(this.c.c());
-                    this.a(this.c.c().k());
+                    this.a(this.an.c());
+                    this.a(this.an.c().k());
                     goto label_56;
                   }
                   else
@@ -457,8 +457,8 @@ label_56:
                 case 'S':
                   if (str1 == "Session")
                   {
-                    this.a(this.c.c());
-                    this.a(this.c.c().g());
+                    this.a(this.an.c());
+                    this.a(this.an.c().g());
                     goto label_56;
                   }
                   else
@@ -468,8 +468,8 @@ label_56:
             case 9:
               if (str1 == "Transport")
               {
-                this.a(this.c.c());
-                this.a(this.c.c().f());
+                this.a(this.an.c());
+                this.a(this.an.c().f());
                 goto label_56;
               }
               else
@@ -477,8 +477,8 @@ label_56:
             case 11:
               if (str1 == "Application")
               {
-                this.a(this.c.c());
-                this.a(this.c.c().i());
+                this.a(this.an.c());
+                this.a(this.an.c().i());
                 goto label_56;
               }
               else
@@ -486,8 +486,8 @@ label_56:
             case 12:
               if (str1 == "Presentation")
               {
-                this.a(this.c.c());
-                this.a(this.c.c().h());
+                this.a(this.an.c());
+                this.a(this.an.c().h());
                 goto label_56;
               }
               else
@@ -504,8 +504,8 @@ label_56:
             case 2:
               if (str2 == "UE")
               {
-                this.a(this.c.b());
-                this.a(this.c.b().j());
+                this.a(this.an.b());
+                this.a(this.an.b().j());
                 goto label_56;
               }
               else
@@ -516,8 +516,8 @@ label_56:
                 case 'N':
                   if (str2 == "Network")
                   {
-                    this.a(this.c.b());
-                    this.a(this.c.b().e());
+                    this.a(this.an.b());
+                    this.a(this.an.b().e());
                     goto label_56;
                   }
                   else
@@ -525,8 +525,8 @@ label_56:
                 case 'P':
                   if (str2 == "Process")
                   {
-                    this.a(this.c.b());
-                    this.a(this.c.b().k());
+                    this.a(this.an.b());
+                    this.a(this.an.b().k());
                     goto label_56;
                   }
                   else
@@ -534,8 +534,8 @@ label_56:
                 case 'S':
                   if (str2 == "Session")
                   {
-                    this.a(this.c.b());
-                    this.a(this.c.b().g());
+                    this.a(this.an.b());
+                    this.a(this.an.b().g());
                     goto label_56;
                   }
                   else
@@ -545,8 +545,8 @@ label_56:
             case 9:
               if (str2 == "Transport")
               {
-                this.a(this.c.b());
-                this.a(this.c.b().f());
+                this.a(this.an.b());
+                this.a(this.an.b().f());
                 goto label_56;
               }
               else
@@ -554,8 +554,8 @@ label_56:
             case 11:
               if (str2 == "Application")
               {
-                this.a(this.c.b());
-                this.a(this.c.b().i());
+                this.a(this.an.b());
+                this.a(this.an.b().i());
                 goto label_56;
               }
               else
@@ -563,8 +563,8 @@ label_56:
             case 12:
               if (str2 == "Presentation")
               {
-                this.a(this.c.b());
-                this.a(this.c.b().h());
+                this.a(this.an.b());
+                this.a(this.an.b().h());
                 goto label_56;
               }
               else
@@ -581,8 +581,8 @@ label_56:
             case 2:
               if (str3 == "UE")
               {
-                this.a(this.c.d());
-                this.a(this.c.d().j());
+                this.a(this.an.d());
+                this.a(this.an.d().j());
                 goto label_56;
               }
               else
@@ -593,8 +593,8 @@ label_56:
                 case 'N':
                   if (str3 == "Network")
                   {
-                    this.a(this.c.d());
-                    this.a(this.c.d().e());
+                    this.a(this.an.d());
+                    this.a(this.an.d().e());
                     goto label_56;
                   }
                   else
@@ -602,8 +602,8 @@ label_56:
                 case 'P':
                   if (str3 == "Process")
                   {
-                    this.a(this.c.d());
-                    this.a(this.c.d().k());
+                    this.a(this.an.d());
+                    this.a(this.an.d().k());
                     goto label_56;
                   }
                   else
@@ -611,8 +611,8 @@ label_56:
                 case 'S':
                   if (str3 == "Session")
                   {
-                    this.a(this.c.d());
-                    this.a(this.c.d().g());
+                    this.a(this.an.d());
+                    this.a(this.an.d().g());
                     goto label_56;
                   }
                   else
@@ -622,8 +622,8 @@ label_56:
             case 9:
               if (str3 == "Transport")
               {
-                this.a(this.c.d());
-                this.a(this.c.d().f());
+                this.a(this.an.d());
+                this.a(this.an.d().f());
                 goto label_56;
               }
               else
@@ -631,8 +631,8 @@ label_56:
             case 11:
               if (str3 == "Application")
               {
-                this.a(this.c.d());
-                this.a(this.c.d().i());
+                this.a(this.an.d());
+                this.a(this.an.d().i());
                 goto label_56;
               }
               else
@@ -640,8 +640,8 @@ label_56:
             case 12:
               if (str3 == "Presentation")
               {
-                this.a(this.c.d());
-                this.a(this.c.d().h());
+                this.a(this.an.d());
+                this.a(this.an.d().h());
                 goto label_56;
               }
               else
@@ -656,63 +656,63 @@ label_56:
     this.b();
   }
 
-  private void i(object A_0, EventArgs A_1)
+  private void OnBankChange(object A_0, EventArgs A_1)
   {
-    if (this.n.Checked)
+    if (this.bank0Button.Checked)
     {
-      this.c.d().e().a((byte) 0);
-      this.c.c().e().a((byte) 0);
-      this.c.b().e().a((byte) 0);
-      this.c.d().f().a((byte) 0);
-      this.c.d().g().a((byte) 0);
-      this.c.d().h().a((byte) 0);
-      this.c.d().i().a((byte) 0);
-      this.c.d().j().a((byte) 0);
-      this.c.d().k().a((byte) 0);
-      this.c.c().f().a((byte) 0);
-      this.c.c().g().a((byte) 0);
-      this.c.c().h().a((byte) 0);
-      this.c.c().i().a((byte) 0);
-      this.c.c().j().a((byte) 0);
-      this.c.c().k().a((byte) 0);
-      this.c.b().f().a((byte) 0);
-      this.c.b().g().a((byte) 0);
-      this.c.b().h().a((byte) 0);
-      this.c.b().i().a((byte) 0);
-      this.c.b().j().a((byte) 0);
-      this.c.b().k().a((byte) 0);
+      this.an.d().e().a((byte) 0);
+      this.an.c().e().a((byte) 0);
+      this.an.b().e().a((byte) 0);
+      this.an.d().f().a((byte) 0);
+      this.an.d().g().a((byte) 0);
+      this.an.d().h().a((byte) 0);
+      this.an.d().i().a((byte) 0);
+      this.an.d().j().a((byte) 0);
+      this.an.d().k().a((byte) 0);
+      this.an.c().f().a((byte) 0);
+      this.an.c().g().a((byte) 0);
+      this.an.c().h().a((byte) 0);
+      this.an.c().i().a((byte) 0);
+      this.an.c().j().a((byte) 0);
+      this.an.c().k().a((byte) 0);
+      this.an.b().f().a((byte) 0);
+      this.an.b().g().a((byte) 0);
+      this.an.b().h().a((byte) 0);
+      this.an.b().i().a((byte) 0);
+      this.an.b().j().a((byte) 0);
+      this.an.b().k().a((byte) 0);
     }
     else
     {
-      this.c.d().e().a((byte) 1);
-      this.c.c().e().a((byte) 1);
-      this.c.b().e().a((byte) 1);
-      this.c.d().f().a((byte) 1);
-      this.c.d().g().a((byte) 1);
-      this.c.d().h().a((byte) 1);
-      this.c.d().i().a((byte) 1);
-      this.c.d().j().a((byte) 1);
-      this.c.d().k().a((byte) 1);
-      this.c.c().f().a((byte) 1);
-      this.c.c().g().a((byte) 1);
-      this.c.c().h().a((byte) 1);
-      this.c.c().i().a((byte) 1);
-      this.c.c().j().a((byte) 1);
-      this.c.c().k().a((byte) 1);
-      this.c.b().f().a((byte) 1);
-      this.c.b().g().a((byte) 1);
-      this.c.b().h().a((byte) 1);
-      this.c.b().i().a((byte) 1);
-      this.c.b().j().a((byte) 1);
-      this.c.b().k().a((byte) 1);
+      this.an.d().e().a((byte) 1);
+      this.an.c().e().a((byte) 1);
+      this.an.b().e().a((byte) 1);
+      this.an.d().f().a((byte) 1);
+      this.an.d().g().a((byte) 1);
+      this.an.d().h().a((byte) 1);
+      this.an.d().i().a((byte) 1);
+      this.an.d().j().a((byte) 1);
+      this.an.d().k().a((byte) 1);
+      this.an.c().f().a((byte) 1);
+      this.an.c().g().a((byte) 1);
+      this.an.c().h().a((byte) 1);
+      this.an.c().i().a((byte) 1);
+      this.an.c().j().a((byte) 1);
+      this.an.c().k().a((byte) 1);
+      this.an.b().f().a((byte) 1);
+      this.an.b().g().a((byte) 1);
+      this.an.b().h().a((byte) 1);
+      this.an.b().i().a((byte) 1);
+      this.an.b().j().a((byte) 1);
+      this.an.b().k().a((byte) 1);
     }
     this.b();
   }
 
-  private void h(object A_0, EventArgs A_1)
+  private void OnAddButtonClick(object A_0, EventArgs A_1)
   {
     ak[] A_0_1;
-    if (v.t)
+    if (MainWindow.t)
     {
       A_0_1 = new ak[1]{ this.d() };
     }
@@ -728,8 +728,8 @@ label_56:
             {
               A_0_1 = new ak[2]
               {
-                this.c.d().j(),
-                this.c.b().j()
+                this.an.d().j(),
+                this.an.b().j()
               };
               goto label_20;
             }
@@ -743,9 +743,9 @@ label_56:
                 {
                   A_0_1 = new ak[3]
                   {
-                    this.c.d().e(),
-                    this.c.c().e(),
-                    this.c.b().e()
+                    this.an.d().e(),
+                    this.an.c().e(),
+                    this.an.b().e()
                   };
                   goto label_20;
                 }
@@ -756,8 +756,8 @@ label_56:
                 {
                   A_0_1 = new ak[2]
                   {
-                    this.c.d().k(),
-                    this.c.b().k()
+                    this.an.d().k(),
+                    this.an.b().k()
                   };
                   goto label_20;
                 }
@@ -768,9 +768,9 @@ label_56:
                 {
                   A_0_1 = new ak[3]
                   {
-                    this.c.d().g(),
-                    this.c.c().g(),
-                    this.c.b().g()
+                    this.an.d().g(),
+                    this.an.c().g(),
+                    this.an.b().g()
                   };
                   goto label_20;
                 }
@@ -783,9 +783,9 @@ label_56:
             {
               A_0_1 = new ak[3]
               {
-                this.c.d().f(),
-                this.c.c().f(),
-                this.c.b().f()
+                this.an.d().f(),
+                this.an.c().f(),
+                this.an.b().f()
               };
               goto label_20;
             }
@@ -796,8 +796,8 @@ label_56:
             {
               A_0_1 = new ak[2]
               {
-                this.c.d().i(),
-                this.c.b().i()
+                this.an.d().i(),
+                this.an.b().i()
               };
               goto label_20;
             }
@@ -808,9 +808,9 @@ label_56:
             {
               A_0_1 = new ak[3]
               {
-                this.c.d().h(),
-                this.c.c().h(),
-                this.c.b().h()
+                this.an.d().h(),
+                this.an.c().h(),
+                this.an.b().h()
               };
               goto label_20;
             }
@@ -827,14 +827,14 @@ label_20:
     e.Dispose();
   }
 
-  private void g(object A_0, EventArgs A_1)
+  private void OnDeleteButtonClick(object A_0, EventArgs A_1)
   {
-    if (MessageBox.Show(Resources.ConfirmRemove + this.r.SelectedItems.Count.ToString() + Resources.Event_sQuestion, "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+    if (MessageBox.Show(Resources.ConfirmRemove + this.eventsListBox.SelectedItems.Count.ToString() + Resources.Event_sQuestion, "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
       return;
-    if (v.t)
+    if (MainWindow.t)
     {
-      for (int index = this.r.SelectedItems.Count - 1; index >= 0; --index)
-        this.d().h().Remove(this.r.SelectedItems[index]);
+      for (int index = this.eventsListBox.SelectedItems.Count - 1; index >= 0; --index)
+        this.d().h().Remove(this.eventsListBox.SelectedItems[index]);
     }
     else
     {
@@ -849,8 +849,8 @@ label_20:
             {
               akArray = new ak[2]
               {
-                this.c.d().j(),
-                this.c.b().j()
+                this.an.d().j(),
+                this.an.b().j()
               };
               break;
             }
@@ -863,9 +863,9 @@ label_20:
                 {
                   akArray = new ak[3]
                   {
-                    this.c.d().e(),
-                    this.c.c().e(),
-                    this.c.b().e()
+                    this.an.d().e(),
+                    this.an.c().e(),
+                    this.an.b().e()
                   };
                   break;
                 }
@@ -875,8 +875,8 @@ label_20:
                 {
                   akArray = new ak[2]
                   {
-                    this.c.d().k(),
-                    this.c.b().k()
+                    this.an.d().k(),
+                    this.an.b().k()
                   };
                   break;
                 }
@@ -886,9 +886,9 @@ label_20:
                 {
                   akArray = new ak[3]
                   {
-                    this.c.d().g(),
-                    this.c.c().g(),
-                    this.c.b().g()
+                    this.an.d().g(),
+                    this.an.c().g(),
+                    this.an.b().g()
                   };
                   break;
                 }
@@ -902,9 +902,9 @@ label_20:
             {
               akArray = new ak[3]
               {
-                this.c.d().f(),
-                this.c.c().f(),
-                this.c.b().f()
+                this.an.d().f(),
+                this.an.c().f(),
+                this.an.b().f()
               };
               break;
             }
@@ -914,8 +914,8 @@ label_20:
             {
               akArray = new ak[2]
               {
-                this.c.d().i(),
-                this.c.b().i()
+                this.an.d().i(),
+                this.an.b().i()
               };
               break;
             }
@@ -925,9 +925,9 @@ label_20:
             {
               akArray = new ak[3]
               {
-                this.c.d().h(),
-                this.c.c().h(),
-                this.c.b().h()
+                this.an.d().h(),
+                this.an.c().h(),
+                this.an.b().h()
               };
               break;
             }
@@ -937,8 +937,8 @@ label_20:
         }
         for (int index1 = 0; index1 < akArray.Length; ++index1)
         {
-          for (int index2 = this.r.SelectedItems.Count - 1; index2 >= 0; --index2)
-            akArray[index1].h().Remove(this.r.SelectedItems[index2]);
+          for (int index2 = this.eventsListBox.SelectedItems.Count - 1; index2 >= 0; --index2)
+            akArray[index1].h().Remove(this.eventsListBox.SelectedItems[index2]);
         }
         goto label_30;
       }
@@ -949,12 +949,12 @@ label_30:
     this.b();
   }
 
-  private void f(object A_0, EventArgs A_1)
+  private void f_func(object A_0, EventArgs A_1)
   {
-    if (this.r.SelectedItems.Count <= 0)
+    if (this.eventsListBox.SelectedItems.Count <= 0)
       return;
     ak[] A_1_1;
-    if (v.t)
+    if (MainWindow.t)
     {
       A_1_1 = new ak[1]{ this.d() };
     }
@@ -970,8 +970,8 @@ label_30:
             {
               A_1_1 = new ak[2]
               {
-                this.c.d().j(),
-                this.c.b().j()
+                this.an.d().j(),
+                this.an.b().j()
               };
               goto label_22;
             }
@@ -985,9 +985,9 @@ label_30:
                 {
                   A_1_1 = new ak[3]
                   {
-                    this.c.d().e(),
-                    this.c.c().e(),
-                    this.c.b().e()
+                    this.an.d().e(),
+                    this.an.c().e(),
+                    this.an.b().e()
                   };
                   goto label_22;
                 }
@@ -998,8 +998,8 @@ label_30:
                 {
                   A_1_1 = new ak[2]
                   {
-                    this.c.d().k(),
-                    this.c.b().k()
+                    this.an.d().k(),
+                    this.an.b().k()
                   };
                   goto label_22;
                 }
@@ -1010,9 +1010,9 @@ label_30:
                 {
                   A_1_1 = new ak[3]
                   {
-                    this.c.d().g(),
-                    this.c.c().g(),
-                    this.c.b().g()
+                    this.an.d().g(),
+                    this.an.c().g(),
+                    this.an.b().g()
                   };
                   goto label_22;
                 }
@@ -1025,9 +1025,9 @@ label_30:
             {
               A_1_1 = new ak[3]
               {
-                this.c.d().f(),
-                this.c.c().f(),
-                this.c.b().f()
+                this.an.d().f(),
+                this.an.c().f(),
+                this.an.b().f()
               };
               goto label_22;
             }
@@ -1038,8 +1038,8 @@ label_30:
             {
               A_1_1 = new ak[2]
               {
-                this.c.d().i(),
-                this.c.b().i()
+                this.an.d().i(),
+                this.an.b().i()
               };
               goto label_22;
             }
@@ -1050,9 +1050,9 @@ label_30:
             {
               A_1_1 = new ak[3]
               {
-                this.c.d().h(),
-                this.c.c().h(),
-                this.c.b().h()
+                this.an.d().h(),
+                this.an.c().h(),
+                this.an.b().h()
               };
               goto label_22;
             }
@@ -1063,16 +1063,16 @@ label_30:
       throw new IndexOutOfRangeException(Resources.ErrorUnknownLevel);
     }
 label_22:
-    global::r r = new global::r(this.r.SelectedItem.ToString(), A_1_1);
+    global::r r = new global::r(this.eventsListBox.SelectedItem.ToString(), A_1_1);
     int num = (int) r.ShowDialog();
     this.b();
     r.Dispose();
   }
 
-  private void e(object A_0, EventArgs A_1)
+  private void OnReduplicateButtonClick(object A_0, EventArgs A_1)
   {
     ak[] akArray;
-    if (v.t)
+    if (MainWindow.t)
     {
       akArray = new ak[1]{ this.d() };
     }
@@ -1088,8 +1088,8 @@ label_22:
             {
               akArray = new ak[2]
               {
-                this.c.d().j(),
-                this.c.b().j()
+                this.an.d().j(),
+                this.an.b().j()
               };
               goto label_20;
             }
@@ -1103,9 +1103,9 @@ label_22:
                 {
                   akArray = new ak[3]
                   {
-                    this.c.d().e(),
-                    this.c.c().e(),
-                    this.c.b().e()
+                    this.an.d().e(),
+                    this.an.c().e(),
+                    this.an.b().e()
                   };
                   goto label_20;
                 }
@@ -1116,8 +1116,8 @@ label_22:
                 {
                   akArray = new ak[2]
                   {
-                    this.c.d().k(),
-                    this.c.b().k()
+                    this.an.d().k(),
+                    this.an.b().k()
                   };
                   goto label_20;
                 }
@@ -1128,9 +1128,9 @@ label_22:
                 {
                   akArray = new ak[3]
                   {
-                    this.c.d().g(),
-                    this.c.c().g(),
-                    this.c.b().g()
+                    this.an.d().g(),
+                    this.an.c().g(),
+                    this.an.b().g()
                   };
                   goto label_20;
                 }
@@ -1143,9 +1143,9 @@ label_22:
             {
               akArray = new ak[3]
               {
-                this.c.d().f(),
-                this.c.c().f(),
-                this.c.b().f()
+                this.an.d().f(),
+                this.an.c().f(),
+                this.an.b().f()
               };
               goto label_20;
             }
@@ -1156,8 +1156,8 @@ label_22:
             {
               akArray = new ak[2]
               {
-                this.c.d().i(),
-                this.c.b().i()
+                this.an.d().i(),
+                this.an.b().i()
               };
               goto label_20;
             }
@@ -1168,9 +1168,9 @@ label_22:
             {
               akArray = new ak[3]
               {
-                this.c.d().h(),
-                this.c.c().h(),
-                this.c.b().h()
+                this.an.d().h(),
+                this.an.c().h(),
+                this.an.b().h()
               };
               goto label_20;
             }
@@ -1185,68 +1185,68 @@ label_20:
     {
       if (akArray[index1].i() == (byte) 0)
       {
-        for (int index2 = 0; index2 < this.r.SelectedItems.Count; ++index2)
+        for (int index2 = 0; index2 < this.eventsListBox.SelectedItems.Count; ++index2)
         {
-          if (akArray[index1].c().IndexOfKey(this.r.SelectedItems[index2]) != -1)
+          if (akArray[index1].c().IndexOfKey(this.eventsListBox.SelectedItems[index2]) != -1)
           {
             int num = (int) MessageBox.Show(Resources.ErrorEventAlreadyExists, Resources.ErrorString, MessageBoxButtons.OK, MessageBoxIcon.Hand);
             break;
           }
-          aj aj = (akArray[index1].h()[this.r.SelectedItems[index2]] as aj).a();
+          aj aj = (akArray[index1].h()[this.eventsListBox.SelectedItems[index2]] as aj).a();
           akArray[index1].c().Add((object) aj.o(), (object) aj);
         }
       }
       else
       {
-        for (int index3 = 0; index3 < this.r.SelectedItems.Count; ++index3)
+        for (int index3 = 0; index3 < this.eventsListBox.SelectedItems.Count; ++index3)
         {
-          if (akArray[index1].g().IndexOfKey(this.r.SelectedItems[index3]) != -1)
+          if (akArray[index1].g().IndexOfKey(this.eventsListBox.SelectedItems[index3]) != -1)
           {
             int num = (int) MessageBox.Show(Resources.ErrorEventAlreadyExists, Resources.ErrorString, MessageBoxButtons.OK, MessageBoxIcon.Hand);
             break;
           }
-          aj aj = (akArray[index1].h()[this.r.SelectedItems[index3]] as aj).a();
+          aj aj = (akArray[index1].h()[this.eventsListBox.SelectedItems[index3]] as aj).a();
           akArray[index1].g().Add((object) aj.o(), (object) aj);
         }
       }
     }
   }
 
-  private void a(object A_0, KeyEventArgs A_1)
+  private void OnEventKeyDown(object A_0, KeyEventArgs A_1)
   {
     switch (A_1.KeyCode)
     {
       case Keys.Return:
-        this.f.PerformClick();
+        this.editButton.PerformClick();
         break;
       case Keys.Insert:
-        this.g.PerformClick();
+        this.addButton.PerformClick();
         break;
       case Keys.Delete:
-        this.h.PerformClick();
+        this.deleteButton.PerformClick();
         break;
       case Keys.F2:
-        this.t.PerformClick();
+        this.renameButton.PerformClick();
         break;
     }
   }
 
-  private void d(object A_0, EventArgs A_1)
+  private void d_func(object A_0, EventArgs A_1)
   {
-    if (this.r.SelectedIndex < 0)
+    if (this.eventsListBox.SelectedIndex < 0)
       return;
-    for (int index = 0; index < this.d.Count; ++index)
+    for (int index = 0; index < this.editors.Count; ++index)
     {
-      if (((Control) this.d[index]).Text == this.r.SelectedItem.ToString())
+      if (((Control) this.editors[index]).Text == this.eventsListBox.SelectedItem.ToString())
       {
-        if (((Form) this.d[index]).WindowState == FormWindowState.Minimized)
-          ((Form) this.d[index]).WindowState = FormWindowState.Normal;
-        ((Control) this.d[index]).BringToFront();
+        if (((Form) this.editors[index]).WindowState == FormWindowState.Minimized)
+          ((Form) this.editors[index]).WindowState = FormWindowState.Normal;
+        ((Control) this.editors[index]).BringToFront();
         return;
       }
     }
     ak[] akArray;
-    if (v.t)
+    if (MainWindow.t)
     {
       akArray = new ak[1]{ this.d() };
     }
@@ -1262,8 +1262,8 @@ label_20:
             {
               akArray = new ak[2]
               {
-                this.c.d().j(),
-                this.c.b().j()
+                this.an.d().j(),
+                this.an.b().j()
               };
               goto label_30;
             }
@@ -1277,9 +1277,9 @@ label_20:
                 {
                   akArray = new ak[3]
                   {
-                    this.c.d().e(),
-                    this.c.c().e(),
-                    this.c.b().e()
+                    this.an.d().e(),
+                    this.an.c().e(),
+                    this.an.b().e()
                   };
                   goto label_30;
                 }
@@ -1290,8 +1290,8 @@ label_20:
                 {
                   akArray = new ak[2]
                   {
-                    this.c.d().k(),
-                    this.c.b().k()
+                    this.an.d().k(),
+                    this.an.b().k()
                   };
                   goto label_30;
                 }
@@ -1302,9 +1302,9 @@ label_20:
                 {
                   akArray = new ak[3]
                   {
-                    this.c.d().g(),
-                    this.c.c().g(),
-                    this.c.b().g()
+                    this.an.d().g(),
+                    this.an.c().g(),
+                    this.an.b().g()
                   };
                   goto label_30;
                 }
@@ -1317,9 +1317,9 @@ label_20:
             {
               akArray = new ak[3]
               {
-                this.c.d().f(),
-                this.c.c().f(),
-                this.c.b().f()
+                this.an.d().f(),
+                this.an.c().f(),
+                this.an.b().f()
               };
               goto label_30;
             }
@@ -1330,8 +1330,8 @@ label_20:
             {
               akArray = new ak[2]
               {
-                this.c.d().i(),
-                this.c.b().i()
+                this.an.d().i(),
+                this.an.b().i()
               };
               goto label_30;
             }
@@ -1342,9 +1342,9 @@ label_20:
             {
               akArray = new ak[3]
               {
-                this.c.d().h(),
-                this.c.c().h(),
-                this.c.b().h()
+                this.an.d().h(),
+                this.an.c().h(),
+                this.an.b().h()
               };
               goto label_30;
             }
@@ -1356,25 +1356,25 @@ label_20:
     }
 label_30:
     aj[] A_0_1 = new aj[akArray.Length];
-    if (this.r.SelectedItems.Count <= 0)
+    if (this.eventsListBox.SelectedItems.Count <= 0)
       return;
     for (int index = 0; index < akArray.Length; ++index)
     {
-      if (akArray[index].h().IndexOfKey((object) this.r.SelectedItem.ToString()) == -1)
+      if (akArray[index].h().IndexOfKey((object) this.eventsListBox.SelectedItem.ToString()) == -1)
       {
-        aj aj = new aj(this.r.SelectedItem.ToString(), akArray[index].j());
-        akArray[index].h().Add((object) this.r.SelectedItem.ToString(), (object) aj);
+        aj aj = new aj(this.eventsListBox.SelectedItem.ToString(), akArray[index].j());
+        akArray[index].h().Add((object) this.eventsListBox.SelectedItem.ToString(), (object) aj);
       }
-      A_0_1[index] = akArray[index].h()[(object) this.r.SelectedItem.ToString()] as aj;
+      A_0_1[index] = akArray[index].h()[(object) this.eventsListBox.SelectedItem.ToString()] as aj;
     }
-    global::j j = new global::j(A_0_1, this.c);
-    this.d.Add((object) j);
+    global::EditorWindow j = new global::EditorWindow(A_0_1, this.an);
+    this.editors.Add((object) j);
     j.Show();
   }
 
-  private void a(object A_0, MouseEventArgs A_1) => this.f.PerformClick();
+  private void OnEventClick(object A_0, MouseEventArgs A_1) => this.editButton.PerformClick();
 
-  private void c(object A_0, EventArgs A_1)
+  private void OnInitButtonClick(object A_0, EventArgs A_1)
   {
     string str1 = this.d().k();
     if (str1 != null)
@@ -1441,18 +1441,18 @@ label_30:
         default:
           goto label_17;
       }
-      for (int index = 0; index < this.d.Count; ++index)
+      for (int index = 0; index < this.editors.Count; ++index)
       {
-        if (((Control) this.d[index]).Text == str2)
+        if (((Control) this.editors[index]).Text == str2)
         {
-          if (((Form) this.d[index]).WindowState == FormWindowState.Minimized)
-            ((Form) this.d[index]).WindowState = FormWindowState.Normal;
-          ((Control) this.d[index]).BringToFront();
+          if (((Form) this.editors[index]).WindowState == FormWindowState.Minimized)
+            ((Form) this.editors[index]).WindowState = FormWindowState.Normal;
+          ((Control) this.editors[index]).BringToFront();
           return;
         }
       }
       ak[] akArray;
-      if (v.t)
+      if (MainWindow.t)
       {
         akArray = new ak[1]{ this.d() };
       }
@@ -1468,8 +1468,8 @@ label_30:
               {
                 akArray = new ak[2]
                 {
-                  this.c.d().j(),
-                  this.c.b().j()
+                  this.an.d().j(),
+                  this.an.b().j()
                 };
                 goto label_45;
               }
@@ -1483,9 +1483,9 @@ label_30:
                   {
                     akArray = new ak[3]
                     {
-                      this.c.d().e(),
-                      this.c.c().e(),
-                      this.c.b().e()
+                      this.an.d().e(),
+                      this.an.c().e(),
+                      this.an.b().e()
                     };
                     goto label_45;
                   }
@@ -1496,8 +1496,8 @@ label_30:
                   {
                     akArray = new ak[2]
                     {
-                      this.c.d().k(),
-                      this.c.b().k()
+                      this.an.d().k(),
+                      this.an.b().k()
                     };
                     goto label_45;
                   }
@@ -1508,9 +1508,9 @@ label_30:
                   {
                     akArray = new ak[3]
                     {
-                      this.c.d().g(),
-                      this.c.c().g(),
-                      this.c.b().g()
+                      this.an.d().g(),
+                      this.an.c().g(),
+                      this.an.b().g()
                     };
                     goto label_45;
                   }
@@ -1523,9 +1523,9 @@ label_30:
               {
                 akArray = new ak[3]
                 {
-                  this.c.d().f(),
-                  this.c.c().f(),
-                  this.c.b().f()
+                  this.an.d().f(),
+                  this.an.c().f(),
+                  this.an.b().f()
                 };
                 goto label_45;
               }
@@ -1536,8 +1536,8 @@ label_30:
               {
                 akArray = new ak[2]
                 {
-                  this.c.d().i(),
-                  this.c.b().i()
+                  this.an.d().i(),
+                  this.an.b().i()
                 };
                 goto label_45;
               }
@@ -1548,9 +1548,9 @@ label_30:
               {
                 akArray = new ak[3]
                 {
-                  this.c.d().h(),
-                  this.c.c().h(),
-                  this.c.b().h()
+                  this.an.d().h(),
+                  this.an.c().h(),
+                  this.an.b().h()
                 };
                 goto label_45;
               }
@@ -1572,18 +1572,18 @@ label_45:
       aj[] A_0_1 = new aj[akArray.Length];
       for (int index = 0; index < akArray.Length; ++index)
         A_0_1[index] = akArray[index].h()[(object) str2] as aj;
-      global::j j = new global::j(A_0_1, this.c);
-      this.d.Add((object) j);
-      j.Show();
+      global::EditorWindow editorWindow = new global::EditorWindow(A_0_1, this.an);
+      this.editors.Add((object) editorWindow);
+      editorWindow.Show();
       return;
     }
 label_17:
     throw new IndexOutOfRangeException(Resources.ErrorUnknownLevel);
   }
 
-  private void b(object A_0, EventArgs A_1)
+  private void OnCopyButtonClick(object A_0, EventArgs A_1)
   {
-    if (!v.t)
+    if (!MainWindow.t)
       return;
     string[] A_1_1 = new string[2];
     switch (this.c().b())
@@ -1601,7 +1601,7 @@ label_17:
         A_1_1[0] = "SystemA";
         break;
     }
-    global::h h = new global::h("Копировать событие " + this.r.SelectedItem.ToString() + " в систему ", A_1_1);
+    global::h h = new global::h("Копировать событие " + this.eventsListBox.SelectedItem.ToString() + " в систему ", A_1_1);
     if (h.ShowDialog() == DialogResult.OK)
     {
       switch (h.b())
@@ -1616,7 +1616,7 @@ label_17:
               case 2:
                 if (str1 == "UE")
                 {
-                  ak = this.c.d().j();
+                  ak = this.an.d().j();
                   break;
                 }
                 goto label_24;
@@ -1626,21 +1626,21 @@ label_17:
                   case 'N':
                     if (str1 == "Network")
                     {
-                      ak = this.c.d().e();
+                      ak = this.an.d().e();
                       break;
                     }
                     goto label_24;
                   case 'P':
                     if (str1 == "Process")
                     {
-                      ak = this.c.d().k();
+                      ak = this.an.d().k();
                       break;
                     }
                     goto label_24;
                   case 'S':
                     if (str1 == "Session")
                     {
-                      ak = this.c.d().g();
+                      ak = this.an.d().g();
                       break;
                     }
                     goto label_24;
@@ -1651,34 +1651,34 @@ label_17:
               case 9:
                 if (str1 == "Transport")
                 {
-                  ak = this.c.d().f();
+                  ak = this.an.d().f();
                   break;
                 }
                 goto label_24;
               case 11:
                 if (str1 == "Application")
                 {
-                  ak = this.c.d().i();
+                  ak = this.an.d().i();
                   break;
                 }
                 goto label_24;
               case 12:
                 if (str1 == "Presentation")
                 {
-                  ak = this.c.d().h();
+                  ak = this.an.d().h();
                   break;
                 }
                 goto label_24;
               default:
                 goto label_24;
             }
-            if (ak.h().IndexOfKey(this.r.SelectedItem) != -1)
+            if (ak.h().IndexOfKey(this.eventsListBox.SelectedItem) != -1)
             {
               int num = (int) MessageBox.Show(Resources.ErrorEventAlreadyExists, Resources.ErrorString, MessageBoxButtons.OK, MessageBoxIcon.Hand);
               break;
             }
-            aj aj = (this.d().h()[this.r.SelectedItem] as aj).a();
-            ak.h().Add(this.r.SelectedItem, (object) aj);
+            aj aj = (this.d().h()[this.eventsListBox.SelectedItem] as aj).a();
+            ak.h().Add(this.eventsListBox.SelectedItem, (object) aj);
             break;
           }
 label_24:
@@ -1693,7 +1693,7 @@ label_24:
               case 2:
                 if (str2 == "UE")
                 {
-                  ak = this.c.c().j();
+                  ak = this.an.c().j();
                   break;
                 }
                 goto label_45;
@@ -1703,21 +1703,21 @@ label_24:
                   case 'N':
                     if (str2 == "Network")
                     {
-                      ak = this.c.c().e();
+                      ak = this.an.c().e();
                       break;
                     }
                     goto label_45;
                   case 'P':
                     if (str2 == "Process")
                     {
-                      ak = this.c.c().k();
+                      ak = this.an.c().k();
                       break;
                     }
                     goto label_45;
                   case 'S':
                     if (str2 == "Session")
                     {
-                      ak = this.c.c().g();
+                      ak = this.an.c().g();
                       break;
                     }
                     goto label_45;
@@ -1728,34 +1728,34 @@ label_24:
               case 9:
                 if (str2 == "Transport")
                 {
-                  ak = this.c.c().f();
+                  ak = this.an.c().f();
                   break;
                 }
                 goto label_45;
               case 11:
                 if (str2 == "Application")
                 {
-                  ak = this.c.c().i();
+                  ak = this.an.c().i();
                   break;
                 }
                 goto label_45;
               case 12:
                 if (str2 == "Presentation")
                 {
-                  ak = this.c.c().h();
+                  ak = this.an.c().h();
                   break;
                 }
                 goto label_45;
               default:
                 goto label_45;
             }
-            if (ak.h().IndexOfKey(this.r.SelectedItem) != -1)
+            if (ak.h().IndexOfKey(this.eventsListBox.SelectedItem) != -1)
             {
               int num = (int) MessageBox.Show(Resources.ErrorEventAlreadyExists, Resources.ErrorString, MessageBoxButtons.OK, MessageBoxIcon.Hand);
               break;
             }
-            aj aj = (this.d().h()[this.r.SelectedItem] as aj).a();
-            ak.h().Add(this.r.SelectedItem, (object) aj);
+            aj aj = (this.d().h()[this.eventsListBox.SelectedItem] as aj).a();
+            ak.h().Add(this.eventsListBox.SelectedItem, (object) aj);
             break;
           }
 label_45:
@@ -1770,7 +1770,7 @@ label_45:
               case 2:
                 if (str3 == "UE")
                 {
-                  ak = this.c.b().j();
+                  ak = this.an.b().j();
                   break;
                 }
                 goto label_67;
@@ -1780,21 +1780,21 @@ label_45:
                   case 'N':
                     if (str3 == "Network")
                     {
-                      ak = this.c.b().e();
+                      ak = this.an.b().e();
                       break;
                     }
                     goto label_67;
                   case 'P':
                     if (str3 == "Process")
                     {
-                      ak = this.c.b().k();
+                      ak = this.an.b().k();
                       break;
                     }
                     goto label_67;
                   case 'S':
                     if (str3 == "Session")
                     {
-                      ak = this.c.b().g();
+                      ak = this.an.b().g();
                       break;
                     }
                     goto label_67;
@@ -1805,34 +1805,34 @@ label_45:
               case 9:
                 if (str3 == "Transport")
                 {
-                  ak = this.c.b().f();
+                  ak = this.an.b().f();
                   break;
                 }
                 goto label_67;
               case 11:
                 if (str3 == "Application")
                 {
-                  ak = this.c.b().i();
+                  ak = this.an.b().i();
                   break;
                 }
                 goto label_67;
               case 12:
                 if (str3 == "Presentation")
                 {
-                  ak = this.c.b().h();
+                  ak = this.an.b().h();
                   break;
                 }
                 goto label_67;
               default:
                 goto label_67;
             }
-            if (ak.h().IndexOfKey(this.r.SelectedItem) != -1)
+            if (ak.h().IndexOfKey(this.eventsListBox.SelectedItem) != -1)
             {
               int num = (int) MessageBox.Show(Resources.ErrorEventAlreadyExists, Resources.ErrorString, MessageBoxButtons.OK, MessageBoxIcon.Hand);
               break;
             }
-            aj aj = (this.d().h()[this.r.SelectedItem] as aj).a();
-            ak.h().Add(this.r.SelectedItem, (object) aj);
+            aj aj = (this.d().h()[this.eventsListBox.SelectedItem] as aj).a();
+            ak.h().Add(this.eventsListBox.SelectedItem, (object) aj);
             break;
           }
 label_67:
@@ -1842,15 +1842,15 @@ label_67:
     h.Dispose();
   }
 
-  private void a(object A_0, EventArgs A_1)
+  private void OnFormShown(object A_0, EventArgs A_1)
   {
   }
 
-  private void a(object A_0, FormClosingEventArgs A_1)
+  private void OnFormClosing(object A_0, FormClosingEventArgs A_1)
   {
-    for (int index = 0; index < this.d.Count; ++index)
-      (this.d[index] as global::j).Close();
-    this.d.Clear();
+    for (int index = 0; index < this.editors.Count; ++index)
+      (this.editors[index] as global::EditorWindow).Close();
+    this.editors.Clear();
     A_1.Cancel = true;
     this.Hide();
   }
@@ -1862,162 +1862,162 @@ label_67:
     base.Dispose(disposing);
   }
 
-  private void a()
+  private void Initialize()
   {
-    this.f = new Button();
-    this.g = new Button();
-    this.h = new Button();
-    this.i = new Button();
-    this.j = new Button();
-    this.k = new Button();
-    this.l = new GroupBox();
-    this.m = new RadioButton();
-    this.n = new RadioButton();
-    this.o = new Button();
-    this.p = new Button();
-    this.q = new Button();
-    this.r = new ListBox();
-    this.s = new Label();
-    this.t = new Button();
-    this.l.SuspendLayout();
+    this.editButton = new Button();
+    this.addButton = new Button();
+    this.deleteButton = new Button();
+    this.copyButton = new Button();
+    this.reduplicateButton = new Button();
+    this.initButton = new Button();
+    this.activeBankBox = new GroupBox();
+    this.bank1Button = new RadioButton();
+    this.bank0Button = new RadioButton();
+    this.closeButton = new Button();
+    this.leftSystemButton = new Button();
+    this.rightSystemButton = new Button();
+    this.eventsListBox = new ListBox();
+    this.label1 = new Label();
+    this.renameButton = new Button();
+    this.activeBankBox.SuspendLayout();
     this.SuspendLayout();
-    this.f.Font = new Font("Microsoft Sans Serif", 8.25f, FontStyle.Regular, GraphicsUnit.Point, (byte) 204);
-    this.f.Location = new Point(193, 32);
-    this.f.Name = "EditButton";
-    this.f.Size = new Size(112, 28);
-    this.f.TabIndex = 0;
-    this.f.Text = "Редактировать...";
-    this.f.UseVisualStyleBackColor = true;
-    this.f.Click += new EventHandler(this.d);
-    this.g.Font = new Font("Microsoft Sans Serif", 8.25f, FontStyle.Regular, GraphicsUnit.Point, (byte) 204);
-    this.g.Location = new Point(193, 66);
-    this.g.Name = "AddButton";
-    this.g.Size = new Size(112, 28);
-    this.g.TabIndex = 1;
-    this.g.Text = "Добавить...";
-    this.g.UseVisualStyleBackColor = true;
-    this.g.Click += new EventHandler(this.h);
-    this.h.Font = new Font("Microsoft Sans Serif", 8.25f, FontStyle.Regular, GraphicsUnit.Point, (byte) 204);
-    this.h.Location = new Point(193, 134);
-    this.h.Name = "DeleteButton";
-    this.h.Size = new Size(112, 28);
-    this.h.TabIndex = 2;
-    this.h.Text = "Удалить...";
-    this.h.UseVisualStyleBackColor = true;
-    this.h.Click += new EventHandler(this.g);
-    this.i.Font = new Font("Microsoft Sans Serif", 8.25f, FontStyle.Regular, GraphicsUnit.Point, (byte) 204);
-    this.i.Location = new Point(193, 168);
-    this.i.Name = "CopyButton";
-    this.i.Size = new Size(112, 28);
-    this.i.TabIndex = 3;
-    this.i.Text = "Копировать...";
-    this.i.UseVisualStyleBackColor = true;
-    this.i.Click += new EventHandler(this.b);
-    this.j.Font = new Font("Microsoft Sans Serif", 8.25f, FontStyle.Regular, GraphicsUnit.Point, (byte) 204);
-    this.j.Location = new Point(193, 202);
-    this.j.Name = "ReduplicateButton";
-    this.j.Size = new Size(112, 28);
-    this.j.TabIndex = 4;
-    this.j.Text = "Повторить";
-    this.j.UseVisualStyleBackColor = true;
-    this.j.Click += new EventHandler(this.e);
-    this.k.Font = new Font("Microsoft Sans Serif", 8.25f, FontStyle.Regular, GraphicsUnit.Point, (byte) 204);
-    this.k.Location = new Point(193, 236);
-    this.k.Name = "InitButton";
-    this.k.Size = new Size(112, 28);
-    this.k.TabIndex = 5;
-    this.k.Text = "Инициализация...";
-    this.k.UseVisualStyleBackColor = true;
-    this.k.Click += new EventHandler(this.c);
-    this.l.Controls.Add((Control) this.m);
-    this.l.Controls.Add((Control) this.n);
-    this.l.Location = new Point(193, 270);
-    this.l.Name = "groupBox1";
-    this.l.Size = new Size(112, 67);
-    this.l.TabIndex = 6;
-    this.l.TabStop = false;
-    this.l.Text = "Активный банк";
-    this.m.AutoSize = true;
-    this.m.Location = new Point(16, 42);
-    this.m.Name = "Bank1Button";
-    this.m.Size = new Size(59, 17);
-    this.m.TabIndex = 1;
-    this.m.Text = "Банк 1";
-    this.m.UseVisualStyleBackColor = true;
-    this.n.AutoSize = true;
-    this.n.Checked = true;
-    this.n.Location = new Point(16, 19);
-    this.n.Name = "Bank0Button";
-    this.n.Size = new Size(59, 17);
-    this.n.TabIndex = 0;
-    this.n.TabStop = true;
-    this.n.Text = "Банк 0";
-    this.n.UseVisualStyleBackColor = true;
-    this.n.CheckedChanged += new EventHandler(this.i);
-    this.o.DialogResult = DialogResult.Cancel;
-    this.o.Font = new Font("Microsoft Sans Serif", 8.25f, FontStyle.Regular, GraphicsUnit.Point, (byte) 204);
-    this.o.Location = new Point(193, 385);
-    this.o.Name = "CloseButton";
-    this.o.Size = new Size(112, 28);
-    this.o.TabIndex = 7;
-    this.o.Text = "Закрыть";
-    this.o.UseVisualStyleBackColor = true;
-    this.o.Click += new EventHandler(this.l);
-    this.p.Image = (Image) Resources.LeftArrow;
-    this.p.Location = new Point(193, 344);
-    this.p.Name = "LeftSystemButton";
-    this.p.Size = new Size(36, 26);
-    this.p.TabIndex = 8;
-    this.p.UseVisualStyleBackColor = true;
-    this.p.Visible = false;
-    this.p.Click += new EventHandler(this.j);
-    this.q.Image = (Image) Resources.RightArrow;
-    this.q.Location = new Point(269, 343);
-    this.q.Name = "RightSystemButton";
-    this.q.Size = new Size(36, 26);
-    this.q.TabIndex = 9;
-    this.q.UseVisualStyleBackColor = true;
-    this.q.Visible = false;
-    this.q.Click += new EventHandler(this.k);
-    this.r.FormattingEnabled = true;
-    this.r.Location = new Point(3, 32);
-    this.r.Name = "EventsListBox";
-    this.r.SelectionMode = SelectionMode.MultiExtended;
-    this.r.Size = new Size(184, 381);
-    this.r.Sorted = true;
-    this.r.TabIndex = 0;
-    this.r.KeyDown += new KeyEventHandler(this.a);
-    this.r.MouseDoubleClick += new MouseEventHandler(this.a);
-    this.s.Location = new Point(0, 3);
-    this.s.Name = "label1";
-    this.s.Size = new Size(187, 26);
-    this.s.TabIndex = 11;
-    this.s.Text = "Выберите событие для редактирования кода обработчика:";
-    this.t.Font = new Font("Microsoft Sans Serif", 8.25f, FontStyle.Regular, GraphicsUnit.Point, (byte) 204);
-    this.t.Location = new Point(193, 100);
-    this.t.Name = "RenameButton";
-    this.t.Size = new Size(112, 28);
-    this.t.TabIndex = 12;
-    this.t.Text = "Переименовать...";
-    this.t.UseVisualStyleBackColor = true;
-    this.t.Click += new EventHandler(this.f);
+    this.editButton.Font = new Font("Microsoft Sans Serif", 8.25f, FontStyle.Regular, GraphicsUnit.Point, (byte) 204);
+    this.editButton.Location = new Point(193, 32);
+    this.editButton.Name = "EditButton";
+    this.editButton.Size = new Size(112, 28);
+    this.editButton.TabIndex = 0;
+    this.editButton.Text = "Редактировать...";
+    this.editButton.UseVisualStyleBackColor = true;
+    this.editButton.Click += new EventHandler(this.d_func);
+    this.addButton.Font = new Font("Microsoft Sans Serif", 8.25f, FontStyle.Regular, GraphicsUnit.Point, (byte) 204);
+    this.addButton.Location = new Point(193, 66);
+    this.addButton.Name = "AddButton";
+    this.addButton.Size = new Size(112, 28);
+    this.addButton.TabIndex = 1;
+    this.addButton.Text = "Добавить...";
+    this.addButton.UseVisualStyleBackColor = true;
+    this.addButton.Click += new EventHandler(this.OnAddButtonClick);
+    this.deleteButton.Font = new Font("Microsoft Sans Serif", 8.25f, FontStyle.Regular, GraphicsUnit.Point, (byte) 204);
+    this.deleteButton.Location = new Point(193, 134);
+    this.deleteButton.Name = "DeleteButton";
+    this.deleteButton.Size = new Size(112, 28);
+    this.deleteButton.TabIndex = 2;
+    this.deleteButton.Text = "Удалить...";
+    this.deleteButton.UseVisualStyleBackColor = true;
+    this.deleteButton.Click += new EventHandler(this.OnDeleteButtonClick);
+    this.copyButton.Font = new Font("Microsoft Sans Serif", 8.25f, FontStyle.Regular, GraphicsUnit.Point, (byte) 204);
+    this.copyButton.Location = new Point(193, 168);
+    this.copyButton.Name = "CopyButton";
+    this.copyButton.Size = new Size(112, 28);
+    this.copyButton.TabIndex = 3;
+    this.copyButton.Text = "Копировать...";
+    this.copyButton.UseVisualStyleBackColor = true;
+    this.copyButton.Click += new EventHandler(this.OnCopyButtonClick);
+    this.reduplicateButton.Font = new Font("Microsoft Sans Serif", 8.25f, FontStyle.Regular, GraphicsUnit.Point, (byte) 204);
+    this.reduplicateButton.Location = new Point(193, 202);
+    this.reduplicateButton.Name = "ReduplicateButton";
+    this.reduplicateButton.Size = new Size(112, 28);
+    this.reduplicateButton.TabIndex = 4;
+    this.reduplicateButton.Text = "Повторить";
+    this.reduplicateButton.UseVisualStyleBackColor = true;
+    this.reduplicateButton.Click += new EventHandler(this.OnReduplicateButtonClick);
+    this.initButton.Font = new Font("Microsoft Sans Serif", 8.25f, FontStyle.Regular, GraphicsUnit.Point, (byte) 204);
+    this.initButton.Location = new Point(193, 236);
+    this.initButton.Name = "InitButton";
+    this.initButton.Size = new Size(112, 28);
+    this.initButton.TabIndex = 5;
+    this.initButton.Text = "Инициализация...";
+    this.initButton.UseVisualStyleBackColor = true;
+    this.initButton.Click += new EventHandler(this.OnInitButtonClick);
+    this.activeBankBox.Controls.Add((Control) this.bank1Button);
+    this.activeBankBox.Controls.Add((Control) this.bank0Button);
+    this.activeBankBox.Location = new Point(193, 270);
+    this.activeBankBox.Name = "groupBox1";
+    this.activeBankBox.Size = new Size(112, 67);
+    this.activeBankBox.TabIndex = 6;
+    this.activeBankBox.TabStop = false;
+    this.activeBankBox.Text = "Активный банк";
+    this.bank1Button.AutoSize = true;
+    this.bank1Button.Location = new Point(16, 42);
+    this.bank1Button.Name = "Bank1Button";
+    this.bank1Button.Size = new Size(59, 17);
+    this.bank1Button.TabIndex = 1;
+    this.bank1Button.Text = "Банк 1";
+    this.bank1Button.UseVisualStyleBackColor = true;
+    this.bank0Button.AutoSize = true;
+    this.bank0Button.Checked = true;
+    this.bank0Button.Location = new Point(16, 19);
+    this.bank0Button.Name = "Bank0Button";
+    this.bank0Button.Size = new Size(59, 17);
+    this.bank0Button.TabIndex = 0;
+    this.bank0Button.TabStop = true;
+    this.bank0Button.Text = "Банк 0";
+    this.bank0Button.UseVisualStyleBackColor = true;
+    this.bank0Button.CheckedChanged += new EventHandler(this.OnBankChange);
+    this.closeButton.DialogResult = DialogResult.Cancel;
+    this.closeButton.Font = new Font("Microsoft Sans Serif", 8.25f, FontStyle.Regular, GraphicsUnit.Point, (byte) 204);
+    this.closeButton.Location = new Point(193, 385);
+    this.closeButton.Name = "CloseButton";
+    this.closeButton.Size = new Size(112, 28);
+    this.closeButton.TabIndex = 7;
+    this.closeButton.Text = "Закрыть";
+    this.closeButton.UseVisualStyleBackColor = true;
+    this.closeButton.Click += new EventHandler(this.OnCloseButtonClick);
+    this.leftSystemButton.Image = (Image) Resources.LeftArrow;
+    this.leftSystemButton.Location = new Point(193, 344);
+    this.leftSystemButton.Name = "LeftSystemButton";
+    this.leftSystemButton.Size = new Size(36, 26);
+    this.leftSystemButton.TabIndex = 8;
+    this.leftSystemButton.UseVisualStyleBackColor = true;
+    this.leftSystemButton.Visible = false;
+    this.leftSystemButton.Click += new EventHandler(this.OnLeftSystemButtonClick);
+    this.rightSystemButton.Image = (Image) Resources.RightArrow;
+    this.rightSystemButton.Location = new Point(269, 343);
+    this.rightSystemButton.Name = "RightSystemButton";
+    this.rightSystemButton.Size = new Size(36, 26);
+    this.rightSystemButton.TabIndex = 9;
+    this.rightSystemButton.UseVisualStyleBackColor = true;
+    this.rightSystemButton.Visible = false;
+    this.rightSystemButton.Click += new EventHandler(this.OnRightSystemButtonClick);
+    this.eventsListBox.FormattingEnabled = true;
+    this.eventsListBox.Location = new Point(3, 32);
+    this.eventsListBox.Name = "EventsListBox";
+    this.eventsListBox.SelectionMode = SelectionMode.MultiExtended;
+    this.eventsListBox.Size = new Size(184, 381);
+    this.eventsListBox.Sorted = true;
+    this.eventsListBox.TabIndex = 0;
+    this.eventsListBox.KeyDown += new KeyEventHandler(this.OnEventKeyDown);
+    this.eventsListBox.MouseDoubleClick += new MouseEventHandler(this.OnEventClick);
+    this.label1.Location = new Point(0, 3);
+    this.label1.Name = "label1";
+    this.label1.Size = new Size(187, 26);
+    this.label1.TabIndex = 11;
+    this.label1.Text = "Выберите событие для редактирования кода обработчика:";
+    this.renameButton.Font = new Font("Microsoft Sans Serif", 8.25f, FontStyle.Regular, GraphicsUnit.Point, (byte) 204);
+    this.renameButton.Location = new Point(193, 100);
+    this.renameButton.Name = "RenameButton";
+    this.renameButton.Size = new Size(112, 28);
+    this.renameButton.TabIndex = 12;
+    this.renameButton.Text = "Переименовать...";
+    this.renameButton.UseVisualStyleBackColor = true;
+    this.renameButton.Click += new EventHandler(this.f_func);
     this.AutoScaleDimensions = new SizeF(6f, 13f);
     this.AutoScaleMode = AutoScaleMode.Font;
-    this.CancelButton = (IButtonControl) this.o;
+    this.CancelButton = (IButtonControl) this.closeButton;
     this.ClientSize = new Size(308, 417);
-    this.Controls.Add((Control) this.t);
-    this.Controls.Add((Control) this.s);
-    this.Controls.Add((Control) this.r);
-    this.Controls.Add((Control) this.q);
-    this.Controls.Add((Control) this.p);
-    this.Controls.Add((Control) this.o);
-    this.Controls.Add((Control) this.l);
-    this.Controls.Add((Control) this.k);
-    this.Controls.Add((Control) this.j);
-    this.Controls.Add((Control) this.i);
-    this.Controls.Add((Control) this.h);
-    this.Controls.Add((Control) this.g);
-    this.Controls.Add((Control) this.f);
+    this.Controls.Add((Control) this.renameButton);
+    this.Controls.Add((Control) this.label1);
+    this.Controls.Add((Control) this.eventsListBox);
+    this.Controls.Add((Control) this.rightSystemButton);
+    this.Controls.Add((Control) this.leftSystemButton);
+    this.Controls.Add((Control) this.closeButton);
+    this.Controls.Add((Control) this.activeBankBox);
+    this.Controls.Add((Control) this.initButton);
+    this.Controls.Add((Control) this.reduplicateButton);
+    this.Controls.Add((Control) this.copyButton);
+    this.Controls.Add((Control) this.deleteButton);
+    this.Controls.Add((Control) this.addButton);
+    this.Controls.Add((Control) this.editButton);
     this.FormBorderStyle = FormBorderStyle.FixedToolWindow;
     this.ImeMode = ImeMode.NoControl;
     this.MaximizeBox = false;
@@ -2025,10 +2025,10 @@ label_67:
     this.Name = "LevEditorForm";
     this.ShowIcon = false;
     this.StartPosition = FormStartPosition.CenterScreen;
-    this.FormClosing += new FormClosingEventHandler(this.a);
-    this.Shown += new EventHandler(this.a);
-    this.l.ResumeLayout(false);
-    this.l.PerformLayout();
+    this.FormClosing += new FormClosingEventHandler(this.OnFormClosing);
+    this.Shown += new EventHandler(this.OnFormShown);
+    this.activeBankBox.ResumeLayout(false);
+    this.activeBankBox.PerformLayout();
     this.ResumeLayout(false);
   }
 }

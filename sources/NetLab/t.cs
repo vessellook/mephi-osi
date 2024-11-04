@@ -11,7 +11,7 @@ public struct t
 {
   public string a;
   public string b;
-  public int c;
+  public int variantNumber;
   public DateTime d;
   public int e;
   public DateTime f;

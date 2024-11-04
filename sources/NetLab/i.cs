@@ -90,8 +90,8 @@ public class i : Form
     if (global::an.e == 5)
     {
       global::an.e = 1;
-      ++global::v.q.p;
-      this.a.a(global::v.h);
+      ++global::MainWindow.userInfo.p;
+      this.a.a(global::MainWindow.h);
     }
     else
       global::an.e = 1;
@@ -102,8 +102,8 @@ public class i : Form
     if (global::an.e == 5)
     {
       global::an.e = 2;
-      ++global::v.q.p;
-      this.a.a(global::v.h);
+      ++global::MainWindow.userInfo.p;
+      this.a.a(global::MainWindow.h);
     }
     else
       global::an.e = 2;
@@ -114,8 +114,8 @@ public class i : Form
     if (global::an.e == 5)
     {
       global::an.e = 3;
-      ++global::v.q.p;
-      this.a.a(global::v.h);
+      ++global::MainWindow.userInfo.p;
+      this.a.a(global::MainWindow.h);
     }
     else
       global::an.e = 3;
@@ -148,8 +148,8 @@ public class i : Form
 
   public void a(string A_0, int A_1)
   {
-    if (global::v.ab.Contains((object) A_0))
-      this.ak.Text = (string) global::v.ac[global::v.ab.IndexOf((object) A_0)];
+    if (global::MainWindow.ab.Contains((object) A_0))
+      this.ak.Text = (string) global::MainWindow.ac[global::MainWindow.ab.IndexOf((object) A_0)];
     else
       this.ak.Text = "Something";
     this.aj.Text = A_1.ToString();
@@ -185,7 +185,7 @@ public class i : Form
     if (global::an.e == 5)
     {
       global::an.e = -1;
-      this.a.a(global::v.h);
+      this.a.a(global::MainWindow.h);
     }
     else
       global::an.e = -1;

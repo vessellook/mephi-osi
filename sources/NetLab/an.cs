@@ -15,10 +15,10 @@ using System.Windows.Forms;
 #nullable disable
 public class an
 {
-  private StreamWriter d;
+  private StreamWriter streamWriter;
   public static int e;
   public static bool f;
-  private v g;
+  private MainWindow mainWindow;
   public int h;
   private int i;
   private ArrayList j;
@@ -58,24 +58,24 @@ public class an
   [SpecialName]
   public void b(int A_0) => this.i = A_0;
 
-  public an(v A_0)
+  public an(MainWindow mainWindow)
   {
     an.k = new Random();
-    this.g = A_0;
-    this.c(new am("SystemA", Convert.ToByte(an.k.Next(1, 128)), this.g, this));
-    this.b(new am("Guide", byte.MaxValue, this.g, this));
-    this.a(new am("SystemB", Convert.ToByte(an.k.Next(128, (int) byte.MaxValue)), this.g, this));
+    this.mainWindow = mainWindow;
+    this.c(new am("SystemA", Convert.ToByte(an.k.Next(1, 128)), this.mainWindow, this));
+    this.b(new am("Guide", byte.MaxValue, this.mainWindow, this));
+    this.a(new am("SystemB", Convert.ToByte(an.k.Next(128, (int) byte.MaxValue)), this.mainWindow, this));
     this.h = 0;
     this.b(0);
     this.j = new ArrayList();
   }
 
-  public void b(string A_0)
+  public void addToLog(string A_0)
   {
-    this.d.WriteLine("[" + this.h.ToString() + "] " + A_0);
-    if (!v.m)
+    this.streamWriter.WriteLine("[" + this.h.ToString() + "] " + A_0);
+    if (!MainWindow.m)
       return;
-    this.g.c("[" + this.h.ToString() + "] " + A_0);
+    this.mainWindow.addToLog("[" + this.h.ToString() + "] " + A_0);
   }
 
   public int a(string A_0, SortedList A_1, string A_2, am A_3, int A_4, int A_5)
@@ -101,11 +101,11 @@ public class an
     }
   }
 
-  public void a(string A_0)
+  public void startEmulation(string A_0)
   {
     try
     {
-      using (this.d = File.CreateText(A_0))
+      using (this.streamWriter = File.CreateText(A_0))
       {
         try
         {
@@ -130,7 +130,7 @@ public class an
           this.b().i().a();
           this.b().j().a();
           this.b().k().a();
-          this.b(Resources.EmulationStarted);
+          this.addToLog(Resources.EmulationStarted);
           this.d().b("NetworkEmulator", "N_INIT.REQ", (SortedList) null);
           this.c().b("NetworkEmulator", "N_INIT.REQ", (SortedList) null);
           this.b().b("NetworkEmulator", "N_INIT.REQ", (SortedList) null);
@@ -145,7 +145,7 @@ public class an
             Application.DoEvents();
             if (an.e == 6)
             {
-              this.b(Resources.EmulationCancelled);
+              this.addToLog(Resources.EmulationCancelled);
               this.j.Clear();
             }
             ++this.h;
@@ -155,17 +155,17 @@ public class an
               {
                 if (an.e > 0 && (this.j[index1] as ah).g().Length > 1 && (this.j[index1] as ah).g()[1] == '_' && ((this.j[index1] as ah).g().EndsWith(".IND") || (this.j[index1] as ah).g().EndsWith(".CONF")))
                 {
-                  this.g.v.ap.Text = (this.j[index1] as ah).g();
+                  this.mainWindow.debuggerWindow.ap.Text = (this.j[index1] as ah).g();
                   switch ((this.j[index1] as ah).d().b())
                   {
                     case "SystemA":
-                      this.g.v.ap.Left = 60 - this.g.v.ap.Width / 2;
+                      this.mainWindow.debuggerWindow.ap.Left = 60 - this.mainWindow.debuggerWindow.ap.Width / 2;
                       break;
                     case "Guide":
-                      this.g.v.ap.Left = 175 - this.g.v.ap.Width / 2;
+                      this.mainWindow.debuggerWindow.ap.Left = 175 - this.mainWindow.debuggerWindow.ap.Width / 2;
                       break;
                     case "SystemB":
-                      this.g.v.ap.Left = 290 - this.g.v.ap.Width / 2;
+                      this.mainWindow.debuggerWindow.ap.Left = 290 - this.mainWindow.debuggerWindow.ap.Width / 2;
                       break;
                   }
                   string str = (this.j[index1] as ah).e();
@@ -176,7 +176,7 @@ public class an
                       case 2:
                         if (str == "UE")
                         {
-                          this.g.v.ap.Top = 85;
+                          this.mainWindow.debuggerWindow.ap.Top = 85;
                           break;
                         }
                         break;
@@ -186,21 +186,21 @@ public class an
                           case 'N':
                             if (str == "Network")
                             {
-                              this.g.v.ap.Top = 285;
+                              this.mainWindow.debuggerWindow.ap.Top = 285;
                               break;
                             }
                             break;
                           case 'P':
                             if (str == "Process")
                             {
-                              this.g.v.ap.Top = 45;
+                              this.mainWindow.debuggerWindow.ap.Top = 45;
                               break;
                             }
                             break;
                           case 'S':
                             if (str == "Session")
                             {
-                              this.g.v.ap.Top = 205;
+                              this.mainWindow.debuggerWindow.ap.Top = 205;
                               break;
                             }
                             break;
@@ -209,21 +209,21 @@ public class an
                       case 9:
                         if (str == "Transport")
                         {
-                          this.g.v.ap.Top = 245;
+                          this.mainWindow.debuggerWindow.ap.Top = 245;
                           break;
                         }
                         break;
                       case 11:
                         if (str == "Application")
                         {
-                          this.g.v.ap.Top = 125;
+                          this.mainWindow.debuggerWindow.ap.Top = 125;
                           break;
                         }
                         break;
                       case 12:
                         if (str == "Presentation")
                         {
-                          this.g.v.ap.Top = 165;
+                          this.mainWindow.debuggerWindow.ap.Top = 165;
                           break;
                         }
                         break;
@@ -231,25 +231,25 @@ public class an
                   }
                   for (int index2 = 0; index2 < 37; ++index2)
                   {
-                    --this.g.v.ap.Top;
-                    this.g.v.Update();
+                    --this.mainWindow.debuggerWindow.ap.Top;
+                    this.mainWindow.debuggerWindow.Update();
                     Application.DoEvents();
-                    Thread.Sleep(v.ag);
+                    Thread.Sleep(MainWindow.ag);
                   }
                 }
                 else if (an.e > 0 && (this.j[index1] as ah).g().Length > 1 && (this.j[index1] as ah).g()[1] == '_' && ((this.j[index1] as ah).g().EndsWith(".REQ") || (this.j[index1] as ah).g().EndsWith(".RESP")))
                 {
-                  this.g.v.ap.Text = (this.j[index1] as ah).g();
+                  this.mainWindow.debuggerWindow.ap.Text = (this.j[index1] as ah).g();
                   switch ((this.j[index1] as ah).d().b())
                   {
                     case "SystemA":
-                      this.g.v.ap.Left = 60 - this.g.v.ap.Width / 2;
+                      this.mainWindow.debuggerWindow.ap.Left = 60 - this.mainWindow.debuggerWindow.ap.Width / 2;
                       break;
                     case "Guide":
-                      this.g.v.ap.Left = 175 - this.g.v.ap.Width / 2;
+                      this.mainWindow.debuggerWindow.ap.Left = 175 - this.mainWindow.debuggerWindow.ap.Width / 2;
                       break;
                     case "SystemB":
-                      this.g.v.ap.Left = 290 - this.g.v.ap.Width / 2;
+                      this.mainWindow.debuggerWindow.ap.Left = 290 - this.mainWindow.debuggerWindow.ap.Width / 2;
                       break;
                   }
                   string str = (this.j[index1] as ah).e();
@@ -260,7 +260,7 @@ public class an
                       case 2:
                         if (str == "UE")
                         {
-                          this.g.v.ap.Top = 45;
+                          this.mainWindow.debuggerWindow.ap.Top = 45;
                           break;
                         }
                         break;
@@ -270,21 +270,21 @@ public class an
                           case 'N':
                             if (str == "Network")
                             {
-                              this.g.v.ap.Top = 205;
+                              this.mainWindow.debuggerWindow.ap.Top = 205;
                               break;
                             }
                             break;
                           case 'P':
                             if (str == "Process")
                             {
-                              this.g.v.ap.Top = 45;
+                              this.mainWindow.debuggerWindow.ap.Top = 45;
                               break;
                             }
                             break;
                           case 'S':
                             if (str == "Session")
                             {
-                              this.g.v.ap.Top = 125;
+                              this.mainWindow.debuggerWindow.ap.Top = 125;
                               break;
                             }
                             break;
@@ -293,21 +293,21 @@ public class an
                       case 9:
                         if (str == "Transport")
                         {
-                          this.g.v.ap.Top = 165;
+                          this.mainWindow.debuggerWindow.ap.Top = 165;
                           break;
                         }
                         break;
                       case 11:
                         if (str == "Application")
                         {
-                          this.g.v.ap.Top = 45;
+                          this.mainWindow.debuggerWindow.ap.Top = 45;
                           break;
                         }
                         break;
                       case 12:
                         if (str == "Presentation")
                         {
-                          this.g.v.ap.Top = 85;
+                          this.mainWindow.debuggerWindow.ap.Top = 85;
                           break;
                         }
                         break;
@@ -315,13 +315,13 @@ public class an
                   }
                   for (int index3 = 0; index3 < 37; ++index3)
                   {
-                    ++this.g.v.ap.Top;
-                    this.g.v.Update();
+                    ++this.mainWindow.debuggerWindow.ap.Top;
+                    this.mainWindow.debuggerWindow.Update();
                     Application.DoEvents();
-                    Thread.Sleep(v.ag);
+                    Thread.Sleep(MainWindow.ag);
                   }
                 }
-                this.g.v.ap.Text = "";
+                this.mainWindow.debuggerWindow.ap.Text = "";
                 (this.j[index1] as ah).d().b((this.j[index1] as ah).e(), (this.j[index1] as ah).g(), (this.j[index1] as ah).f());
                 this.j.RemoveAt(index1);
               }
@@ -334,8 +334,8 @@ public class an
         }
         finally
         {
-          this.b(Resources.EmulationEnded);
-          this.d.Close();
+          this.addToLog(Resources.EmulationEnded);
+          this.streamWriter.Close();
           this.d().e().e.Clear();
           this.d().e().f.Clear();
           this.d().f().e.Clear();

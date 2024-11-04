@@ -13,7 +13,7 @@ using System.Text;
 using System.Windows.Forms;
 
 #nullable disable
-public class q : Form
+public class NewLabDialog : Form
 {
   private IContainer a;
   private TextBox b;
@@ -26,7 +26,7 @@ public class q : Form
   private Button i;
   private Button j;
 
-  public q() => this.a();
+  public NewLabDialog() => this.a();
 
   private void c(object A_0, EventArgs A_1)
   {
@@ -53,10 +53,10 @@ public class q : Form
     }
     else
     {
-      v.q = new t();
-      v.q.a = this.d.Text;
-      v.q.c = (int) this.g.Value;
-      v.q.b = this.c.Text;
+      MainWindow.userInfo = new t();
+      MainWindow.userInfo.a = this.d.Text;
+      MainWindow.userInfo.variantNumber = (int) this.g.Value;
+      MainWindow.userInfo.b = this.c.Text;
       this.DialogResult = DialogResult.OK;
       this.Close();
     }

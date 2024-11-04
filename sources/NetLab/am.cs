@@ -13,7 +13,7 @@ using System.Text;
 #nullable disable
 public class am
 {
-  private v i;
+  private MainWindow i;
   private an j;
 
   [CompilerGenerated]
@@ -96,7 +96,7 @@ public class am
   [SpecialName]
   public void a(string A_0) => this.l = A_0;
 
-  public am(string A_0, byte A_1, v A_2, an A_3)
+  public am(string A_0, byte A_1, MainWindow A_2, an A_3)
   {
     this.a(A_0);
     this.i = A_2;

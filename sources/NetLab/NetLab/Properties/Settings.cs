@@ -15,8 +15,8 @@ namespace NetLab.Properties
   [CompilerGenerated]
   internal sealed class Settings : ApplicationSettingsBase
   {
-    private static Settings a = (Settings) SettingsBase.Synchronized((SettingsBase) new Settings());
+    private static Settings settings = (Settings) SettingsBase.Synchronized((SettingsBase) new Settings());
 
-    public static Settings Default => Settings.a;
+    public static Settings Default => Settings.settings;
   }
 }

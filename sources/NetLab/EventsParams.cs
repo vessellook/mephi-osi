@@ -7,7 +7,7 @@
 using System.Collections;
 
 #nullable disable
-public static class d
+public static class EventsParams
 {
-  public static SortedList a;
+  public static SortedList event2params;
 }

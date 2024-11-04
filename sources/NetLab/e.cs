@@ -121,8 +121,8 @@ public class e : Form
         if (this.a[index].h().IndexOfKey((object) this.c.Text) == -1)
         {
           aj aj = new aj(this.c.Text, this.a[index].j());
-          if (global::d.a.ContainsKey((object) this.c.Text))
-            aj.k().Add(global::d.a[(object) this.c.Text]);
+          if (global::EventsParams.event2params.ContainsKey((object) this.c.Text))
+            aj.k().Add(global::EventsParams.event2params[(object) this.c.Text]);
           this.a[index].h().Add((object) this.c.Text, (object) aj);
           this.Close();
         }

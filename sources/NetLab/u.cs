@@ -7,11 +7,11 @@
 #nullable disable
 public struct u
 {
-  public bool a;
-  public bool b;
-  public bool c;
-  public bool d;
-  public bool e;
-  public bool f;
-  public bool g;
+  public bool AP;
+  public bool UE;
+  public bool application;
+  public bool presentation;
+  public bool session;
+  public bool transport;
+  public bool network;
 }

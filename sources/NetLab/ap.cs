@@ -60,49 +60,49 @@ public class ap : Form
 
   private void g(object A_0, EventArgs A_1)
   {
-    global::v.o = this.e.Checked;
-    global::v.k = (int) this.k.Value;
-    global::v.i = (int) this.h.Value;
-    global::v.j = (int) this.l.Value;
-    global::v.l = (int) this.j.Value;
-    global::v.m = this.r.Checked;
-    global::v.n = this.w.Checked;
-    global::v.h = this.s.Text;
-    global::v.b = this.a;
-    global::v.e = this.b;
-    global::v.ag = (int) this.ac.Value;
-    global::v.ai = this.ag.Text;
-    global::v.ah = this.af.Checked;
-    global::v.aj = this.ai.Checked;
-    global::v.c = this.aj.Checked;
+    global::MainWindow.o = this.e.Checked;
+    global::MainWindow.k = (int) this.k.Value;
+    global::MainWindow.i = (int) this.h.Value;
+    global::MainWindow.j = (int) this.l.Value;
+    global::MainWindow.l = (int) this.j.Value;
+    global::MainWindow.m = this.r.Checked;
+    global::MainWindow.n = this.w.Checked;
+    global::MainWindow.h = this.s.Text;
+    global::MainWindow.backColor = this.a;
+    global::MainWindow.font = this.b;
+    global::MainWindow.ag = (int) this.ac.Value;
+    global::MainWindow.authSavePath = this.ag.Text;
+    global::MainWindow.authSave = this.af.Checked;
+    global::MainWindow.aj = this.ai.Checked;
+    global::MainWindow.checkForUpdates = this.aj.Checked;
     if (this.ao.Checked)
-      global::v.al = "res1";
+      global::MainWindow.al = "res1";
     if (this.an.Checked)
-      global::v.al = "res2";
+      global::MainWindow.al = "res2";
     if (!this.am.Checked)
       return;
-    global::v.al = this.al.Text;
+    global::MainWindow.al = this.al.Text;
   }
 
   private void f(object A_0, EventArgs A_1)
   {
-    this.s.Text = global::v.h;
-    this.h.Value = (Decimal) global::v.i;
-    this.l.Value = (Decimal) global::v.j;
-    this.j.Value = (Decimal) global::v.l;
-    this.k.Value = (Decimal) global::v.k;
-    this.r.Checked = global::v.m;
-    this.w.Checked = global::v.n;
-    this.e.Checked = global::v.o;
-    this.f.Checked = !global::v.o;
-    this.b = global::v.e;
-    this.a = global::v.b;
-    this.ac.Value = (Decimal) global::v.ag;
-    this.ag.Text = global::v.ai;
-    this.af.Checked = global::v.ah;
-    this.ai.Checked = global::v.aj;
-    this.aj.Checked = global::v.c;
-    switch (global::v.al)
+    this.s.Text = global::MainWindow.h;
+    this.h.Value = (Decimal) global::MainWindow.i;
+    this.l.Value = (Decimal) global::MainWindow.j;
+    this.j.Value = (Decimal) global::MainWindow.l;
+    this.k.Value = (Decimal) global::MainWindow.k;
+    this.r.Checked = global::MainWindow.m;
+    this.w.Checked = global::MainWindow.n;
+    this.e.Checked = global::MainWindow.o;
+    this.f.Checked = !global::MainWindow.o;
+    this.b = global::MainWindow.font;
+    this.a = global::MainWindow.backColor;
+    this.ac.Value = (Decimal) global::MainWindow.ag;
+    this.ag.Text = global::MainWindow.authSavePath;
+    this.af.Checked = global::MainWindow.authSave;
+    this.ai.Checked = global::MainWindow.aj;
+    this.aj.Checked = global::MainWindow.checkForUpdates;
+    switch (global::MainWindow.al)
     {
       case "res1":
         this.ao.Checked = true;
@@ -112,7 +112,7 @@ public class ap : Form
         break;
       default:
         this.am.Checked = true;
-        this.al.Text = global::v.al;
+        this.al.Text = global::MainWindow.al;
         break;
     }
   }

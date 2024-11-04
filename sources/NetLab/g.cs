@@ -38,7 +38,7 @@ public class g : Form
         int num = (int) MessageBox.Show("Событие " + ((aj) this.b.h().GetByIndex(index)).o() + " уже существует.\nАвтор: " + dataRowArray[0].ItemArray[0]?.ToString() + " " + dataRowArray[0].ItemArray[0]?.ToString() + "\nДата изменения сданного: " + dataRowArray[0].ItemArray[4]?.ToString() + "\nДата изменения сдаваемого: " + ((aj) this.b.h().GetByIndex(index)).e().ToString(), "Уже существует", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
       }
       else
-        this.a.Rows.Add((object) v.q.a, (object) v.q.b, (object) ((aj) this.b.h().GetByIndex(index)).o(), (object) ((aj) this.b.h().GetByIndex(index)).m, (object) ((aj) this.b.h().GetByIndex(index)).e());
+        this.a.Rows.Add((object) MainWindow.userInfo.a, (object) MainWindow.userInfo.b, (object) ((aj) this.b.h().GetByIndex(index)).o(), (object) ((aj) this.b.h().GetByIndex(index)).m, (object) ((aj) this.b.h().GetByIndex(index)).e());
     }
   }
 

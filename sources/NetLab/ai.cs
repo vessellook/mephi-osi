@@ -14,7 +14,7 @@ using System.Windows.Forms;
 #nullable disable
 public class ai
 {
-  private global::v a;
+  private global::MainWindow a;
   private am b;
   private ak c;
   private aj d;
@@ -23,14 +23,14 @@ public class ai
   private Stack g;
   private an h;
 
-  public ai(SortedList A_0, aj A_1, ak A_2, am A_3, global::v A_4)
+  public ai(SortedList A_0, aj A_1, ak A_2, am A_3, global::MainWindow A_4)
   {
     this.e = A_0;
     this.d = A_1;
     this.c = A_2;
     this.b = A_3;
     this.a = A_4;
-    this.h = A_4.c();
+    this.h = A_4.get_an();
     this.g = new Stack();
   }
 
@@ -1218,7 +1218,7 @@ label_44:
         num = this.f + 1;
         strArray[6] = num.ToString();
         string A_0 = string.Concat(strArray).Replace("SystemA", "Система А").Replace("SystemB", "Система B").Replace("Guide", "Справочник");
-        h.b(A_0);
+        h.addToLog(A_0);
       }
       string A_0_1 = (string) this.d.l()[this.f];
       ad.e(ref A_0_1);

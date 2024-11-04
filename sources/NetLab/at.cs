@@ -15,7 +15,7 @@ using System.Windows.Forms;
 #nullable disable
 public class at : Form
 {
-  private v a;
+  private MainWindow a;
   private ak b;
   private int c;
   private int d;
@@ -34,7 +34,7 @@ public class at : Form
   private Button q;
   private Button r;
 
-  public at(v A_0)
+  public at(MainWindow A_0)
   {
     this.a();
     this.a = A_0;
@@ -178,7 +178,7 @@ public class at : Form
 
   public void b()
   {
-    this.Text = "Статистика " + v.q.a + " Вариант " + v.q.c.ToString();
+    this.Text = "Статистика " + MainWindow.userInfo.a + " Вариант " + MainWindow.userInfo.variantNumber.ToString();
     this.h.Items.Clear();
     for (int index = 0; index < this.b.h().Count; ++index)
       this.h.Items.Add(this.b.h().GetKey(index));
@@ -214,60 +214,60 @@ public class at : Form
     this.l.Items.Add((object) ("out: " + this.b.d.l.ToString()));
     this.c = 0;
     aq A_1_2 = new aq();
-    if (v.s.g)
+    if (MainWindow.s.network)
     {
       this.a(this.a.c().d().e(), ref A_1_2);
       this.a(this.a.c().c().e(), ref A_1_2);
       this.a(this.a.c().b().e(), ref A_1_2);
     }
-    if (v.s.f)
+    if (MainWindow.s.transport)
     {
       this.a(this.a.c().d().f(), ref A_1_2);
       this.a(this.a.c().c().f(), ref A_1_2);
       this.a(this.a.c().b().f(), ref A_1_2);
     }
-    if (v.s.e)
+    if (MainWindow.s.session)
     {
       this.a(this.a.c().d().g(), ref A_1_2);
       this.a(this.a.c().c().g(), ref A_1_2);
       this.a(this.a.c().b().g(), ref A_1_2);
     }
-    if (v.s.d)
+    if (MainWindow.s.presentation)
     {
       this.a(this.a.c().d().h(), ref A_1_2);
       this.a(this.a.c().c().h(), ref A_1_2);
       this.a(this.a.c().b().h(), ref A_1_2);
     }
-    if (v.s.c)
+    if (MainWindow.s.application)
     {
       this.a(this.a.c().d().i(), ref A_1_2);
       this.a(this.a.c().b().i(), ref A_1_2);
     }
-    if (v.s.b)
+    if (MainWindow.s.UE)
     {
       this.a(this.a.c().d().j(), ref A_1_2);
       this.a(this.a.c().b().j(), ref A_1_2);
     }
-    if (v.s.a)
+    if (MainWindow.s.AP)
     {
       this.a(this.a.c().d().k(), ref A_1_2);
       this.a(this.a.c().b().k(), ref A_1_2);
     }
     this.c += ar.a * A_1_2.a + ar.b * A_1_2.b + ar.c * A_1_2.c + ar.d * A_1_2.d + ar.e * A_1_2.e + ar.f * A_1_2.f + ar.g * A_1_2.g + ar.h * A_1_2.h + ar.i * A_1_2.i + ar.j * A_1_2.j + ar.k * A_1_2.k;
     this.d = 0;
-    if (v.s.g)
+    if (MainWindow.s.network)
       this.d += @as.a * this.a.c().d().e().d.a + @as.b * this.a.c().d().e().d.b + @as.c * this.a.c().d().e().d.c + @as.d * this.a.c().d().e().d.d + @as.e * this.a.c().d().e().d.e + @as.f * this.a.c().d().e().d.f + @as.g * this.a.c().d().e().d.g + @as.h * this.a.c().d().e().d.h + @as.i * this.a.c().d().e().d.i + @as.j * this.a.c().d().e().d.j + @as.k * this.a.c().d().e().d.k + @as.a * this.a.c().c().e().d.a + @as.b * this.a.c().c().e().d.b + @as.c * this.a.c().c().e().d.c + @as.d * this.a.c().c().e().d.d + @as.e * this.a.c().c().e().d.e + @as.f * this.a.c().c().e().d.f + @as.g * this.a.c().c().e().d.g + @as.h * this.a.c().c().e().d.h + @as.i * this.a.c().c().e().d.i + @as.j * this.a.c().c().e().d.j + @as.k * this.a.c().c().e().d.k + @as.a * this.a.c().b().e().d.a + @as.b * this.a.c().b().e().d.b + @as.c * this.a.c().b().e().d.c + @as.d * this.a.c().b().e().d.d + @as.e * this.a.c().b().e().d.e + @as.f * this.a.c().b().e().d.f + @as.g * this.a.c().b().e().d.g + @as.h * this.a.c().b().e().d.h + @as.i * this.a.c().b().e().d.i + @as.j * this.a.c().b().e().d.j + @as.k * this.a.c().b().e().d.k;
-    if (v.s.f)
+    if (MainWindow.s.transport)
       this.d += @as.a * this.a.c().d().f().d.a + @as.b * this.a.c().d().f().d.b + @as.c * this.a.c().d().f().d.c + @as.d * this.a.c().d().f().d.d + @as.e * this.a.c().d().f().d.e + @as.f * this.a.c().d().f().d.f + @as.g * this.a.c().d().f().d.g + @as.h * this.a.c().d().f().d.h + @as.i * this.a.c().d().f().d.i + @as.j * this.a.c().d().f().d.j + @as.k * this.a.c().d().f().d.k + @as.a * this.a.c().c().f().d.a + @as.b * this.a.c().c().f().d.b + @as.c * this.a.c().c().f().d.c + @as.d * this.a.c().c().f().d.d + @as.e * this.a.c().c().f().d.e + @as.f * this.a.c().c().f().d.f + @as.g * this.a.c().c().f().d.g + @as.h * this.a.c().c().f().d.h + @as.i * this.a.c().c().f().d.i + @as.j * this.a.c().c().f().d.j + @as.k * this.a.c().c().f().d.k + @as.a * this.a.c().b().f().d.a + @as.b * this.a.c().b().f().d.b + @as.c * this.a.c().b().f().d.c + @as.d * this.a.c().b().f().d.d + @as.e * this.a.c().b().f().d.e + @as.f * this.a.c().b().f().d.f + @as.g * this.a.c().b().f().d.g + @as.h * this.a.c().b().f().d.h + @as.i * this.a.c().b().f().d.i + @as.j * this.a.c().b().f().d.j + @as.k * this.a.c().b().f().d.k;
-    if (v.s.e)
+    if (MainWindow.s.session)
       this.d += @as.a * this.a.c().d().g().d.a + @as.b * this.a.c().d().g().d.b + @as.c * this.a.c().d().g().d.c + @as.d * this.a.c().d().g().d.d + @as.e * this.a.c().d().g().d.e + @as.f * this.a.c().d().g().d.f + @as.g * this.a.c().d().g().d.g + @as.h * this.a.c().d().g().d.h + @as.i * this.a.c().d().g().d.i + @as.j * this.a.c().d().g().d.j + @as.k * this.a.c().d().g().d.k + @as.a * this.a.c().c().g().d.a + @as.b * this.a.c().c().g().d.b + @as.c * this.a.c().c().g().d.c + @as.d * this.a.c().c().g().d.d + @as.e * this.a.c().c().g().d.e + @as.f * this.a.c().c().g().d.f + @as.g * this.a.c().c().g().d.g + @as.h * this.a.c().c().g().d.h + @as.i * this.a.c().c().g().d.i + @as.j * this.a.c().c().g().d.j + @as.k * this.a.c().c().g().d.k + @as.a * this.a.c().b().g().d.a + @as.b * this.a.c().b().g().d.b + @as.c * this.a.c().b().g().d.c + @as.d * this.a.c().b().g().d.d + @as.e * this.a.c().b().g().d.e + @as.f * this.a.c().b().g().d.f + @as.g * this.a.c().b().g().d.g + @as.h * this.a.c().b().g().d.h + @as.i * this.a.c().b().g().d.i + @as.j * this.a.c().b().g().d.j + @as.k * this.a.c().b().g().d.k;
-    if (v.s.d)
+    if (MainWindow.s.presentation)
       this.d += @as.a * this.a.c().d().h().d.a + @as.b * this.a.c().d().h().d.b + @as.c * this.a.c().d().h().d.c + @as.d * this.a.c().d().h().d.d + @as.e * this.a.c().d().h().d.e + @as.f * this.a.c().d().h().d.f + @as.g * this.a.c().d().h().d.g + @as.h * this.a.c().d().h().d.h + @as.i * this.a.c().d().h().d.i + @as.j * this.a.c().d().h().d.j + @as.k * this.a.c().d().h().d.k + @as.a * this.a.c().c().h().d.a + @as.b * this.a.c().c().h().d.b + @as.c * this.a.c().c().h().d.c + @as.d * this.a.c().c().h().d.d + @as.e * this.a.c().c().h().d.e + @as.f * this.a.c().c().h().d.f + @as.g * this.a.c().c().h().d.g + @as.h * this.a.c().c().h().d.h + @as.i * this.a.c().c().h().d.i + @as.j * this.a.c().c().h().d.j + @as.k * this.a.c().c().h().d.k + @as.a * this.a.c().b().h().d.a + @as.b * this.a.c().b().h().d.b + @as.c * this.a.c().b().h().d.c + @as.d * this.a.c().b().h().d.d + @as.e * this.a.c().b().h().d.e + @as.f * this.a.c().b().h().d.f + @as.g * this.a.c().b().h().d.g + @as.h * this.a.c().b().h().d.h + @as.i * this.a.c().b().h().d.i + @as.j * this.a.c().b().h().d.j + @as.k * this.a.c().b().h().d.k;
-    if (v.s.c)
+    if (MainWindow.s.application)
       this.d += @as.a * this.a.c().d().i().d.a + @as.b * this.a.c().d().i().d.b + @as.c * this.a.c().d().i().d.c + @as.d * this.a.c().d().i().d.d + @as.e * this.a.c().d().i().d.e + @as.f * this.a.c().d().i().d.f + @as.g * this.a.c().d().i().d.g + @as.h * this.a.c().d().i().d.h + @as.i * this.a.c().d().i().d.i + @as.j * this.a.c().d().i().d.j + @as.k * this.a.c().d().i().d.k + @as.a * this.a.c().c().i().d.a + @as.b * this.a.c().c().i().d.b + @as.c * this.a.c().c().i().d.c + @as.d * this.a.c().c().i().d.d + @as.e * this.a.c().c().i().d.e + @as.f * this.a.c().c().i().d.f + @as.g * this.a.c().c().i().d.g + @as.h * this.a.c().c().i().d.h + @as.i * this.a.c().c().i().d.i + @as.j * this.a.c().c().i().d.j + @as.k * this.a.c().c().i().d.k + @as.a * this.a.c().b().i().d.a + @as.b * this.a.c().b().i().d.b + @as.c * this.a.c().b().i().d.c + @as.d * this.a.c().b().i().d.d + @as.e * this.a.c().b().i().d.e + @as.f * this.a.c().b().i().d.f + @as.g * this.a.c().b().i().d.g + @as.h * this.a.c().b().i().d.h + @as.i * this.a.c().b().i().d.i + @as.j * this.a.c().b().i().d.j + @as.k * this.a.c().b().i().d.k;
-    if (v.s.b)
+    if (MainWindow.s.UE)
       this.d += @as.a * this.a.c().d().j().d.a + @as.b * this.a.c().d().j().d.b + @as.c * this.a.c().d().j().d.c + @as.d * this.a.c().d().j().d.d + @as.e * this.a.c().d().j().d.e + @as.f * this.a.c().d().j().d.f + @as.g * this.a.c().d().j().d.g + @as.h * this.a.c().d().j().d.h + @as.i * this.a.c().d().j().d.i + @as.j * this.a.c().d().j().d.j + @as.k * this.a.c().d().j().d.k + @as.a * this.a.c().c().j().d.a + @as.b * this.a.c().c().j().d.b + @as.c * this.a.c().c().j().d.c + @as.d * this.a.c().c().j().d.d + @as.e * this.a.c().c().j().d.e + @as.f * this.a.c().c().j().d.f + @as.g * this.a.c().c().j().d.g + @as.h * this.a.c().c().j().d.h + @as.i * this.a.c().c().j().d.i + @as.j * this.a.c().c().j().d.j + @as.k * this.a.c().c().j().d.k + @as.a * this.a.c().b().j().d.a + @as.b * this.a.c().b().j().d.b + @as.c * this.a.c().b().j().d.c + @as.d * this.a.c().b().j().d.d + @as.e * this.a.c().b().j().d.e + @as.f * this.a.c().b().j().d.f + @as.g * this.a.c().b().j().d.g + @as.h * this.a.c().b().j().d.h + @as.i * this.a.c().b().j().d.i + @as.j * this.a.c().b().j().d.j + @as.k * this.a.c().b().j().d.k;
-    if (v.s.a)
+    if (MainWindow.s.AP)
       this.d += @as.a * this.a.c().d().k().d.a + @as.b * this.a.c().d().k().d.b + @as.c * this.a.c().d().k().d.c + @as.d * this.a.c().d().k().d.d + @as.e * this.a.c().d().k().d.e + @as.f * this.a.c().d().k().d.f + @as.g * this.a.c().d().k().d.g + @as.h * this.a.c().d().k().d.h + @as.i * this.a.c().d().k().d.i + @as.j * this.a.c().d().k().d.j + @as.k * this.a.c().d().k().d.k + @as.a * this.a.c().c().k().d.a + @as.b * this.a.c().c().k().d.b + @as.c * this.a.c().c().k().d.c + @as.d * this.a.c().c().k().d.d + @as.e * this.a.c().c().k().d.e + @as.f * this.a.c().c().k().d.f + @as.g * this.a.c().c().k().d.g + @as.h * this.a.c().c().k().d.h + @as.i * this.a.c().c().k().d.i + @as.j * this.a.c().c().k().d.j + @as.k * this.a.c().c().k().d.k + @as.a * this.a.c().b().k().d.a + @as.b * this.a.c().b().k().d.b + @as.c * this.a.c().b().k().d.c + @as.d * this.a.c().b().k().d.d + @as.e * this.a.c().b().k().d.e + @as.f * this.a.c().b().k().d.f + @as.g * this.a.c().b().k().d.g + @as.h * this.a.c().b().k().d.h + @as.i * this.a.c().b().k().d.i + @as.j * this.a.c().b().k().d.j + @as.k * this.a.c().b().k().d.k;
     this.d += this.a.c().d().e().d.m * @as.m + this.a.c().c().e().d.m * @as.m + this.a.c().b().e().d.m * @as.m;
     this.n.Text = string.Format("Текущая оценка:\nСтатическая - " + this.c.ToString() + "\n Динамическая - " + this.d.ToString());
@@ -278,22 +278,22 @@ public class at : Form
   private void e(object A_0, EventArgs A_1)
   {
     this.f.Items.Clear();
-    if (v.s.g)
+    if (MainWindow.s.network)
       this.f.Items.Add((object) "Сетевой");
-    if (v.s.f)
+    if (MainWindow.s.transport)
       this.f.Items.Add((object) "Транспортный");
-    if (v.s.e)
+    if (MainWindow.s.session)
       this.f.Items.Add((object) "Сеансовый");
-    if (v.s.d)
+    if (MainWindow.s.presentation)
       this.f.Items.Add((object) "Представления");
-    if (v.s.c)
+    if (MainWindow.s.application)
       this.f.Items.Add((object) "Прикладной");
-    if (v.s.b)
+    if (MainWindow.s.UE)
       this.f.Items.Add((object) "Элемент пользователя");
-    if (v.s.a)
+    if (MainWindow.s.AP)
       this.f.Items.Add((object) "Прикладной процесс");
     this.f.SelectedIndex = this.f.Items.Count - 1;
-    if (!v.f)
+    if (!MainWindow.f)
       return;
     this.q.Enabled = true;
     this.q.Visible = true;
@@ -401,7 +401,7 @@ label_16:
     {
       int num = (int) MessageBox.Show(Resources.ErrorFileRead + "\n" + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Hand);
     }
-    string[] keys = new string[2]{ v.q.a, v.q.b };
+    string[] keys = new string[2]{ MainWindow.userInfo.a, MainWindow.userInfo.b };
     DataRow row;
     if (dataTable.Rows.Contains((object[]) keys))
     {
@@ -410,9 +410,9 @@ label_16:
     else
     {
       row = dataTable.NewRow();
-      row["FIO"] = (object) v.q.a;
-      row["Group"] = (object) v.q.b;
-      row["Variant"] = (object) v.q.c;
+      row["FIO"] = (object) MainWindow.userInfo.a;
+      row["Group"] = (object) MainWindow.userInfo.b;
+      row["Variant"] = (object) MainWindow.userInfo.variantNumber;
       dataTable.Rows.Add(row);
     }
     int num1;
@@ -439,9 +439,9 @@ label_16:
     row["Date" + num1.ToString()] = (object) DateTime.Now;
     row["Stat" + num1.ToString()] = (object) this.c;
     row["Din" + num1.ToString()] = (object) this.d;
-    row["File" + num1.ToString()] = (object) v.g;
-    row["Run" + num1.ToString()] = (object) v.q.q;
-    row["Debug" + num1.ToString()] = (object) v.q.p;
+    row["File" + num1.ToString()] = (object) MainWindow.labFileName;
+    row["Run" + num1.ToString()] = (object) MainWindow.userInfo.q;
+    row["Debug" + num1.ToString()] = (object) MainWindow.userInfo.p;
     try
     {
       using (FileStream fileStream = new FileStream(Application.StartupPath + "\\db.xml", FileMode.Create, FileAccess.Write))

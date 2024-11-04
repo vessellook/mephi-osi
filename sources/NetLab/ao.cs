@@ -15,6 +15,6 @@ internal static class ao
   {
     Application.EnableVisualStyles();
     Application.SetCompatibleTextRenderingDefault(false);
-    Application.Run((Form) new v());
+    Application.Run((Form) new MainWindow());
   }
 }

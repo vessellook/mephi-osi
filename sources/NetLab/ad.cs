@@ -72,19 +72,19 @@ public static class ad
     {
       for (int index = 0; index < arrayList.Count; ++index)
       {
-        if (v.ab.IndexOf(arrayList[index]) >= 0 && v.ac.IndexOf(arrayList[index]) < 0)
-          ++v.y;
-        if (v.ae.IndexOf(arrayList[index]) >= 0)
-          ++v.aa;
+        if (MainWindow.ab.IndexOf(arrayList[index]) >= 0 && MainWindow.ac.IndexOf(arrayList[index]) < 0)
+          ++MainWindow.y;
+        if (MainWindow.ae.IndexOf(arrayList[index]) >= 0)
+          ++MainWindow.aa;
       }
     }
     int index1 = -1;
     if (arrayList.IndexOf((object) "declare") >= 0)
     {
       arrayList.Remove((object) "declare");
-      int index2 = v.ac.IndexOf((object) "declare");
-      string str2 = str1 + " " + (string) v.ab[index2];
-      foreach (char ch in (string) v.ad[index2])
+      int index2 = MainWindow.ac.IndexOf((object) "declare");
+      string str2 = str1 + " " + (string) MainWindow.ab[index2];
+      foreach (char ch in (string) MainWindow.ad[index2])
       {
         switch (ch)
         {
@@ -119,13 +119,13 @@ public static class ad
     }
     for (int index4 = 0; index4 < arrayList.Count; ++index4)
     {
-      index1 = v.ac.IndexOf(arrayList[index4]);
+      index1 = MainWindow.ac.IndexOf(arrayList[index4]);
       if (index1 >= 0)
       {
         arrayList.RemoveAt(index4);
-        string str3 = (string) v.ad[index1];
-        str1 = str1 + " " + (string) v.ab[index1];
-        foreach (char ch in (string) v.ad[index1])
+        string str3 = (string) MainWindow.ad[index1];
+        str1 = str1 + " " + (string) MainWindow.ab[index1];
+        foreach (char ch in (string) MainWindow.ad[index1])
         {
           switch (ch)
           {
@@ -278,7 +278,7 @@ public static class ad
       {
         str = A_0;
         A_0 = "";
-        ++v.z;
+        ++MainWindow.z;
       }
       else
       {
@@ -342,7 +342,7 @@ public static class ad
     }
     else
     {
-      ++v.z;
+      ++MainWindow.z;
       str3 = str2 + A_0;
       A_0 = "";
     }
@@ -469,7 +469,7 @@ label_9:
     }
     else
     {
-      ++v.z;
+      ++MainWindow.z;
       str2 = str1 + A_0;
       A_0 = "";
     }
