@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!--Project was exported from assembly: C:\Program Files (x86)\МИФИ\NetLabSetup\NetLab.exe-->
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{8CB1834F-D6B6-430D-B292-FD374A865EF4}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AssemblyName>NetLab</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <ApplicationVersion>1.8.5.0</ApplicationVersion>
+    <FileAlignment>512</FileAlignment>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DotfuscatorAttribute.cs" />
+    <Compile Include="c.cs" />
+    <Compile Include="a.cs" />
+    <Compile Include="b.cs" />
+    <Compile Include="d.cs" />
+    <Compile Include="e.cs" />
+    <Compile Include="f.cs" />
+    <Compile Include="g.cs" />
+    <Compile Include="h.cs" />
+    <Compile Include="i.cs" />
+    <Compile Include="j.cs" />
+    <Compile Include="k.cs" />
+    <Compile Include="l.cs" />
+    <Compile Include="m.cs" />
+    <Compile Include="n.cs" />
+    <Compile Include="o.cs" />
+    <Compile Include="p.cs" />
+    <Compile Include="q.cs" />
+    <Compile Include="r.cs" />
+    <Compile Include="s.cs" />
+    <Compile Include="t.cs" />
+    <Compile Include="u.cs" />
+    <Compile Include="v.cs" />
+    <Compile Include="w.cs" />
+    <Compile Include="x.cs" />
+    <Compile Include="y.cs" />
+    <Compile Include="z.cs" />
+    <Compile Include="aa.cs" />
+    <Compile Include="ab.cs" />
+    <Compile Include="ac.cs" />
+    <Compile Include="ad.cs" />
+    <Compile Include="ae.cs" />
+    <Compile Include="af.cs" />
+    <Compile Include="ag.cs" />
+    <Compile Include="ah.cs" />
+    <Compile Include="ai.cs" />
+    <Compile Include="aj.cs" />
+    <Compile Include="ak.cs" />
+    <Compile Include="al.cs" />
+    <Compile Include="am.cs" />
+    <Compile Include="an.cs" />
+    <Compile Include="ao.cs" />
+    <Compile Include="ap.cs" />
+    <Compile Include="aq.cs" />
+    <Compile Include="ar.cs" />
+    <Compile Include="as.cs" />
+    <Compile Include="at.cs" />
+    <Compile Include="au.cs" />
+    <Compile Include="NetLab\Properties\Resources.cs" />
+    <Compile Include="NetLab\Properties\Settings.cs" />
+    <Compile Include="AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ap.resx" />
+    <EmbeddedResource Include="at.resx" />
+    <EmbeddedResource Include="c.resx" />
+    <EmbeddedResource Include="d.resx" />
+    <EmbeddedResource Include="f.resx" />
+    <EmbeddedResource Include="g.resx" />
+    <EmbeddedResource Include="h.resx" />
+    <EmbeddedResource Include="i.resx" />
+    <EmbeddedResource Include="j.resx" />
+    <EmbeddedResource Include="n.resx" />
+    <EmbeddedResource Include="NetLab\Properties\Resources.resx" />
+    <EmbeddedResource Include="o.resx" />
+    <EmbeddedResource Include="p.resx" />
+    <EmbeddedResource Include="q.resx" />
+    <EmbeddedResource Include="r.resx" />
+    <EmbeddedResource Include="s.resx" />
+    <EmbeddedResource Include="v.resx" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
