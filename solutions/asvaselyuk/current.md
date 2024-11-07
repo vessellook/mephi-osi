@@ -4,7 +4,7 @@
 
 Год создания 2024.
 
-# Сетевой уровень
+# Сеансовый уровень
 
 Скопировано из avramenko
 
@@ -24,12 +24,12 @@ initial_markers указывает, как изначально распреде
 5:[<crc| 1 слово>]<userdata> - запрос на передачу срочных данных, crc присутствует для соединений с защитой, вроде бы такой совет даёт преподаватель
 6:пустой буфер - запрос на упорядоченное разъединение
 7:пустой буфер - ответ на запрос на упорядоченное разъединение
-11:пустой буфер - запрос на основную синхронизацию
-12:пустой буфер - ответ на запрос об основной синхронизации
-13:<token| 1 слово> - запрос на ресинхронизацию
-14:<token| 1 слово> - ответ на запрос на ресинхронизацию
-21:<token| 1 слово> - запрос на маркер
-22:<token| 1 слово> - передача маркера
+8:пустой буфер - запрос на основную синхронизацию
+9:пустой буфер - ответ на запрос об основной синхронизации
+10:<token| 1 слово> - запрос на ресинхронизацию
+12:<token| 1 слово> - ответ на запрос на ресинхронизацию
+12:<token| 1 слово> - запрос на маркер
+13:<token| 1 слово> - передача маркера
 
 буфер quality имеет формат <protect_flag| 1 слово><initial_sync_point| 1 слово>
 
@@ -59,12 +59,12 @@ set 4 CODE_DATA
 set 5 CODE_EXPEDITED_DATA
 set 6 CODE_RELEASE_REQ
 set 7 CODE_RELEASE_RESP
-set 11 CODE_SYNC_REQ
-set 12 CODE_SYNC_RESP
-set 13 CODE_RESYNC_REQ
-set 14 CODE_RESYNC_RESP
-set 21 CODE_PLEASE_TOKENS
-set 22 CODE_GIVE_TOKENS
+set 8 CODE_SYNC_REQ
+set 9 CODE_SYNC_RESP
+set 10 CODE_RESYNC_REQ
+set 11 CODE_RESYNC_RESP
+set 12 CODE_PLEASE_TOKENS
+set 13 CODE_GIVE_TOKENS
 
 addr declare integer
 code_pac declare integer
@@ -74,8 +74,6 @@ protect_flag declare integer
 initial_sync_point declare integer
 current_crc declare integer
 current_calc_crc declare integer
-queue_flag declare integer
-current_timer declare integer
 current_token declare integer
 has_data_marker declare integer
 has_sync_marker declare integer
@@ -85,10 +83,8 @@ current_quality declare buffer
 current_demand declare buffer
 current_buffer declare buffer
 
-current_queue declare queue
 total_queue declare queue
 
-set 0 queue_flag
 set 0 initial_markers
 ```
 
@@ -119,19 +115,15 @@ error_1 if !!$has_data_marker
 
 unbuffer current_quality protect_flag sizeof(protect_flag) initial_sync_point sizeof(initial_sync_point)
 set $userdata current_buffer
-add_to_queue if !!$protect_flag
+send if !!$protect_flag
 
 protect:
 current_crc varcrc $current_buffer
 sizeof(current_buffer)+sizeof(current_crc) $current_crc sizeof(current_crc) $current_buffer sizeof(current_buffer) pack current_buffer
 
-add_to_queue:
+send:
 sizeof(userdata)+sizeof(code_pac) $CODE_DATA sizeof(code_pac) $userdata sizeof(userdata) pack current_buffer
-queue $current_buffer current_queue
-end if $queue_flag
-set 1 queue_flag
-S_TIMER current_timer 2 settimer
-end:
+generatedown T_DATA.REQ userdata $current_buffer
 return
 
 error_1:
@@ -205,13 +197,9 @@ generatedown T_DATA.REQ userdata $current_buffer
 ;параметры:  нет
 
 start:
-repeat if qcount(total_queue) > 0
-goto end
-
-repeat:
+end if qcount(total_queue) == 0
 eventup S_DATA.IND userdata (dequeue(total_queue))
 goto start
-
 end:
 sizeof(code_pac) $CODE_RELEASE_RESP sizeof(code_pac) pack current_buffer
 generatedown T_DATA.REQ userdata $current_buffer
@@ -257,27 +245,12 @@ return
 ;параметры:  нет
 
 start:
-repeat if qcount(total_queue) > 0
-goto end
-
-repeat:
+end if qcount(total_queue) == 0
 eventup S_DATA.IND userdata (dequeue(total_queue))
 goto start
-
 end:
 sizeof(code_pac) $CODE_SYNC_RESP sizeof(code_pac) pack current_buffer
 generatedown T_DATA.REQ userdata $current_buffer
-```
-
-## S_TIMER
-```
-send if (qcount (current_queue) > 0)
-set 0 queue_flag
-return
-
-send:
-generatedown T_DATA.REQ userdata dequeue (current_queue)
-S_TIMER current_timer 2 settimer
 ```
 
 ## S_U_ABORT.REQ
@@ -306,6 +279,13 @@ generatedown T_CONNECT.RESP address $address
 
 ## T_DATA.IND
 Обработка всех возможных типов пакетов
+
+Нужно сгенерировать исключение о том, что обнаружен дубликат/потеря маркера (3) в следующих случаях:
+
+- если от другой стороны передаётся маркер, который есть у данной стороны
+- если другой стороной запрошен маркер, которого нет у данной стороны
+- если от другой стороны передаются данные, когда маркер данных у данной стороны
+- если другая сторона запросила основную синхронизация, когда маркер синхронизации у данной стороны
 ```
 ;параметры:  userdata (буфер)
 
@@ -350,6 +330,7 @@ return
 
 
 data_req:
+error_3 if $has_data_marker
 unbuffer current_quality protect_flag sizeof(protect_flag) initial_sync_point sizeof(initial_sync_point)
 add_to_queue if !!$protect_flag
 
@@ -377,7 +358,6 @@ eventup S_EXPEDITED_DATA.IND userdata $current_buffer
 return
 
 skip_broken:
-out "T_DATA.IND EXPEDITED_DATA validation failed -> skip"
 return
 
 release_req:
@@ -385,36 +365,26 @@ eventup S_RELEASE.IND
 return
 
 release_res:
-release_repeat if qcount(total_queue) > 0
-goto release_end_queue
-
-release_repeat:
+release_end if qcount(total_queue) == 0
 eventup S_DATA.IND userdata (dequeue(total_queue))
-goto release_res
-
-release_end_queue:
+release_end:
 generatedown T_DISCONNECT.REQ address $addr
 eventup S_RELEASE.CONF
 return
 
 
 sync_req:
+error_3 if $has_sync_marker
 eventup S_SYNC_MAJOR.IND
 return
 
-
 sync_res:
-sync_repeat if qcount(total_queue) > 0
-goto sync_end_queue
-
-sync_repeat:
+sync_res_end if qcount(total_queue) == 0
 eventup S_DATA.IND userdata (dequeue(total_queue))
 goto sync_res
-
-sync_end_queue:
+sync_res_end:
 eventup S_SYNC_MAJOR.CONF
 return
-
 
 resync_req:
 unbuffer current_buffer current_token sizeof(current_token)
@@ -427,21 +397,28 @@ unbuffer current_buffer current_token sizeof(current_token)
 eventup S_RESYNCHRONIZE.CONF token $current_token
 set ($current_token == 1) || ($current_token == 3) has_data_marker
 set ($current_token == 2) || ($current_token == 3) has_sync_marker
-
+return
 
 token_req:
 unbuffer current_buffer current_token sizeof(current_token)
-out "T DATA GET TOKEN REQ " CurrentSystemName() " " $current_token
+error_3 if !!$has_data_marker && ($current_token == 1)
+error_3 if !!$has_sync_marker && ($current_token == 2)
 eventup S_PLEASE_TOKENS.IND token $current_token
 return
 
 
 token_res:
 unbuffer current_buffer current_token sizeof(current_token)
-out "T DATA GET TOKEN RESP  " CurrentSystemName() " " $current_token
+error_3 if $has_data_marker && ($current_token == 1)
+error_3 if $has_sync_marker && ($current_token == 2)
 eventup S_GIVE_TOKENS.IND token $current_token
 set $has_data_marker || ($current_token == 1) has_data_marker
 set $has_sync_marker || ($current_token == 2) has_sync_marker
+return
+
+error_3:
+eventup S_P_EXCEPTION.IND error 3
+return
 ```
 
 ## T_DISCONNECT.IND
