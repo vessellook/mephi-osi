@@ -4,6 +4,514 @@
 
 Год создания 2024.
 
+# Уровень представления
+
+## P_INIT.REQ
+
+```
+CODE_SYNTAX_REQ declare integer
+CODE_SYNTAX_RESP declare integer
+CODE_EXPEDITED_DATA declare integer
+
+set 1 CODE_SYNTAX_REQ
+set 2 CODE_SYNTAX_RESP
+set 3 CODE_EXPEDITED_DATA
+
+TERMINAL declare string
+set "$$" TERMINAL
+
+code_pac declare integer
+left_border declare string
+right_border declare string
+allowed_syntaxes declare buffer
+current_syntax declare integer
+syntax_pac declare integer
+syntax_pac2 declare integer
+current_buffer declare buffer
+current_quality declare buffer
+tmp declare string
+wait_s_u_abort declare integer
+sizes declare buffer
+prefix declare buffer
+output declare buffer
+curr_len declare integer
+count_len declare integer
+loops declare integer
+pos_1 declare integer
+pos_2 declare integer
+```
+
+## P_CONNECT.REQ
+
+```
+;параметры:  address (число), quality (буфер), demand (буфер), context (буфер)
+unbuffer context left_border 1 right_border 1 allowed_syntaxes sizeof(context)-2
+generatedown S_CONNECT.REQ address $address quality $quality demand $demand
+```
+
+## P_CONNECT.RESP
+
+```
+;параметры:  address (число), quality (буфер), context (буфер)
+unbuffer context left_border 1 right_border 1 allowed_syntaxes sizeof(context)-2
+generatedown S_CONNECT.RESP address $address quality $quality
+```
+
+## P_DATA.REQ
+TODO: нужно конвертацию сделать
+```
+;параметры:  userdata (буфер)
+out "P_DATA.REQ userdata " $userdata " current_syntax " $current_syntax
+unbuffer userdata code_pac 1 current_buffer sizeof(userdata)-1
+struct if $code_pac == 1
+no_struct:
+sized_no_struct if $current_syntax == 1
+sizeof(current_buffer)+1+sizeof(TERMINAL) $code_pac 1 $current_buffer sizeof(current_buffer) $TERMINAL sizeof(TERMINAL) pack output
+goto send
+
+sized_no_struct:
+sizeof(current_buffer)+2 $code_pac 1 sizeof(current_buffer) 1 $current_buffer sizeof(current_buffer) pack output
+goto send
+
+struct:
+set 5 loops
+0 pack sizes
+0 pack output
+unbuffer current_buffer tmp 1 current_buffer sizeof(current_buffer)-1
+set 0 pos_1
+set 0 pos_2
+loop:
+set $loops-1 loops
+break_loop if $loops <= 0
+unbuffer current_buffer tmp $pos_2 current_buffer sizeof(current_buffer)-$pos_2
+unbuffer current_buffer tmp sizeof(current_buffer)
+set pos($left_border,tmp) pos_1
+set pos($right_border,tmp) pos_2
+break_loop if ($pos_2 == 0) && ($pos_1 == 0)
+;empty if $pos_2 <= $pos_1 + 1
+unbuffer current_buffer tmp $pos_1 prefix $pos_2-$pos_1-1
+goto append
+;empty:
+;0 pack prefix
+;goto append
+
+append:
+sized_append if $current_syntax == 1
+sizeof(prefix)+sizeof(TERMINAL) $prefix sizeof(prefix) $TERMINAL sizeof(TERMINAL) pack prefix
+set_output if sizeof(output) == 0
+sizeof(output)+sizeof(prefix) $output sizeof(output) $prefix sizeof(prefix) pack output
+goto loop
+
+sized_append:
+init_sizes if sizeof(sizes) == 0
+sizeof(sizes)+1 $sizes sizeof(sizes) sizeof(prefix) 1 pack sizes
+goto after_init_sizes
+init_sizes:
+1 sizeof(prefix) 1 pack sizes
+after_init_sizes:
+set_output if sizeof(output) == 0
+sizeof(prefix)+sizeof(output) $output sizeof(output) $prefix sizeof(prefix) pack output
+goto loop
+set_output:
+set $prefix output
+goto loop
+
+break_loop:
+send if $current_syntax == 1
+sizeof(output)+1+sizeof(sizes) sizeof(sizes) 1 $sizes sizeof(sizes) $output sizeof(output) pack output
+
+send:
+unbuffer output tmp sizeof(output)
+out "P_DATA.IND send output " $tmp
+generatedown S_DATA.REQ userdata $output
+```
+
+## P_EXPEDITED_DATA.REQ
+TODO: нужно конвертацию сделать
+```
+;параметры:  userdata (буфер)
+out "P_EXPEDITED_DATA.REQ userdata " $userdata
+unbuffer userdata code_pac 1 current_buffer sizeof(userdata)-1
+struct if $code_pac == 1
+no_struct:
+sized_no_struct if $current_syntax == 1
+sizeof(current_buffer)+1+sizeof(TERMINAL) $code_pac 1 $current_buffer sizeof(current_buffer) $TERMINAL sizeof(TERMINAL) pack output
+goto send
+
+sized_no_struct:
+sizeof(current_buffer)+2 $code_pac 1 sizeof(current_buffer) 1 $current_buffer sizeof(current_buffer) pack output
+goto send
+
+struct:
+set 5 loops
+0 pack sizes
+0 pack output
+unbuffer current_buffer tmp 1 current_buffer sizeof(current_buffer)-2
+set 0 pos_1
+set 0 pos_2
+loop:
+set $loops-1 loops
+break_loop if $loops <= 0
+unbuffer current_buffer tmp $pos_2 current_buffer sizeof(current_buffer)-$pos_2
+unbuffer current_buffer tmp sizeof(current_buffer)
+set pos($left_border,tmp) pos_1
+set pos($right_border,tmp) pos_2break_loop if ($pos_2 == 0) && ($pos_1 == 0)
+;empty if $pos_2 <= $pos_1 + 1
+unbuffer current_buffer tmp $pos_1 prefix $pos_2-$pos_1-1
+goto append
+;empty:
+;0 pack prefix
+;goto append
+
+append:
+sized_append if $current_syntax == 1
+sizeof(prefix)+sizeof(TERMINAL) $prefix sizeof(prefix) $TERMINAL sizeof(TERMINAL) pack prefix
+set_output if sizeof(output) == 0
+sizeof(output)+sizeof(prefix) $output sizeof(output) $prefix sizeof(prefix) pack output
+goto loop
+
+sized_append:
+init_sizes if sizeof(sizes) == 0
+sizeof(sizes)+1 $sizes sizeof(sizes) sizeof(prefix) 1 pack sizes
+goto after_init_sizes
+init_sizes:
+1 sizeof(prefix) 1 pack sizes
+after_init_sizes:
+set_output if sizeof(output) == 0
+sizeof(prefix)+sizeof(output) $output sizeof(output) $prefix sizeof(prefix) pack output
+goto loop
+set_output:
+set $prefix output
+goto loop
+
+break_loop:
+send if $current_syntax == 1
+sizeof(output)+1+sizeof(sizes) sizeof(sizes) 1 $sizes sizeof(sizes) $output sizeof(output) pack output
+
+send:
+unbuffer output tmp sizeof(output)
+out "P_EXPEDITED_DATA.IND send output " $tmp
+sizeof(code_pac)+sizeof(output) $CODE_EXPEDITED_DATA sizeof(code_pac) $output sizeof(output) pack current_buffer
+generatedown S_EXPEDITED_DATA.REQ userdata $current_buffer
+```
+
+## P_GIVE_TOKENS.REQ
+```
+;параметры:  token (число)
+generatedown S_GIVE_TOKENS.REQ token $token
+```
+
+## P_P_ABORT.IND
+```
+;параметры:  нет
+eventup P_P_ABORT.IND
+```
+
+## P_PLEASE_TOKENS.REQ
+```
+;параметры:  token (число)
+generatedown S_PLEASE_TOKENS.REQ token $token
+```
+
+## P_RELEASE.REQ
+```
+;параметры:  нет
+generatedown S_RELEASE.REQ
+```
+
+## P_RELEASE.RESP
+```
+;параметры:  нет
+generatedown S_RELEASE.RESP
+```
+
+## P_RESYNCHRONIZE.REQ
+```
+;параметры:  token (число)
+generatedown S_RESYNCHRONIZE.REQ token $token
+```
+
+## P_RESYNCHRONIZE.RESP
+```
+;параметры:  token (число)
+generatedown S_RESYNCHRONIZE.RESP token $token
+```
+
+## P_SYNC_MAJOR.REQ
+```
+;параметры:  нет
+generatedown S_SYNC_MAJOR.REQ
+```
+
+## P_SYNC_MAJOR.RESP
+```
+;параметры:  нет
+generatedown S_SYNC_MAJOR.RESP
+```
+
+## P_U_ABORT.REQ
+```
+;параметры:  нет
+generatedown S_U_ABORT.REQ
+```
+
+## S_CONNECT.CONF
+После получении подтверждения S соединения происходит обмен допустимыми синтаксисами
+```
+;параметры:  quality (буфер)
+set $quality current_quality
+sizeof(code_pac)+sizeof(allowed_syntaxes) $CODE_SYNTAX_REQ sizeof(code_pac) $allowed_syntaxes sizeof(allowed_syntaxes) pack current_buffer
+generatedown S_EXPEDITED_DATA.REQ userdata $current_buffer
+```
+
+## S_CONNECT.IND
+```
+;параметры:  address (число), quality (буфер), demand (буфер)
+eventup P_CONNECT.IND address $address quality $quality demand $demand
+```
+
+## S_DATA.IND
+```
+;параметры:  userdata (буфер)
+out "S_DATA.IND userdata " $userdata " current_syntax " $current_syntax
+unbuffer userdata code_pac sizeof(code_pac) current_buffer sizeof(userdata)-1
+struct if $code_pac == 1
+no_struct:
+out "S_DATA.IND no_struct"
+sized_no_struct if $current_syntax == 1
+unbuffer current_buffer tmp sizeof(current_buffer)
+out "S_DATA.IND no_struct current_buffer " $tmp
+set pos($TERMINAL, tmp) pos_1
+out "S_DATA.IND no_struct pos_1 " $pos_1
+unbuffer current_buffer current_buffer $pos_1
+sizeof(current_buffer)+1 $code_pac 1 $current_buffer sizeof(current_buffer) pack output
+goto send
+
+sized_no_struct:
+out "S_DATA.IND sized_no_struct"
+unbuffer current_buffer curr_len 1 code_pac 1 current_buffer sizeof(current_buffer)-2
+unbuffer current_buffer current_buffer $curr_len
+sizeof(current_buffer)+1 $code_pac 1 $current_buffer sizeof(current_buffer) pack output
+goto send
+
+struct:
+out "S_DATA.IND struct"
+sized_struct if $current_syntax == 1
+sizeof(left_border)+1 $code_pac 1 $left_border sizeof(left_border) pack output
+terminated_loop:
+out "S_DATA.IND terminated_loop"
+unbuffer current_buffer tmp sizeof(current_buffer)
+set pos($TERMINAL,tmp) pos_1
+terminated_loop_break if $pos_1 == 0
+unbuffer current_buffer prefix $pos_1-1 tmp 2 current_buffer sizeof(current_buffer)-$pos_1-1
+sizeof(output)+sizeof(left_border)+sizeof(prefix)+sizeof(right_border) $output sizeof(output) $left_border sizeof(left_border) $prefix sizeof(prefix) $right_border sizeof(right_border) pack output
+goto terminated_loop
+
+terminated_loop_break:
+out "S_DATA.IND terminated_loop_break"
+sizeof(output)+sizeof(right_border) $output sizeof(output) $right_border sizeof(right_border) pack output
+goto send
+
+sized_struct:
+out "S_DATA.IND sized_struct"
+unbuffer current_buffer count_len 1 prefix sizeof(current_buffer)-1
+unbuffer prefix sizes $count_len current_buffer sizeof(prefix)-$count_len
+sizeof(left_border) $left_border sizeof(left_border) pack output
+sized_loop:
+out "S_DATA.IND sized_loop"
+sized_loop_break if $count_len <= 0
+unbuffer sizes curr_len 1 sizes sizeof(sizes)-1
+set $count_len-1 count_len
+unbuffer current_buffer prefix $curr_len current_buffer sizeof(current_buffer)-$curr_len
+sizeof(output)+sizeof(left_border)+sizeof(prefix)+sizeof(right_border) $output sizeof(output) $left_border sizeof(left_border) $prefix sizeof(prefix) $right_border sizeof(right_border) pack output
+goto sized_loop
+
+sized_loop_break:
+out "S_DATA.IND sized_loop_break"
+sizeof(output)+sizeof(right_border) $output sizeof(output) $right_border sizeof(right_border) pack output
+goto send
+
+send:
+unbuffer output tmp sizeof(output)
+out "S_DATA.IND send output " $tmp
+eventup P_DATA.IND userdata $output
+return
+```
+
+## S_EXPEDITED_DATA.IND
+TODO: тут нужно сделать switch по типу пакета
+```
+;параметры:  userdata (буфер)
+unbuffer userdata code_pac sizeof(code_pac) current_buffer sizeof(userdata)-sizeof(code_pac)
+syntax_req if $code_pac == $CODE_SYNTAX_REQ
+syntax_res if $code_pac == $CODE_SYNTAX_RESP
+abort_ind if $code_pac == $CODE_P_P_ABORT
+expedited_data if $code_pac == $CODE_EXPEDITED_DATA
+return
+
+syntax_req:
+; TODO: тут нужно выбрать синтаксис
+unbuffer current_buffer syntax_pac sizeof(syntax_pac) current_buffer sizeof(current_buffer)-sizeof(syntax_pac)
+unbuffer allowed_syntaxes current_syntax sizeof(current_syntax) allowed_syntaxes sizeof(allowed_syntaxes)-sizeof(current_syntax)
+send_syntax if $current_syntax == $syntax_pac
+skip_second_syntax_pac if sizeof(current_buffer) == 0
+unbuffer current_buffer syntax_pac2 sizeof(syntax_pac2)
+send_syntax if $current_syntax == $syntax_pac2
+skip_second_syntax_pac:
+abort if sizeof(allowed_syntaxes) == 0
+unbuffer allowed_syntaxes current_syntax sizeof(current_syntax)
+send_syntax if $current_syntax == $syntax_pac
+abort if sizeof(current_buffer) == 0
+send_syntax if $current_syntax == $syntax_pac2
+abort:
+set 1 wait_s_u_abort
+eventup P_P_ABORT.IND
+sizeof(code_pac) $CODE_P_P_ABORT sizeof(code_pac) pack current_buffer
+generatedown S_EXPEDITED_DATA.REQ userdata $current_buffer
+return
+send_syntax:
+sizeof(code_pac)+sizeof(current_syntax) $CODE_SYNTAX_RESP sizeof(code_pac) $current_syntax sizeof(current_syntax) pack current_buffer
+generatedown S_EXPEDITED_DATA.REQ userdata $current_buffer
+return
+
+syntax_res:
+unbuffer current_buffer current_syntax sizeof(current_syntax)
+3 $left_border 1 $right_border 1 $current_syntax sizeof(current_syntax) pack current_buffer
+eventup P_CONNECT.CONF quality $current_quality context $current_buffer
+set 0 wait_s_u_abort
+return
+
+abort_ind:
+eventup P_P_ABORT.IND
+return
+
+expedited_data:
+unbuffer current_buffer code_pac sizeof(code_pac) current_buffer sizeof(current_buffer)-1
+struct if $code_pac == 1
+no_struct:
+out "S_EXPEDITED_DATA.IND no_struct"
+sized_no_struct if $current_syntax == 1
+;unbuffer current_buffer code_pac 1 current_buffer sizeof(current_buffer)-1
+unbuffer current_buffer tmp sizeof(current_buffer)
+out "S_EXPEDITED_DATA.IND no_struct current_buffer " $tmp
+set pos($TERMINAL,tmp) pos_1
+unbuffer current_buffer current_buffer $pos_1
+sizeof(current_buffer)+1 $code_pac 1 $current_buffer sizeof(current_buffer) pack output
+goto send
+
+sized_no_struct:
+out "S_EXPEDITED_DATA.IND sized_no_struct"
+unbuffer current_buffer curr_len 1 code_pac 1 current_buffer sizeof(current_buffer)-2
+unbuffer current_buffer current_buffer $curr_len
+sizeof(current_buffer)+1 $code_pac 1 $current_buffer sizeof(current_buffer) pack output
+goto send
+
+struct:
+out "S_EXPEDITED_DATA.IND struct"
+sized_struct if $current_syntax == 1
+sizeof(left_border)+1 $code_pac 1 $left_border sizeof(left_border) pack output
+terminated_loop:
+out "S_EXPEDITED_DATA.IND terminated_loop"
+unbuffer current_buffer tmp sizeof(current_buffer)
+set pos($TERMINAL,tmp) pos_1
+terminated_loop_break if $pos_1 == 0
+unbuffer current_buffer prefix $pos_1-1 tmp 2 current_buffer sizeof(current_buffer)-$pos_1-1
+sizeof(output)+sizeof(left_border)+sizeof(prefix)+sizeof(right_border) $output sizeof(output) $left_border sizeof(left_border) $prefix sizeof(prefix) $right_border sizeof(right_border) pack output
+goto terminated_loop
+
+terminated_loop_break:
+out "S_EXPEDITED_DATA.IND terminated_loop_break"
+sizeof(output)+sizeof(right_border) $output sizeof(output) $right_border sizeof(right_border) pack output
+goto send
+
+sized_struct:
+out "S_EXPEDITED_DATA.IND sized_struct"
+unbuffer current_buffer count_len 1 prefix sizeof(current_buffer)-1
+unbuffer prefix sizes $count_len current_buffer sizeof(prefix)-$count_len
+sizeof(left_border) $left_border sizeof(left_border) pack output
+sized_loop:
+out "S_EXPEDITED_DATA.IND sized_loop"
+sized_loop_break if $count_len <= 0
+unbuffer sizes curr_len 1 sizes sizeof(sizes)-1
+set $count_len-1 count_len
+unbuffer current_buffer prefix $curr_len current_buffer sizeof(current_buffer)-$curr_len
+sizeof(output)+sizeof(left_border)+sizeof(prefix)+sizeof(right_border) $output sizeof(output) $left_border sizeof(left_border) $prefix sizeof(prefix) $right_border sizeof(right_border) pack output
+goto sized_loop
+
+sized_loop_break:
+out "S_EXPEDITED_DATA.IND sized_loop_break $output" $output
+sizeof(output)+sizeof(right_border) $output sizeof(output) $right_border sizeof(right_border) pack output
+goto send
+
+send:
+unbuffer output tmp sizeof(output)
+out "S_EXPEDITED_DATA.IND send output " $tmp
+eventup P_EXPEDITED_DATA.IND userdata $output
+return
+```
+
+## S_GIVE_TOKENS.IND
+```
+;параметры:  token (число)
+eventup P_GIVE_TOKENS.IND token $token
+```
+
+## S_P_EXCEPTION.IND
+```
+;параметры:  error (число)
+eventup P_P_EXCEPTION.IND error $error
+```
+
+## S_PLEASE_TOKENS.IND
+```
+;параметры:  token (число)
+eventup P_PLEASE_TOKENS.IND token $token
+```
+
+## S_RELEASE.CONF
+```
+;параметры:  нет
+eventup P_RELEASE.CONF
+```
+
+## S_RELEASE.IND
+```
+;параметры:  нет
+eventup P_RELEASE.IND
+```
+
+## S_RESYNCHRONIZE.CONF
+```
+;параметры:  token (число)
+eventup P_RESYNCHRONIZE.CONF token $token
+```
+
+## S_RESYNCHRONIZE.IND
+```
+;параметры:  token (число)
+eventup P_RESYNCHRONIZE.IND token $token
+```
+
+## S_SYNC_MAJOR.CONF
+```
+;параметры:  нет
+eventup P_SYNC_MAJOR.CONF
+```
+
+## S_SYNC_MAJOR.IND
+```
+;параметры:  нет
+eventup P_SYNC_MAJOR.IND
+```
+
+## S_U_ABORT.IND
+```
+;параметры:  нет
+skip if $wait_s_u_abort == 1
+eventup P_U_ABORT.IND
+skip:
+```
+
 # Сеансовый уровень
 
 Скопировано из avramenko
@@ -122,7 +630,7 @@ current_crc varcrc $current_buffer
 sizeof(current_buffer)+sizeof(current_crc) $current_crc sizeof(current_crc) $current_buffer sizeof(current_buffer) pack current_buffer
 
 send:
-sizeof(userdata)+sizeof(code_pac) $CODE_DATA sizeof(code_pac) $userdata sizeof(userdata) pack current_buffer
+sizeof(current_buffer)+sizeof(code_pac) $CODE_DATA sizeof(code_pac) $current_buffer sizeof(current_buffer) pack current_buffer
 generatedown T_DATA.REQ userdata $current_buffer
 return
 
@@ -589,8 +1097,9 @@ sizeof(crc_ctrl)+sizeof(ctrlbuf) $crc_ctrl sizeof(crc_ctrl) $ctrlbuf sizeof(ctrl
 generatedown N_DATA.REQ userdata $pac
 ; пакет старый
 skip_old if $num_ind > $num_pac
-set $num_pac+1 num_ind
 stop if ($connstate == "4") && ($code_pac == 2)
+skip if $code_pac == 2
+set $num_pac+1 num_ind
 ; connstate == "3" || (connstate == "4" && $code_pac != 2)
 out CurrentSystemName() + " " + $connstate + " " + $connstate + " N_DATA.IND -> T_DATA.IND, N_DATA.REQ ack"
 out "$num_pac="
@@ -635,15 +1144,20 @@ out CurrentSystemName() + " " + $connstate + " " + $connstate + " N_DATA.IND -> 
 ## N_DISCONNECT.IND
 ```
 ;параметры:  нет
-reconnect if $connstate == "4"
+skip if $connstate == "0"
+skip if $connstate == "1"
+reconnect if $connstate == "2"
 server_disconnect if $connstate == "3"
+reconnect if $connstate == "4"
 stop_repeat_stop if $connstate == "5"
 skip if $connstate == "6"
-; constate == "2"
-out CurrentSystemName() + " " + $connstate + " 0 N_DISCONNECT.IND -> eventup T_DISCONNECT.IND"
-set "0" connstate
-eventup T_DISCONNECT.IND
+skip if $connstate == "7"
 return
+;; constate == "2"
+;out CurrentSystemName() + " " + $connstate + " 0 N_DISCONNECT.IND -> eventup T_DISCONNECT.IND"
+;set "0" connstate
+;eventup T_DISCONNECT.IND
+;return
 stop_repeat_stop:
 out CurrentSystemName() + " " + $connstate + " 0 N_DISCONNECT.IND -> untimer T_REPEAT"
 set "0" connstate
@@ -723,7 +1237,7 @@ crc_ctrl varcrc $ctrlbuf
 sizeof(crc_ctrl)+sizeof(ctrlbuf) $crc_ctrl sizeof(crc_ctrl) $ctrlbuf sizeof(ctrlbuf) pack pac
 set "5" connstate
 T_REPEAT repeat_timer 0 settimer cur_pac $pac cur_num $num_req retry_num 15
-set $num_req+1 num_req
+;set $num_req+1 num_req
 return
 skip:
 set "0" connstate

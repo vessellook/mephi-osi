@@ -67,7 +67,7 @@ msg_crc calccrc $data
 data pack sizeof(data)+sizeof(msg_crc) $msg_crc sizeof(msg_crc) $data sizeof(data)
 
 add_to_queue:
-data pack sizeof(userdata)+sizeof(msg_kind) 9 sizeof(msg_kind) $userdata sizeof(userdata)
+data pack sizeof(data)+sizeof(msg_kind) 9 sizeof(msg_kind) $data sizeof(data)
 generatedown T_DATA.REQ userdata $data
 return
 
@@ -453,8 +453,9 @@ pac pack sizeof(crc_value)+sizeof(buffer_for_crc) $crc_value sizeof(crc_value) $
 generatedown N_DATA.REQ userdata $pac
 ; номер пакета меньше, чем ожидалось
 if skip $ind_num > $msg_num
-setto $msg_num+1 ind_num
 if stop ($state == "D") && ($msg_kind == 2)
+if skip ($msg_kind == 2)
+setto $msg_num+1 ind_num
 ; state == "C" || (state == "D" && $msg_kind != 2)
 userdata $data up T_DATA.IND
 return
@@ -473,13 +474,14 @@ skip:
 ## N_DISCONNECT.IND
 ```
 ;параметры:  нет
-if reconnect $state == "D"
+if skip $state == "S"
+if skip $state == "A"
+if reconnect state == "B"
 if wait_connect $state == "C"
+if reconnect $state == "D"
 if client_disconnected_server $state == "E"
 if skip $state == "F"
-; state == "B"
-setto "S" state
-up T_DISCONNECT.IND
+if skip $state == "G"
 return
 client_disconnected_server:
 setto "S" state
@@ -580,7 +582,7 @@ crc_value calccrc $buffer_for_crc
 pac pack sizeof(crc_value)+sizeof(buffer_for_crc) $crc_value sizeof(crc_value) $buffer_for_crc sizeof(buffer_for_crc)
 setto "E" state
 cur_pac $pac cur_num $req_num attempts 10 0 timer resend_timer RESEND
-setto $req_num+1 req_num
+;setto $req_num+1 req_num
 return
 skip:
 setto "S" state

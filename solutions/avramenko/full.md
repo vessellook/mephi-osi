@@ -534,7 +534,7 @@ unpack data_type 1 curr_buffer sizeof(userdata) - 1 userdata
 if ($data_type == 1) struct
 if ($syntax == 1) no_struct_with_size
 
-sizeof(curr_buffer) + 4 $no_struct_type_with_no_size 1 $data_type 1 $curr_buffer sizeof(curr_buffer) "\n" 1 bufferit curr_buffer
+sizeof(curr_buffer) + 4 $no_struct_type_with_no_size 1 $data_type 1 $curr_buffer sizeof(curr_buffer) "\n" 2 bufferit curr_buffer
 goto send
 
 no_struct_with_size:
