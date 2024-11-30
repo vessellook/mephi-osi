@@ -7,7 +7,6 @@
 using System.Collections;
 using System.Runtime.CompilerServices;
 
-#nullable disable
 public class ah
 {
   [CompilerGenerated]
@@ -36,11 +35,11 @@ public class ah
 
   [CompilerGenerated]
   [SpecialName]
-  public am d() => this.d;
+  public Participant d() => this.d;
 
   [CompilerGenerated]
   [SpecialName]
-  public void a(am A_0) => this.d = A_0;
+  public void a(Participant A_0) => this.d = A_0;
 
   [CompilerGenerated]
   [SpecialName]
@@ -66,7 +65,7 @@ public class ah
   [SpecialName]
   public void a(bool A_0) => this.g = A_0;
 
-  public ah(string A_0, SortedList A_1, string A_2, am A_3, int A_4, int A_5)
+  public ah(string A_0, SortedList A_1, string A_2, Participant A_3, int A_4, int A_5)
   {
     this.b(A_0);
     this.a(A_1);

@@ -11,11 +11,10 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text;
 
-#nullable disable
-public class ak
+public class LayerParticipant
 {
-  private MainWindow a;
-  public aa d;
+  private MainWindow parent;
+    public aa d;
   public SortedList e;
   public SortedList f;
 
@@ -71,9 +70,9 @@ public class ak
   [SpecialName]
   public void a(SortedList A_0) => this.i = A_0;
 
-  public ak(string A_0, MainWindow A_1)
+  public LayerParticipant(string A_0, MainWindow mainWindow)
   {
-    this.a = A_1;
+    this.parent = mainWindow;
     this.a(A_0);
     this.e = new SortedList((IComparer) new CaseInsensitiveComparer());
     this.f = new SortedList((IComparer) new CaseInsensitiveComparer());
@@ -85,15 +84,15 @@ public class ak
     this.d = new aa();
   }
 
-  public void a(string A_0, SortedList A_1, am A_2)
+  public void a(string A_0, SortedList A_1, Participant A_2)
   {
     if (this.h().Contains((object) A_0))
-      (this.h()[(object) A_0] as aj).a(A_1, this, A_2, this.a);
+      (this.h()[(object) A_0] as aj).a(A_1, this, A_2, this.parent);
     else if (A_0.IndexOf("INIT.REQ") == -1)
       throw new InvalidOperationException(A_2.b() + Resources.ErrorNoSuchEvent.Replace("%s", A_0));
   }
 
-  public void b()
+  public void Clear()
   {
     this.g().Clear();
     this.c().Clear();
@@ -102,7 +101,7 @@ public class ak
     this.a((byte) 0);
   }
 
-  public void a()
+  public void Init()
   {
     this.d.a = 0;
     this.d.b = 0;

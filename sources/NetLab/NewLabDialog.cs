@@ -53,7 +53,7 @@ public class NewLabDialog : Form
     }
     else
     {
-      MainWindow.userInfo = new t();
+      MainWindow.userInfo = new UserInfo();
       MainWindow.userInfo.a = this.d.Text;
       MainWindow.userInfo.variantNumber = (int) this.g.Value;
       MainWindow.userInfo.b = this.c.Text;

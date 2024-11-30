@@ -8,7 +8,6 @@ using System;
 using System.Collections;
 using System.Runtime.CompilerServices;
 
-#nullable disable
 public class ag
 {
   private Queue a;

@@ -13,14 +13,14 @@ using System.Windows.Forms;
 #nullable disable
 public class e : Form
 {
-  private ak[] a;
+  private LayerParticipant[] a;
   private IContainer b;
   private ComboBox c;
   private Label d;
   private Button e;
   private Button f;
 
-  public e(ak[] A_0)
+  public e(LayerParticipant[] A_0)
   {
     this.a();
     this.a = A_0;

@@ -12,73 +12,72 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Windows.Forms;
 
-#nullable disable
-public class an
+public class EmulationRuntime
 {
   private StreamWriter streamWriter;
   public static int e;
   public static bool f;
   private MainWindow mainWindow;
   public int h;
-  private int i;
+  private int time;
   private ArrayList j;
-  public static Random k;
+  public static Random rand;
 
   [CompilerGenerated]
   [SpecialName]
-  public am d() => this.a;
+  public Participant GetSystemA() => this.systemA;
 
   [CompilerGenerated]
   [SpecialName]
-  public void c(am A_0) => this.a = A_0;
+  public void SetSystemA(Participant participant) => this.systemA = participant;
 
   [CompilerGenerated]
   [SpecialName]
-  public am c() => this.b;
+  public Participant GetGuide() => this.guide;
 
   [CompilerGenerated]
   [SpecialName]
-  public void b(am A_0) => this.b = A_0;
+  public void SetGuide(Participant participant) => this.guide = participant;
 
   [CompilerGenerated]
   [SpecialName]
-  public am b() => this.c;
+  public Participant GetSystemB() => this.systemB;
 
   [CompilerGenerated]
   [SpecialName]
-  public void a(am A_0) => this.c = A_0;
+  public void SetSystemB(Participant participant) => this.systemB = participant;
 
   [SpecialName]
-  public int a()
+  public int NextTime()
   {
-    ++this.i;
-    return this.i;
+    ++this.time;
+    return this.time;
   }
 
   [SpecialName]
-  public void b(int A_0) => this.i = A_0;
+  public void SetTime(int time) => this.time = time;
 
-  public an(MainWindow mainWindow)
+  public EmulationRuntime(MainWindow mainWindow)
   {
-    an.k = new Random();
+    EmulationRuntime.rand = new Random();
     this.mainWindow = mainWindow;
-    this.c(new am("SystemA", Convert.ToByte(an.k.Next(1, 128)), this.mainWindow, this));
-    this.b(new am("Guide", byte.MaxValue, this.mainWindow, this));
-    this.a(new am("SystemB", Convert.ToByte(an.k.Next(128, (int) byte.MaxValue)), this.mainWindow, this));
+    this.SetSystemA(new Participant("SystemA", Convert.ToByte(EmulationRuntime.rand.Next(1, 128)), this.mainWindow, this));
+    this.SetGuide(new Participant("Guide", byte.MaxValue, this.mainWindow, this));
+    this.SetSystemB(new Participant("SystemB", Convert.ToByte(EmulationRuntime.rand.Next(128, (int) byte.MaxValue)), this.mainWindow, this));
     this.h = 0;
-    this.b(0);
+    this.SetTime(0);
     this.j = new ArrayList();
   }
 
-  public void addToLog(string A_0)
+  public void AddToLog(string A_0)
   {
     this.streamWriter.WriteLine("[" + this.h.ToString() + "] " + A_0);
     if (!MainWindow.m)
       return;
-    this.mainWindow.addToLog("[" + this.h.ToString() + "] " + A_0);
+    this.mainWindow.AddToLog("[" + this.h.ToString() + "] " + A_0);
   }
 
-  public int a(string A_0, SortedList A_1, string A_2, am A_3, int A_4, int A_5)
+  public int a(string A_0, SortedList A_1, string A_2, Participant A_3, int A_4, int A_5)
   {
     ah ah = new ah(A_0, A_1, A_2, A_3, A_4, 0);
     for (int index = 0; index < this.j.Count; ++index)
@@ -87,7 +86,7 @@ public class an
         ah.a(A_5);
     }
     if (ah.b() == 0)
-      ah.a(this.a());
+      ah.a(this.NextTime());
     this.j.Add((object) ah);
     return ah.b();
   }
@@ -109,32 +108,32 @@ public class an
       {
         try
         {
-          this.d().e().a();
-          this.d().f().a();
-          this.d().g().a();
-          this.d().h().a();
-          this.d().i().a();
-          this.d().j().a();
-          this.d().k().a();
-          this.c().e().a();
-          this.c().f().a();
-          this.c().g().a();
-          this.c().h().a();
-          this.c().i().a();
-          this.c().j().a();
-          this.c().k().a();
-          this.b().e().a();
-          this.b().f().a();
-          this.b().g().a();
-          this.b().h().a();
-          this.b().i().a();
-          this.b().j().a();
-          this.b().k().a();
-          this.addToLog(Resources.EmulationStarted);
-          this.d().b("NetworkEmulator", "N_INIT.REQ", (SortedList) null);
-          this.c().b("NetworkEmulator", "N_INIT.REQ", (SortedList) null);
-          this.b().b("NetworkEmulator", "N_INIT.REQ", (SortedList) null);
-          an.f = false;
+          this.GetSystemA().GetNetworkLayer().Init();
+          this.GetSystemA().GetTransportLayer().Init();
+          this.GetSystemA().GetSessionLayer().Init();
+          this.GetSystemA().GetPresentationLayer().Init();
+          this.GetSystemA().GetApplicationLayer().Init();
+          this.GetSystemA().GetUELayer().Init();
+          this.GetSystemA().GetProcessLayer().Init();
+          this.GetGuide().GetNetworkLayer().Init();
+          this.GetGuide().GetTransportLayer().Init();
+          this.GetGuide().GetSessionLayer().Init();
+          this.GetGuide().GetPresentationLayer().Init();
+          this.GetGuide().GetApplicationLayer().Init();
+          this.GetGuide().GetUELayer().Init();
+          this.GetGuide().GetProcessLayer().Init();
+          this.GetSystemB().GetNetworkLayer().Init();
+          this.GetSystemB().GetTransportLayer().Init();
+          this.GetSystemB().GetSessionLayer().Init();
+          this.GetSystemB().GetPresentationLayer().Init();
+          this.GetSystemB().GetApplicationLayer().Init();
+          this.GetSystemB().GetUELayer().Init();
+          this.GetSystemB().GetProcessLayer().Init();
+          this.AddToLog(Resources.EmulationStarted);
+          this.GetSystemA().b("NetworkEmulator", "N_INIT.REQ", (SortedList) null);
+          this.GetGuide().b("NetworkEmulator", "N_INIT.REQ", (SortedList) null);
+          this.GetSystemB().b("NetworkEmulator", "N_INIT.REQ", (SortedList) null);
+          EmulationRuntime.f = false;
           while (this.j.Count > 0)
           {
             for (int index = this.j.Count - 1; index >= 0; --index)
@@ -143,9 +142,9 @@ public class an
                 this.j.RemoveAt(index);
             }
             Application.DoEvents();
-            if (an.e == 6)
+            if (EmulationRuntime.e == 6)
             {
-              this.addToLog(Resources.EmulationCancelled);
+              this.AddToLog(Resources.EmulationCancelled);
               this.j.Clear();
             }
             ++this.h;
@@ -153,7 +152,7 @@ public class an
             {
               if ((this.j[index1] as ah).c() <= this.h)
               {
-                if (an.e > 0 && (this.j[index1] as ah).g().Length > 1 && (this.j[index1] as ah).g()[1] == '_' && ((this.j[index1] as ah).g().EndsWith(".IND") || (this.j[index1] as ah).g().EndsWith(".CONF")))
+                if (EmulationRuntime.e > 0 && (this.j[index1] as ah).g().Length > 1 && (this.j[index1] as ah).g()[1] == '_' && ((this.j[index1] as ah).g().EndsWith(".IND") || (this.j[index1] as ah).g().EndsWith(".CONF")))
                 {
                   this.mainWindow.debuggerWindow.ap.Text = (this.j[index1] as ah).g();
                   switch ((this.j[index1] as ah).d().b())
@@ -237,7 +236,7 @@ public class an
                     Thread.Sleep(MainWindow.ag);
                   }
                 }
-                else if (an.e > 0 && (this.j[index1] as ah).g().Length > 1 && (this.j[index1] as ah).g()[1] == '_' && ((this.j[index1] as ah).g().EndsWith(".REQ") || (this.j[index1] as ah).g().EndsWith(".RESP")))
+                else if (EmulationRuntime.e > 0 && (this.j[index1] as ah).g().Length > 1 && (this.j[index1] as ah).g()[1] == '_' && ((this.j[index1] as ah).g().EndsWith(".REQ") || (this.j[index1] as ah).g().EndsWith(".RESP")))
                 {
                   this.mainWindow.debuggerWindow.ap.Text = (this.j[index1] as ah).g();
                   switch ((this.j[index1] as ah).d().b())
@@ -334,52 +333,52 @@ public class an
         }
         finally
         {
-          this.addToLog(Resources.EmulationEnded);
+          this.AddToLog(Resources.EmulationEnded);
           this.streamWriter.Close();
-          this.d().e().e.Clear();
-          this.d().e().f.Clear();
-          this.d().f().e.Clear();
-          this.d().f().f.Clear();
-          this.d().g().e.Clear();
-          this.d().g().f.Clear();
-          this.d().h().e.Clear();
-          this.d().h().f.Clear();
-          this.d().i().e.Clear();
-          this.d().i().f.Clear();
-          this.d().j().e.Clear();
-          this.d().j().f.Clear();
-          this.d().k().e.Clear();
-          this.d().k().f.Clear();
-          this.c().e().e.Clear();
-          this.c().e().f.Clear();
-          this.c().f().e.Clear();
-          this.c().f().f.Clear();
-          this.c().g().e.Clear();
-          this.c().g().f.Clear();
-          this.c().h().e.Clear();
-          this.c().h().f.Clear();
-          this.c().i().e.Clear();
-          this.c().i().f.Clear();
-          this.c().j().e.Clear();
-          this.c().j().f.Clear();
-          this.c().k().e.Clear();
-          this.c().k().f.Clear();
-          this.b().e().e.Clear();
-          this.b().e().f.Clear();
-          this.b().f().e.Clear();
-          this.b().f().f.Clear();
-          this.b().g().e.Clear();
-          this.b().g().f.Clear();
-          this.b().h().e.Clear();
-          this.b().h().f.Clear();
-          this.b().i().e.Clear();
-          this.b().i().f.Clear();
-          this.b().j().e.Clear();
-          this.b().j().f.Clear();
-          this.b().k().e.Clear();
-          this.b().k().f.Clear();
+          this.GetSystemA().GetNetworkLayer().e.Clear();
+          this.GetSystemA().GetNetworkLayer().f.Clear();
+          this.GetSystemA().GetTransportLayer().e.Clear();
+          this.GetSystemA().GetTransportLayer().f.Clear();
+          this.GetSystemA().GetSessionLayer().e.Clear();
+          this.GetSystemA().GetSessionLayer().f.Clear();
+          this.GetSystemA().GetPresentationLayer().e.Clear();
+          this.GetSystemA().GetPresentationLayer().f.Clear();
+          this.GetSystemA().GetApplicationLayer().e.Clear();
+          this.GetSystemA().GetApplicationLayer().f.Clear();
+          this.GetSystemA().GetUELayer().e.Clear();
+          this.GetSystemA().GetUELayer().f.Clear();
+          this.GetSystemA().GetProcessLayer().e.Clear();
+          this.GetSystemA().GetProcessLayer().f.Clear();
+          this.GetGuide().GetNetworkLayer().e.Clear();
+          this.GetGuide().GetNetworkLayer().f.Clear();
+          this.GetGuide().GetTransportLayer().e.Clear();
+          this.GetGuide().GetTransportLayer().f.Clear();
+          this.GetGuide().GetSessionLayer().e.Clear();
+          this.GetGuide().GetSessionLayer().f.Clear();
+          this.GetGuide().GetPresentationLayer().e.Clear();
+          this.GetGuide().GetPresentationLayer().f.Clear();
+          this.GetGuide().GetApplicationLayer().e.Clear();
+          this.GetGuide().GetApplicationLayer().f.Clear();
+          this.GetGuide().GetUELayer().e.Clear();
+          this.GetGuide().GetUELayer().f.Clear();
+          this.GetGuide().GetProcessLayer().e.Clear();
+          this.GetGuide().GetProcessLayer().f.Clear();
+          this.GetSystemB().GetNetworkLayer().e.Clear();
+          this.GetSystemB().GetNetworkLayer().f.Clear();
+          this.GetSystemB().GetTransportLayer().e.Clear();
+          this.GetSystemB().GetTransportLayer().f.Clear();
+          this.GetSystemB().GetSessionLayer().e.Clear();
+          this.GetSystemB().GetSessionLayer().f.Clear();
+          this.GetSystemB().GetPresentationLayer().e.Clear();
+          this.GetSystemB().GetPresentationLayer().f.Clear();
+          this.GetSystemB().GetApplicationLayer().e.Clear();
+          this.GetSystemB().GetApplicationLayer().f.Clear();
+          this.GetSystemB().GetUELayer().e.Clear();
+          this.GetSystemB().GetUELayer().f.Clear();
+          this.GetSystemB().GetProcessLayer().e.Clear();
+          this.GetSystemB().GetProcessLayer().f.Clear();
           this.h = 0;
-          this.i = 0;
+          this.time = 0;
           this.j.Clear();
         }
       }

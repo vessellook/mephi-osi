@@ -11,9 +11,9 @@ using System.Drawing;
 using System.Windows.Forms;
 
 #nullable disable
-public class i : Form
+public class DebuggerWindow : Form
 {
-  private global::an a;
+  private global::EmulationRuntime a;
   public ArrayList b;
   private IContainer c;
   private SplitContainer d;
@@ -58,7 +58,7 @@ public class i : Form
   private ToolStripMenuItem aq;
   private ToolStripMenuItem ar;
 
-  public i(global::an A_0)
+  public DebuggerWindow(global::EmulationRuntime A_0)
   {
     this.a();
     this.a = A_0;
@@ -79,52 +79,52 @@ public class i : Form
 
   private void k(object A_0, EventArgs A_1)
   {
-    global::an.e = 6;
+    global::EmulationRuntime.e = 6;
     this.Close();
   }
 
-  private void j(object A_0, EventArgs A_1) => global::an.e = 5;
+  private void j(object A_0, EventArgs A_1) => global::EmulationRuntime.e = 5;
 
   private void i(object A_0, EventArgs A_1)
   {
-    if (global::an.e == 5)
+    if (global::EmulationRuntime.e == 5)
     {
-      global::an.e = 1;
+      global::EmulationRuntime.e = 1;
       ++global::MainWindow.userInfo.p;
       this.a.a(global::MainWindow.h);
     }
     else
-      global::an.e = 1;
+      global::EmulationRuntime.e = 1;
   }
 
   private void h(object A_0, EventArgs A_1)
   {
-    if (global::an.e == 5)
+    if (global::EmulationRuntime.e == 5)
     {
-      global::an.e = 2;
+      global::EmulationRuntime.e = 2;
       ++global::MainWindow.userInfo.p;
       this.a.a(global::MainWindow.h);
     }
     else
-      global::an.e = 2;
+      global::EmulationRuntime.e = 2;
   }
 
   private void g(object A_0, EventArgs A_1)
   {
-    if (global::an.e == 5)
+    if (global::EmulationRuntime.e == 5)
     {
-      global::an.e = 3;
+      global::EmulationRuntime.e = 3;
       ++global::MainWindow.userInfo.p;
       this.a.a(global::MainWindow.h);
     }
     else
-      global::an.e = 3;
+      global::EmulationRuntime.e = 3;
   }
 
   private void a(object A_0, FormClosedEventArgs A_1)
   {
-    if (global::an.e != 5)
-      global::an.e = 6;
+    if (global::EmulationRuntime.e != 5)
+      global::EmulationRuntime.e = 6;
     this.i.Items.Clear();
     this.ah.Text = "";
     this.ai.Text = "";
@@ -171,9 +171,9 @@ public class i : Form
 
   private void e(object A_0, EventArgs A_1)
   {
-    if (global::an.e != 2 && global::an.e != 3)
+    if (global::EmulationRuntime.e != 2 && global::EmulationRuntime.e != 3)
       return;
-    global::an.e = 1;
+    global::EmulationRuntime.e = 1;
   }
 
   private void d(object A_0, EventArgs A_1)
@@ -182,13 +182,13 @@ public class i : Form
 
   private void c(object A_0, EventArgs A_1)
   {
-    if (global::an.e == 5)
+    if (global::EmulationRuntime.e == 5)
     {
-      global::an.e = -1;
+      global::EmulationRuntime.e = -1;
       this.a.a(global::MainWindow.h);
     }
     else
-      global::an.e = -1;
+      global::EmulationRuntime.e = -1;
   }
 
   private void a(object A_0, KeyEventArgs A_1)

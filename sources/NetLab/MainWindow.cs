@@ -24,7 +24,6 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Windows.Forms;
 
-#nullable disable
 public class MainWindow : Form
 {
   public static System.Drawing.Color backColor;
@@ -41,13 +40,13 @@ public class MainWindow : Form
   public static bool m;
   public static bool n;
   public static bool o;
-  private global::LayerWindow p;
-  public static global::t userInfo;
+  private global::LayerWindow layerWindow;
+  public static global::UserInfo userInfo;
   public static string helpPath;
   public static global::u s;
   public static bool t;
   private global::at u;
-  public global::i debuggerWindow;
+  public global::DebuggerWindow debuggerWindow;
   public static string teacherEmail;
   public static byte syntaxNumber;
   public static int y;
@@ -182,13 +181,13 @@ public class MainWindow : Form
 
   [CompilerGenerated]
   [SpecialName]
-  public global::an get_an() => this.a;
+  public global::EmulationRuntime GetEmulationRuntime () => this.emulationRuntime;
 
-  [CompilerGenerated]
+    [CompilerGenerated]
   [SpecialName]
-  public void a(global::an A_0) => this.a = A_0;
+  public void SetEmulationRuntime(global::EmulationRuntime A_0) => this.emulationRuntime = A_0;
 
-  public void addToLog(string A_0) => this.logField.AppendText(A_0 + Environment.NewLine);
+  public void AddToLog(string A_0) => this.logField.AppendText(A_0 + Environment.NewLine);
 
   static MainWindow() => AppDomain.CurrentDomain.AssemblyResolve += new ResolveEventHandler(global::MainWindow.a);
 
@@ -199,11 +198,11 @@ public class MainWindow : Form
     this.Initialize();
     Application.CurrentCulture = new CultureInfo("ru-RU", false);
     global::MainWindow.realPassword = Encoding.Unicode.GetString(Resources.vibration1.GetPropertyItem(40093).Value, 0, 22) + "nv";
-    this.a(new global::an(this));
+    this.SetEmulationRuntime(new global::EmulationRuntime(this));
     global::MainWindow.labFileName = "Untitled.lab";
-    this.p = new global::LayerWindow(this.get_an());
+    this.layerWindow = new global::LayerWindow(this.GetEmulationRuntime ());
     this.u = new global::at(this);
-    this.debuggerWindow = new global::i(this.get_an());
+    this.debuggerWindow = new global::DebuggerWindow(this.GetEmulationRuntime ());
     global::MainWindow.userInfo.a = "None";
     global::MainWindow.userInfo.variantNumber = 0;
     global::MainWindow.userInfo.b = "None";
@@ -352,16 +351,16 @@ public class MainWindow : Form
 
   private void OnLayerButtonClick(object A_0, EventArgs A_1)
   {
-    if (this.p.Visible)
+    if (this.layerWindow.Visible)
     {
-      this.p.BringToFront();
+      this.layerWindow.BringToFront();
     }
     else
     {
       switch ((A_0 as Button).Name.Substring(2, 4))
       {
         case "SysA":
-          this.p.a(this.get_an().d());
+          this.layerWindow.a(this.GetEmulationRuntime ().GetSystemA());
           string str1 = (A_0 as Button).Name.Substring(0, 2);
           if (str1 != null && str1.Length == 2)
           {
@@ -371,17 +370,17 @@ public class MainWindow : Form
                 switch (str1)
                 {
                   case "AL":
-                    this.p.a(this.get_an().d().i());
+                    this.layerWindow.a(this.GetEmulationRuntime ().GetSystemA().GetApplicationLayer());
                     goto label_52;
                   case "AP":
-                    this.p.a(this.get_an().d().k());
+                    this.layerWindow.a(this.GetEmulationRuntime ().GetSystemA().GetProcessLayer());
                     goto label_52;
                 }
                 break;
               case 'N':
                 if (str1 == "NL")
                 {
-                  this.p.a(this.get_an().d().e());
+                  this.layerWindow.a(this.GetEmulationRuntime ().GetSystemA().GetNetworkLayer());
                   goto label_52;
                 }
                 else
@@ -389,7 +388,7 @@ public class MainWindow : Form
               case 'P':
                 if (str1 == "PL")
                 {
-                  this.p.a(this.get_an().d().h());
+                  this.layerWindow.a(this.GetEmulationRuntime ().GetSystemA().GetPresentationLayer());
                   goto label_52;
                 }
                 else
@@ -397,7 +396,7 @@ public class MainWindow : Form
               case 'S':
                 if (str1 == "SL")
                 {
-                  this.p.a(this.get_an().d().g());
+                  this.layerWindow.a(this.GetEmulationRuntime ().GetSystemA().GetSessionLayer());
                   goto label_52;
                 }
                 else
@@ -405,7 +404,7 @@ public class MainWindow : Form
               case 'T':
                 if (str1 == "TL")
                 {
-                  this.p.a(this.get_an().d().f());
+                  this.layerWindow.a(this.GetEmulationRuntime ().GetSystemA().GetTransportLayer());
                   goto label_52;
                 }
                 else
@@ -413,7 +412,7 @@ public class MainWindow : Form
               case 'U':
                 if (str1 == "UE")
                 {
-                  this.p.a(this.get_an().d().j());
+                  this.layerWindow.a(this.GetEmulationRuntime ().GetSystemA().GetUELayer());
                   goto label_52;
                 }
                 else
@@ -422,7 +421,7 @@ public class MainWindow : Form
           }
           throw new InvalidOperationException("Unknown button");
         case "Guid":
-          this.p.a(this.get_an().c());
+          this.layerWindow.a(this.GetEmulationRuntime ().GetGuide());
           string str2 = (A_0 as Button).Name.Substring(0, 2);
           if (str2 != null && str2.Length == 2)
           {
@@ -432,17 +431,17 @@ public class MainWindow : Form
                 switch (str2)
                 {
                   case "AL":
-                    this.p.a(this.get_an().c().i());
+                    this.layerWindow.a(this.GetEmulationRuntime ().GetGuide().GetApplicationLayer());
                     goto label_52;
                   case "AP":
-                    this.p.a(this.get_an().c().k());
+                    this.layerWindow.a(this.GetEmulationRuntime ().GetGuide().GetProcessLayer());
                     goto label_52;
                 }
                 break;
               case 'N':
                 if (str2 == "NL")
                 {
-                  this.p.a(this.get_an().c().e());
+                  this.layerWindow.a(this.GetEmulationRuntime ().GetGuide().GetNetworkLayer());
                   goto label_52;
                 }
                 else
@@ -450,7 +449,7 @@ public class MainWindow : Form
               case 'P':
                 if (str2 == "PL")
                 {
-                  this.p.a(this.get_an().c().h());
+                  this.layerWindow.a(this.GetEmulationRuntime ().GetGuide().GetPresentationLayer());
                   goto label_52;
                 }
                 else
@@ -458,7 +457,7 @@ public class MainWindow : Form
               case 'S':
                 if (str2 == "SL")
                 {
-                  this.p.a(this.get_an().c().g());
+                  this.layerWindow.a(this.GetEmulationRuntime ().GetGuide().GetSessionLayer());
                   goto label_52;
                 }
                 else
@@ -466,7 +465,7 @@ public class MainWindow : Form
               case 'T':
                 if (str2 == "TL")
                 {
-                  this.p.a(this.get_an().c().f());
+                  this.layerWindow.a(this.GetEmulationRuntime ().GetGuide().GetTransportLayer());
                   goto label_52;
                 }
                 else
@@ -474,7 +473,7 @@ public class MainWindow : Form
               case 'U':
                 if (str2 == "UE")
                 {
-                  this.p.a(this.get_an().c().j());
+                  this.layerWindow.a(this.GetEmulationRuntime ().GetGuide().GetUELayer());
                   goto label_52;
                 }
                 else
@@ -483,7 +482,7 @@ public class MainWindow : Form
           }
           throw new InvalidOperationException("Unknown button");
         case "SysB":
-          this.p.a(this.get_an().b());
+          this.layerWindow.a(this.GetEmulationRuntime ().GetSystemB());
           string str3 = (A_0 as Button).Name.Substring(0, 2);
           if (str3 != null && str3.Length == 2)
           {
@@ -493,17 +492,17 @@ public class MainWindow : Form
                 switch (str3)
                 {
                   case "AL":
-                    this.p.a(this.get_an().b().i());
+                    this.layerWindow.a(this.GetEmulationRuntime ().GetSystemB().GetApplicationLayer());
                     goto label_52;
                   case "AP":
-                    this.p.a(this.get_an().b().k());
+                    this.layerWindow.a(this.GetEmulationRuntime ().GetSystemB().GetProcessLayer());
                     goto label_52;
                 }
                 break;
               case 'N':
                 if (str3 == "NL")
                 {
-                  this.p.a(this.get_an().b().e());
+                  this.layerWindow.a(this.GetEmulationRuntime ().GetSystemB().GetNetworkLayer());
                   goto label_52;
                 }
                 else
@@ -511,7 +510,7 @@ public class MainWindow : Form
               case 'P':
                 if (str3 == "PL")
                 {
-                  this.p.a(this.get_an().b().h());
+                  this.layerWindow.a(this.GetEmulationRuntime ().GetSystemB().GetPresentationLayer());
                   goto label_52;
                 }
                 else
@@ -519,7 +518,7 @@ public class MainWindow : Form
               case 'S':
                 if (str3 == "SL")
                 {
-                  this.p.a(this.get_an().b().g());
+                  this.layerWindow.a(this.GetEmulationRuntime ().GetSystemB().GetSessionLayer());
                   goto label_52;
                 }
                 else
@@ -527,7 +526,7 @@ public class MainWindow : Form
               case 'T':
                 if (str3 == "TL")
                 {
-                  this.p.a(this.get_an().b().f());
+                  this.layerWindow.a(this.GetEmulationRuntime ().GetSystemB().GetTransportLayer());
                   goto label_52;
                 }
                 else
@@ -535,7 +534,7 @@ public class MainWindow : Form
               case 'U':
                 if (str3 == "UE")
                 {
-                  this.p.a(this.get_an().b().j());
+                  this.layerWindow.a(this.GetEmulationRuntime ().GetSystemB().GetUELayer());
                   goto label_52;
                 }
                 else
@@ -547,8 +546,8 @@ public class MainWindow : Form
           throw new InvalidOperationException("Unknown button");
       }
 label_52:
-      this.p.b();
-      this.p.Show();
+      this.layerWindow.b();
+      this.layerWindow.Show();
     }
   }
 
@@ -584,27 +583,27 @@ label_52:
       global::ad.a(memoryStream, this.ueMenuItem.Checked.ToString());
       global::ad.a(memoryStream, this.apMenuItem.Checked.ToString());
       global::ad.a(memoryStream, "end Level access");
-      this.get_an().d().d(memoryStream);
-      this.get_an().c().d(memoryStream);
-      this.get_an().b().d(memoryStream);
+      this.GetEmulationRuntime ().GetSystemA().d(memoryStream);
+      this.GetEmulationRuntime ().GetGuide().d(memoryStream);
+      this.GetEmulationRuntime ().GetSystemB().d(memoryStream);
       global::ad.a(memoryStream, "All netparams");
-      global::ad.a(memoryStream, this.get_an().d().d().j().ToString());
-      global::ad.a(memoryStream, this.get_an().d().d().i().c().ToString());
-      global::ad.a(memoryStream, this.get_an().d().d().i().b().ToString());
-      global::ad.a(memoryStream, this.get_an().d().d().g().c().ToString());
-      global::ad.a(memoryStream, this.get_an().d().d().g().b().ToString());
-      global::ad.a(memoryStream, this.get_an().d().d().f().c().ToString());
-      global::ad.a(memoryStream, this.get_an().d().d().f().b().ToString());
-      global::ad.a(memoryStream, this.get_an().d().d().h().ToString());
-      global::ad.a(memoryStream, this.get_an().d().d().e().ToString());
-      global::ad.a(memoryStream, this.get_an().d().d().d().ToString());
-      global::ad.a(memoryStream, this.get_an().d().d().c().ToString());
-      global::ad.a(memoryStream, this.get_an().d().d().b().c().ToString());
-      global::ad.a(memoryStream, this.get_an().d().d().b().b().ToString());
-      global::ad.a(memoryStream, this.get_an().d().d().a().ToString());
-      this.get_an().d().b(memoryStream);
-      this.get_an().c().b(memoryStream);
-      this.get_an().b().b(memoryStream);
+      global::ad.a(memoryStream, this.GetEmulationRuntime ().GetSystemA().d().j().ToString());
+      global::ad.a(memoryStream, this.GetEmulationRuntime ().GetSystemA().d().i().c().ToString());
+      global::ad.a(memoryStream, this.GetEmulationRuntime ().GetSystemA().d().i().b().ToString());
+      global::ad.a(memoryStream, this.GetEmulationRuntime ().GetSystemA().d().g().c().ToString());
+      global::ad.a(memoryStream, this.GetEmulationRuntime ().GetSystemA().d().g().b().ToString());
+      global::ad.a(memoryStream, this.GetEmulationRuntime ().GetSystemA().d().f().c().ToString());
+      global::ad.a(memoryStream, this.GetEmulationRuntime ().GetSystemA().d().f().b().ToString());
+      global::ad.a(memoryStream, this.GetEmulationRuntime ().GetSystemA().d().h().ToString());
+      global::ad.a(memoryStream, this.GetEmulationRuntime ().GetSystemA().d().e().ToString());
+      global::ad.a(memoryStream, this.GetEmulationRuntime ().GetSystemA().d().d().ToString());
+      global::ad.a(memoryStream, this.GetEmulationRuntime ().GetSystemA().d().c().ToString());
+      global::ad.a(memoryStream, this.GetEmulationRuntime ().GetSystemA().d().b().c().ToString());
+      global::ad.a(memoryStream, this.GetEmulationRuntime ().GetSystemA().d().b().b().ToString());
+      global::ad.a(memoryStream, this.GetEmulationRuntime ().GetSystemA().d().a().ToString());
+      this.GetEmulationRuntime ().GetSystemA().b(memoryStream);
+      this.GetEmulationRuntime ().GetGuide().b(memoryStream);
+      this.GetEmulationRuntime ().GetSystemB().b(memoryStream);
       memoryStream.Position = 0L;
       try
       {
@@ -675,7 +674,7 @@ label_52:
     }
   }
 
-  private void loadLab(string path)
+  private void LoadLab(string path)
   {
     try
     {
@@ -719,146 +718,146 @@ label_52:
         this.networkMenuItem.Checked = !(global::ad.a(memoryStream) != "Level access") ? Convert.ToBoolean(global::ad.a(memoryStream)) : throw new InvalidOperationException(Resources.ErrorWrongFormat);
         if (this.networkMenuItem.Checked)
         {
-          this.get_an().d().e().b(global::MainWindow.syntaxNumber);
-          this.get_an().b().e().b(global::MainWindow.syntaxNumber);
-          this.get_an().c().e().b(global::MainWindow.syntaxNumber);
+          this.GetEmulationRuntime ().GetSystemA().GetNetworkLayer().b(global::MainWindow.syntaxNumber);
+          this.GetEmulationRuntime ().GetSystemB().GetNetworkLayer().b(global::MainWindow.syntaxNumber);
+          this.GetEmulationRuntime ().GetGuide().GetNetworkLayer().b(global::MainWindow.syntaxNumber);
         }
         else
         {
-          this.get_an().d().e().b((byte) 0);
-          this.get_an().b().e().b((byte) 0);
-          this.get_an().c().e().b((byte) 0);
+          this.GetEmulationRuntime ().GetSystemA().GetNetworkLayer().b((byte) 0);
+          this.GetEmulationRuntime ().GetSystemB().GetNetworkLayer().b((byte) 0);
+          this.GetEmulationRuntime ().GetGuide().GetNetworkLayer().b((byte) 0);
         }
         this.transportMenuItem.Checked = Convert.ToBoolean(global::ad.a(memoryStream));
         if (this.transportMenuItem.Checked)
         {
-          this.get_an().d().f().b(global::MainWindow.syntaxNumber);
-          this.get_an().b().f().b(global::MainWindow.syntaxNumber);
-          this.get_an().c().f().b(global::MainWindow.syntaxNumber);
+          this.GetEmulationRuntime ().GetSystemA().GetTransportLayer().b(global::MainWindow.syntaxNumber);
+          this.GetEmulationRuntime ().GetSystemB().GetTransportLayer().b(global::MainWindow.syntaxNumber);
+          this.GetEmulationRuntime ().GetGuide().GetTransportLayer().b(global::MainWindow.syntaxNumber);
         }
         else
         {
-          this.get_an().d().f().b((byte) 0);
-          this.get_an().b().f().b((byte) 0);
-          this.get_an().c().f().b((byte) 0);
+          this.GetEmulationRuntime ().GetSystemA().GetTransportLayer().b((byte) 0);
+          this.GetEmulationRuntime ().GetSystemB().GetTransportLayer().b((byte) 0);
+          this.GetEmulationRuntime ().GetGuide().GetTransportLayer().b((byte) 0);
         }
         this.sessionMenuItem.Checked = Convert.ToBoolean(global::ad.a(memoryStream));
         if (this.sessionMenuItem.Checked)
         {
-          this.get_an().d().g().b(global::MainWindow.syntaxNumber);
-          this.get_an().b().g().b(global::MainWindow.syntaxNumber);
-          this.get_an().c().g().b(global::MainWindow.syntaxNumber);
+          this.GetEmulationRuntime ().GetSystemA().GetSessionLayer().b(global::MainWindow.syntaxNumber);
+          this.GetEmulationRuntime ().GetSystemB().GetSessionLayer().b(global::MainWindow.syntaxNumber);
+          this.GetEmulationRuntime ().GetGuide().GetSessionLayer().b(global::MainWindow.syntaxNumber);
         }
         else
         {
-          this.get_an().d().g().b((byte) 0);
-          this.get_an().b().g().b((byte) 0);
-          this.get_an().c().g().b((byte) 0);
+          this.GetEmulationRuntime ().GetSystemA().GetSessionLayer().b((byte) 0);
+          this.GetEmulationRuntime ().GetSystemB().GetSessionLayer().b((byte) 0);
+          this.GetEmulationRuntime ().GetGuide().GetSessionLayer().b((byte) 0);
         }
         this.presentationMenuItem.Checked = Convert.ToBoolean(global::ad.a(memoryStream));
         if (this.presentationMenuItem.Checked)
         {
-          this.get_an().d().h().b(global::MainWindow.syntaxNumber);
-          this.get_an().b().h().b(global::MainWindow.syntaxNumber);
-          this.get_an().c().h().b(global::MainWindow.syntaxNumber);
+          this.GetEmulationRuntime ().GetSystemA().GetPresentationLayer().b(global::MainWindow.syntaxNumber);
+          this.GetEmulationRuntime ().GetSystemB().GetPresentationLayer().b(global::MainWindow.syntaxNumber);
+          this.GetEmulationRuntime ().GetGuide().GetPresentationLayer().b(global::MainWindow.syntaxNumber);
         }
         else
         {
-          this.get_an().d().h().b((byte) 0);
-          this.get_an().b().h().b((byte) 0);
-          this.get_an().c().h().b((byte) 0);
+          this.GetEmulationRuntime ().GetSystemA().GetPresentationLayer().b((byte) 0);
+          this.GetEmulationRuntime ().GetSystemB().GetPresentationLayer().b((byte) 0);
+          this.GetEmulationRuntime ().GetGuide().GetPresentationLayer().b((byte) 0);
         }
         this.applicationMenuItem.Checked = Convert.ToBoolean(global::ad.a(memoryStream));
         if (this.applicationMenuItem.Checked)
         {
-          this.get_an().d().i().b(global::MainWindow.syntaxNumber);
-          this.get_an().b().i().b(global::MainWindow.syntaxNumber);
-          this.get_an().c().i().b((byte) 0);
+          this.GetEmulationRuntime ().GetSystemA().GetApplicationLayer().b(global::MainWindow.syntaxNumber);
+          this.GetEmulationRuntime ().GetSystemB().GetApplicationLayer().b(global::MainWindow.syntaxNumber);
+          this.GetEmulationRuntime ().GetGuide().GetApplicationLayer().b((byte) 0);
         }
         else
         {
-          this.get_an().d().i().b((byte) 0);
-          this.get_an().b().i().b((byte) 0);
-          this.get_an().c().i().b((byte) 0);
+          this.GetEmulationRuntime ().GetSystemA().GetApplicationLayer().b((byte) 0);
+          this.GetEmulationRuntime ().GetSystemB().GetApplicationLayer().b((byte) 0);
+          this.GetEmulationRuntime ().GetGuide().GetApplicationLayer().b((byte) 0);
         }
         this.ueMenuItem.Checked = Convert.ToBoolean(global::ad.a(memoryStream));
         if (this.ueMenuItem.Checked)
         {
-          this.get_an().d().j().b(global::MainWindow.syntaxNumber);
-          this.get_an().b().j().b((byte) 0);
-          this.get_an().c().j().b(global::MainWindow.syntaxNumber);
+          this.GetEmulationRuntime ().GetSystemA().GetUELayer().b(global::MainWindow.syntaxNumber);
+          this.GetEmulationRuntime ().GetSystemB().GetUELayer().b((byte) 0);
+          this.GetEmulationRuntime ().GetGuide().GetUELayer().b(global::MainWindow.syntaxNumber);
         }
         else
         {
-          this.get_an().d().j().b((byte) 0);
-          this.get_an().b().j().b((byte) 0);
-          this.get_an().c().j().b((byte) 0);
+          this.GetEmulationRuntime ().GetSystemA().GetUELayer().b((byte) 0);
+          this.GetEmulationRuntime ().GetSystemB().GetUELayer().b((byte) 0);
+          this.GetEmulationRuntime ().GetGuide().GetUELayer().b((byte) 0);
         }
         this.apMenuItem.Checked = Convert.ToBoolean(global::ad.a(memoryStream));
         if (this.apMenuItem.Checked)
         {
-          this.get_an().d().k().b(global::MainWindow.syntaxNumber);
-          this.get_an().b().k().b(global::MainWindow.syntaxNumber);
-          this.get_an().c().k().b(global::MainWindow.syntaxNumber);
+          this.GetEmulationRuntime ().GetSystemA().GetProcessLayer().b(global::MainWindow.syntaxNumber);
+          this.GetEmulationRuntime ().GetSystemB().GetProcessLayer().b(global::MainWindow.syntaxNumber);
+          this.GetEmulationRuntime ().GetGuide().GetProcessLayer().b(global::MainWindow.syntaxNumber);
         }
         else
         {
-          this.get_an().d().k().b((byte) 0);
-          this.get_an().b().k().b((byte) 0);
-          this.get_an().c().k().b((byte) 0);
+          this.GetEmulationRuntime ().GetSystemA().GetProcessLayer().b((byte) 0);
+          this.GetEmulationRuntime ().GetSystemB().GetProcessLayer().b((byte) 0);
+          this.GetEmulationRuntime ().GetGuide().GetProcessLayer().b((byte) 0);
         }
         if (global::ad.a(memoryStream) != "end Level access")
           throw new InvalidOperationException(Resources.ErrorWrongFormat);
-        this.get_an().d().c(memoryStream);
-        this.get_an().c().c(memoryStream);
-        this.get_an().b().c(memoryStream);
+        this.GetEmulationRuntime ().GetSystemA().c(memoryStream);
+        this.GetEmulationRuntime ().GetGuide().c(memoryStream);
+        this.GetEmulationRuntime ().GetSystemB().c(memoryStream);
         if (global::ad.a(memoryStream) != "All netparams")
           throw new InvalidOperationException(Resources.ErrorWrongFormat);
-        this.get_an().d().d().a(Convert.ToInt32(global::ad.a(memoryStream)));
-        this.get_an().d().d().i().b(Convert.ToInt32(global::ad.a(memoryStream)));
-        this.get_an().d().d().i().a(Convert.ToInt32(global::ad.a(memoryStream)));
-        this.get_an().d().d().g().b(Convert.ToInt32(global::ad.a(memoryStream)));
-        this.get_an().d().d().g().a(Convert.ToInt32(global::ad.a(memoryStream)));
-        this.get_an().d().d().f().b(Convert.ToInt32(global::ad.a(memoryStream)));
-        this.get_an().d().d().f().a(Convert.ToInt32(global::ad.a(memoryStream)));
-        this.get_an().d().d().e(Convert.ToDouble(global::ad.a(memoryStream)));
-        this.get_an().d().d().d(Convert.ToDouble(global::ad.a(memoryStream)));
-        this.get_an().d().d().c(Convert.ToDouble(global::ad.a(memoryStream)));
-        this.get_an().d().d().b(Convert.ToDouble(global::ad.a(memoryStream)));
-        this.get_an().d().d().b().b(Convert.ToInt32(global::ad.a(memoryStream)));
-        this.get_an().d().d().b().a(Convert.ToInt32(global::ad.a(memoryStream)));
-        this.get_an().d().d().a(Convert.ToDouble(global::ad.a(memoryStream)));
-        this.get_an().c().d().a(this.get_an().d().d().j());
-        this.get_an().c().d().i().b(this.get_an().d().d().i().c());
-        this.get_an().c().d().i().a(this.get_an().d().d().i().b());
-        this.get_an().c().d().g().b(this.get_an().d().d().g().c());
-        this.get_an().c().d().g().a(this.get_an().d().d().g().b());
-        this.get_an().c().d().f().b(this.get_an().d().d().f().c());
-        this.get_an().c().d().f().a(this.get_an().d().d().f().b());
-        this.get_an().c().d().e(this.get_an().d().d().h());
-        this.get_an().c().d().d(this.get_an().d().d().e());
-        this.get_an().c().d().c(this.get_an().d().d().d());
-        this.get_an().c().d().b(this.get_an().d().d().c());
-        this.get_an().c().d().b().b(this.get_an().d().d().b().c());
-        this.get_an().c().d().b().a(this.get_an().d().d().b().b());
-        this.get_an().c().d().a(this.get_an().d().d().a());
-        this.get_an().b().d().a(this.get_an().d().d().j());
-        this.get_an().b().d().i().b(this.get_an().d().d().i().c());
-        this.get_an().b().d().i().a(this.get_an().d().d().i().b());
-        this.get_an().b().d().g().b(this.get_an().d().d().g().c());
-        this.get_an().b().d().g().a(this.get_an().d().d().g().b());
-        this.get_an().b().d().f().b(this.get_an().d().d().f().c());
-        this.get_an().b().d().f().a(this.get_an().d().d().f().b());
-        this.get_an().b().d().e(this.get_an().d().d().h());
-        this.get_an().b().d().d(this.get_an().d().d().e());
-        this.get_an().b().d().c(this.get_an().d().d().d());
-        this.get_an().b().d().b(this.get_an().d().d().c());
-        this.get_an().b().d().b().b(this.get_an().d().d().b().c());
-        this.get_an().b().d().b().a(this.get_an().d().d().b().b());
-        this.get_an().b().d().a(this.get_an().d().d().a());
-        this.get_an().d().a(memoryStream);
-        this.get_an().c().a(memoryStream);
-        this.get_an().b().a(memoryStream);
+        this.GetEmulationRuntime ().GetSystemA().d().a(Convert.ToInt32(global::ad.a(memoryStream)));
+        this.GetEmulationRuntime ().GetSystemA().d().i().b(Convert.ToInt32(global::ad.a(memoryStream)));
+        this.GetEmulationRuntime ().GetSystemA().d().i().a(Convert.ToInt32(global::ad.a(memoryStream)));
+        this.GetEmulationRuntime ().GetSystemA().d().g().b(Convert.ToInt32(global::ad.a(memoryStream)));
+        this.GetEmulationRuntime ().GetSystemA().d().g().a(Convert.ToInt32(global::ad.a(memoryStream)));
+        this.GetEmulationRuntime ().GetSystemA().d().f().b(Convert.ToInt32(global::ad.a(memoryStream)));
+        this.GetEmulationRuntime ().GetSystemA().d().f().a(Convert.ToInt32(global::ad.a(memoryStream)));
+        this.GetEmulationRuntime ().GetSystemA().d().e(Convert.ToDouble(global::ad.a(memoryStream)));
+        this.GetEmulationRuntime ().GetSystemA().d().d(Convert.ToDouble(global::ad.a(memoryStream)));
+        this.GetEmulationRuntime ().GetSystemA().d().c(Convert.ToDouble(global::ad.a(memoryStream)));
+        this.GetEmulationRuntime ().GetSystemA().d().b(Convert.ToDouble(global::ad.a(memoryStream)));
+        this.GetEmulationRuntime ().GetSystemA().d().b().b(Convert.ToInt32(global::ad.a(memoryStream)));
+        this.GetEmulationRuntime ().GetSystemA().d().b().a(Convert.ToInt32(global::ad.a(memoryStream)));
+        this.GetEmulationRuntime ().GetSystemA().d().a(Convert.ToDouble(global::ad.a(memoryStream)));
+        this.GetEmulationRuntime ().GetGuide().d().a(this.GetEmulationRuntime ().GetSystemA().d().j());
+        this.GetEmulationRuntime ().GetGuide().d().i().b(this.GetEmulationRuntime ().GetSystemA().d().i().c());
+        this.GetEmulationRuntime ().GetGuide().d().i().a(this.GetEmulationRuntime ().GetSystemA().d().i().b());
+        this.GetEmulationRuntime ().GetGuide().d().g().b(this.GetEmulationRuntime ().GetSystemA().d().g().c());
+        this.GetEmulationRuntime ().GetGuide().d().g().a(this.GetEmulationRuntime ().GetSystemA().d().g().b());
+        this.GetEmulationRuntime ().GetGuide().d().f().b(this.GetEmulationRuntime ().GetSystemA().d().f().c());
+        this.GetEmulationRuntime ().GetGuide().d().f().a(this.GetEmulationRuntime ().GetSystemA().d().f().b());
+        this.GetEmulationRuntime ().GetGuide().d().e(this.GetEmulationRuntime ().GetSystemA().d().h());
+        this.GetEmulationRuntime ().GetGuide().d().d(this.GetEmulationRuntime ().GetSystemA().d().e());
+        this.GetEmulationRuntime ().GetGuide().d().c(this.GetEmulationRuntime ().GetSystemA().d().d());
+        this.GetEmulationRuntime ().GetGuide().d().b(this.GetEmulationRuntime ().GetSystemA().d().c());
+        this.GetEmulationRuntime ().GetGuide().d().b().b(this.GetEmulationRuntime ().GetSystemA().d().b().c());
+        this.GetEmulationRuntime ().GetGuide().d().b().a(this.GetEmulationRuntime ().GetSystemA().d().b().b());
+        this.GetEmulationRuntime ().GetGuide().d().a(this.GetEmulationRuntime ().GetSystemA().d().a());
+        this.GetEmulationRuntime ().GetSystemB().d().a(this.GetEmulationRuntime ().GetSystemA().d().j());
+        this.GetEmulationRuntime ().GetSystemB().d().i().b(this.GetEmulationRuntime ().GetSystemA().d().i().c());
+        this.GetEmulationRuntime ().GetSystemB().d().i().a(this.GetEmulationRuntime ().GetSystemA().d().i().b());
+        this.GetEmulationRuntime ().GetSystemB().d().g().b(this.GetEmulationRuntime ().GetSystemA().d().g().c());
+        this.GetEmulationRuntime ().GetSystemB().d().g().a(this.GetEmulationRuntime ().GetSystemA().d().g().b());
+        this.GetEmulationRuntime ().GetSystemB().d().f().b(this.GetEmulationRuntime ().GetSystemA().d().f().c());
+        this.GetEmulationRuntime ().GetSystemB().d().f().a(this.GetEmulationRuntime ().GetSystemA().d().f().b());
+        this.GetEmulationRuntime ().GetSystemB().d().e(this.GetEmulationRuntime ().GetSystemA().d().h());
+        this.GetEmulationRuntime ().GetSystemB().d().d(this.GetEmulationRuntime ().GetSystemA().d().e());
+        this.GetEmulationRuntime ().GetSystemB().d().c(this.GetEmulationRuntime ().GetSystemA().d().d());
+        this.GetEmulationRuntime ().GetSystemB().d().b(this.GetEmulationRuntime ().GetSystemA().d().c());
+        this.GetEmulationRuntime ().GetSystemB().d().b().b(this.GetEmulationRuntime ().GetSystemA().d().b().c());
+        this.GetEmulationRuntime ().GetSystemB().d().b().a(this.GetEmulationRuntime ().GetSystemA().d().b().b());
+        this.GetEmulationRuntime ().GetSystemB().d().a(this.GetEmulationRuntime ().GetSystemA().d().a());
+        this.GetEmulationRuntime ().GetSystemA().a(memoryStream);
+        this.GetEmulationRuntime ().GetGuide().a(memoryStream);
+        this.GetEmulationRuntime ().GetSystemB().a(memoryStream);
         memoryStream.Close();
         global::MainWindow.ak = false;
       }
@@ -906,9 +905,9 @@ label_52:
                       zipFile.Dispose();
                     }
                     A_0_2.Position = 0L;
-                    this.get_an().d().e().c(A_0_2);
-                    this.get_an().c().e().c(A_0_2);
-                    this.get_an().b().e().c(A_0_2);
+                    this.GetEmulationRuntime ().GetSystemA().GetNetworkLayer().c(A_0_2);
+                    this.GetEmulationRuntime ().GetGuide().GetNetworkLayer().c(A_0_2);
+                    this.GetEmulationRuntime ().GetSystemB().GetNetworkLayer().c(A_0_2);
                     A_0_2.Close();
                   }
                   if (!this.sessionMenuItem.Checked)
@@ -925,9 +924,9 @@ label_52:
                         zipFile.Dispose();
                       }
                       A_0_3.Position = 0L;
-                      this.get_an().d().g().c(A_0_3);
-                      this.get_an().c().g().c(A_0_3);
-                      this.get_an().b().g().c(A_0_3);
+                      this.GetEmulationRuntime ().GetSystemA().GetSessionLayer().c(A_0_3);
+                      this.GetEmulationRuntime ().GetGuide().GetSessionLayer().c(A_0_3);
+                      this.GetEmulationRuntime ().GetSystemB().GetSessionLayer().c(A_0_3);
                       A_0_3.Close();
                     }
                   }
@@ -973,9 +972,9 @@ label_52:
                                       zipFile.Dispose();
                                     }
                                     A_0_4.Position = 0L;
-                                    this.get_an().d().h().c(A_0_4);
-                                    this.get_an().c().h().c(A_0_4);
-                                    this.get_an().b().h().c(A_0_4);
+                                    this.GetEmulationRuntime ().GetSystemA().GetPresentationLayer().c(A_0_4);
+                                    this.GetEmulationRuntime ().GetGuide().GetPresentationLayer().c(A_0_4);
+                                    this.GetEmulationRuntime ().GetSystemB().GetPresentationLayer().c(A_0_4);
                                     A_0_4.Close();
                                     break;
                                   }
@@ -1043,9 +1042,9 @@ label_52:
                                       zipFile.Dispose();
                                     }
                                     memoryStream.Position = 0L;
-                                    this.get_an().d().i().c(memoryStream);
-                                    this.get_an().c().i().c(memoryStream);
-                                    this.get_an().b().i().c(memoryStream);
+                                    this.GetEmulationRuntime ().GetSystemA().GetApplicationLayer().c(memoryStream);
+                                    this.GetEmulationRuntime ().GetGuide().GetApplicationLayer().c(memoryStream);
+                                    this.GetEmulationRuntime ().GetSystemB().GetApplicationLayer().c(memoryStream);
                                     memoryStream.Close();
                                     break;
                                   }
@@ -1115,9 +1114,9 @@ label_52:
                                       zipFile.Dispose();
                                     }
                                     A_0_6.Position = 0L;
-                                    this.get_an().d().j().c(A_0_6);
-                                    this.get_an().c().j().c(A_0_6);
-                                    this.get_an().b().j().c(A_0_6);
+                                    this.GetEmulationRuntime ().GetSystemA().GetUELayer().c(A_0_6);
+                                    this.GetEmulationRuntime ().GetGuide().GetUELayer().c(A_0_6);
+                                    this.GetEmulationRuntime ().GetSystemB().GetUELayer().c(A_0_6);
                                     A_0_6.Close();
                                   }
                                 }
@@ -1139,7 +1138,7 @@ label_52:
                                       zipFile.Dispose();
                                     }
                                     memoryStream.Position = 0L;
-                                    this.get_an().c().i().c(memoryStream);
+                                    this.GetEmulationRuntime ().GetGuide().GetApplicationLayer().c(memoryStream);
                                     memoryStream.Close();
                                     break;
                                   }
@@ -1171,61 +1170,61 @@ label_52:
                   int num = (int) MessageBox.Show(ex.Message, Resources.ErrorString, MessageBoxButtons.OK, MessageBoxIcon.Hand);
                 }
                 string str18 = str3.Substring(str3.IndexOf(";") + 1);
-                this.get_an().d().d().a(Convert.ToInt32(str18.Substring(0, str18.IndexOf(";"))));
+                this.GetEmulationRuntime ().GetSystemA().d().a(Convert.ToInt32(str18.Substring(0, str18.IndexOf(";"))));
                 string str19 = str18.Substring(str18.IndexOf(";") + 1);
-                this.get_an().d().d().i().b(Convert.ToInt32(str19.Substring(0, str19.IndexOf(";"))));
+                this.GetEmulationRuntime ().GetSystemA().d().i().b(Convert.ToInt32(str19.Substring(0, str19.IndexOf(";"))));
                 string str20 = str19.Substring(str19.IndexOf(";") + 1);
-                this.get_an().d().d().i().a(Convert.ToInt32(str20.Substring(0, str20.IndexOf(";"))));
+                this.GetEmulationRuntime ().GetSystemA().d().i().a(Convert.ToInt32(str20.Substring(0, str20.IndexOf(";"))));
                 string str21 = str20.Substring(str20.IndexOf(";") + 1);
-                this.get_an().d().d().e(Convert.ToDouble(str21.Substring(0, str21.IndexOf(";"))));
+                this.GetEmulationRuntime ().GetSystemA().d().e(Convert.ToDouble(str21.Substring(0, str21.IndexOf(";"))));
                 string str22 = str21.Substring(str21.IndexOf(";") + 1);
-                this.get_an().d().d().f().b(Convert.ToInt32(str22.Substring(0, str22.IndexOf(";"))));
+                this.GetEmulationRuntime ().GetSystemA().d().f().b(Convert.ToInt32(str22.Substring(0, str22.IndexOf(";"))));
                 string str23 = str22.Substring(str22.IndexOf(";") + 1);
-                this.get_an().d().d().f().a(Convert.ToInt32(str23.Substring(0, str23.IndexOf(";"))));
+                this.GetEmulationRuntime ().GetSystemA().d().f().a(Convert.ToInt32(str23.Substring(0, str23.IndexOf(";"))));
                 string str24 = str23.Substring(str23.IndexOf(";") + 1);
-                this.get_an().d().d().g().b(Convert.ToInt32(str24.Substring(0, str24.IndexOf(";"))));
+                this.GetEmulationRuntime ().GetSystemA().d().g().b(Convert.ToInt32(str24.Substring(0, str24.IndexOf(";"))));
                 string str25 = str24.Substring(str24.IndexOf(";") + 1);
-                this.get_an().d().d().g().a(Convert.ToInt32(str25.Substring(0, str25.IndexOf(";"))));
+                this.GetEmulationRuntime ().GetSystemA().d().g().a(Convert.ToInt32(str25.Substring(0, str25.IndexOf(";"))));
                 string str26 = str25.Substring(str25.IndexOf(";") + 1);
-                this.get_an().d().d().d(Convert.ToDouble(str26.Substring(0, str26.IndexOf(";"))));
+                this.GetEmulationRuntime ().GetSystemA().d().d(Convert.ToDouble(str26.Substring(0, str26.IndexOf(";"))));
                 string str27 = str26.Substring(str26.IndexOf(";") + 1);
-                this.get_an().d().d().c(Convert.ToDouble(str27.Substring(0, str27.IndexOf(";"))));
+                this.GetEmulationRuntime ().GetSystemA().d().c(Convert.ToDouble(str27.Substring(0, str27.IndexOf(";"))));
                 string str28 = str27.Substring(str27.IndexOf(";") + 1);
-                this.get_an().d().d().b(Convert.ToDouble(str28.Substring(0, str28.IndexOf(";"))));
+                this.GetEmulationRuntime ().GetSystemA().d().b(Convert.ToDouble(str28.Substring(0, str28.IndexOf(";"))));
                 string str29 = str28.Substring(str28.IndexOf(";") + 1);
-                this.get_an().d().d().b().b(Convert.ToInt32(str29.Substring(0, str29.IndexOf(";"))));
+                this.GetEmulationRuntime ().GetSystemA().d().b().b(Convert.ToInt32(str29.Substring(0, str29.IndexOf(";"))));
                 string str30 = str29.Substring(str29.IndexOf(";") + 1);
-                this.get_an().d().d().b().a(Convert.ToInt32(str30.Substring(0, str30.IndexOf(";"))));
+                this.GetEmulationRuntime ().GetSystemA().d().b().a(Convert.ToInt32(str30.Substring(0, str30.IndexOf(";"))));
                 string str31 = str30.Substring(str30.IndexOf(";") + 1);
-                this.get_an().d().d().a(Convert.ToDouble(str31));
-                this.get_an().c().d().a(this.get_an().d().d().j());
-                this.get_an().c().d().i().b(this.get_an().d().d().i().c());
-                this.get_an().c().d().i().a(this.get_an().d().d().i().b());
-                this.get_an().c().d().g().b(this.get_an().d().d().g().c());
-                this.get_an().c().d().g().a(this.get_an().d().d().g().b());
-                this.get_an().c().d().f().b(this.get_an().d().d().f().c());
-                this.get_an().c().d().f().a(this.get_an().d().d().f().b());
-                this.get_an().c().d().e(this.get_an().d().d().h());
-                this.get_an().c().d().d(this.get_an().d().d().e());
-                this.get_an().c().d().c(this.get_an().d().d().d());
-                this.get_an().c().d().b(this.get_an().d().d().c());
-                this.get_an().c().d().b().b(this.get_an().d().d().b().c());
-                this.get_an().c().d().b().a(this.get_an().d().d().b().b());
-                this.get_an().c().d().a(this.get_an().d().d().a());
-                this.get_an().b().d().a(this.get_an().d().d().j());
-                this.get_an().b().d().i().b(this.get_an().d().d().i().c());
-                this.get_an().b().d().i().a(this.get_an().d().d().i().b());
-                this.get_an().b().d().g().b(this.get_an().d().d().g().c());
-                this.get_an().b().d().g().a(this.get_an().d().d().g().b());
-                this.get_an().b().d().f().b(this.get_an().d().d().f().c());
-                this.get_an().b().d().f().a(this.get_an().d().d().f().b());
-                this.get_an().b().d().e(this.get_an().d().d().h());
-                this.get_an().b().d().d(this.get_an().d().d().e());
-                this.get_an().b().d().c(this.get_an().d().d().d());
-                this.get_an().b().d().b(this.get_an().d().d().c());
-                this.get_an().b().d().b().b(this.get_an().d().d().b().c());
-                this.get_an().b().d().b().a(this.get_an().d().d().b().b());
-                this.get_an().b().d().a(this.get_an().d().d().a());
+                this.GetEmulationRuntime ().GetSystemA().d().a(Convert.ToDouble(str31));
+                this.GetEmulationRuntime ().GetGuide().d().a(this.GetEmulationRuntime ().GetSystemA().d().j());
+                this.GetEmulationRuntime ().GetGuide().d().i().b(this.GetEmulationRuntime ().GetSystemA().d().i().c());
+                this.GetEmulationRuntime ().GetGuide().d().i().a(this.GetEmulationRuntime ().GetSystemA().d().i().b());
+                this.GetEmulationRuntime ().GetGuide().d().g().b(this.GetEmulationRuntime ().GetSystemA().d().g().c());
+                this.GetEmulationRuntime ().GetGuide().d().g().a(this.GetEmulationRuntime ().GetSystemA().d().g().b());
+                this.GetEmulationRuntime ().GetGuide().d().f().b(this.GetEmulationRuntime ().GetSystemA().d().f().c());
+                this.GetEmulationRuntime ().GetGuide().d().f().a(this.GetEmulationRuntime ().GetSystemA().d().f().b());
+                this.GetEmulationRuntime ().GetGuide().d().e(this.GetEmulationRuntime ().GetSystemA().d().h());
+                this.GetEmulationRuntime ().GetGuide().d().d(this.GetEmulationRuntime ().GetSystemA().d().e());
+                this.GetEmulationRuntime ().GetGuide().d().c(this.GetEmulationRuntime ().GetSystemA().d().d());
+                this.GetEmulationRuntime ().GetGuide().d().b(this.GetEmulationRuntime ().GetSystemA().d().c());
+                this.GetEmulationRuntime ().GetGuide().d().b().b(this.GetEmulationRuntime ().GetSystemA().d().b().c());
+                this.GetEmulationRuntime ().GetGuide().d().b().a(this.GetEmulationRuntime ().GetSystemA().d().b().b());
+                this.GetEmulationRuntime ().GetGuide().d().a(this.GetEmulationRuntime ().GetSystemA().d().a());
+                this.GetEmulationRuntime ().GetSystemB().d().a(this.GetEmulationRuntime ().GetSystemA().d().j());
+                this.GetEmulationRuntime ().GetSystemB().d().i().b(this.GetEmulationRuntime ().GetSystemA().d().i().c());
+                this.GetEmulationRuntime ().GetSystemB().d().i().a(this.GetEmulationRuntime ().GetSystemA().d().i().b());
+                this.GetEmulationRuntime ().GetSystemB().d().g().b(this.GetEmulationRuntime ().GetSystemA().d().g().c());
+                this.GetEmulationRuntime ().GetSystemB().d().g().a(this.GetEmulationRuntime ().GetSystemA().d().g().b());
+                this.GetEmulationRuntime ().GetSystemB().d().f().b(this.GetEmulationRuntime ().GetSystemA().d().f().c());
+                this.GetEmulationRuntime ().GetSystemB().d().f().a(this.GetEmulationRuntime ().GetSystemA().d().f().b());
+                this.GetEmulationRuntime ().GetSystemB().d().e(this.GetEmulationRuntime ().GetSystemA().d().h());
+                this.GetEmulationRuntime ().GetSystemB().d().d(this.GetEmulationRuntime ().GetSystemA().d().e());
+                this.GetEmulationRuntime ().GetSystemB().d().c(this.GetEmulationRuntime ().GetSystemA().d().d());
+                this.GetEmulationRuntime ().GetSystemB().d().b(this.GetEmulationRuntime ().GetSystemA().d().c());
+                this.GetEmulationRuntime ().GetSystemB().d().b().b(this.GetEmulationRuntime ().GetSystemA().d().b().c());
+                this.GetEmulationRuntime ().GetSystemB().d().b().a(this.GetEmulationRuntime ().GetSystemA().d().b().b());
+                this.GetEmulationRuntime ().GetSystemB().d().a(this.GetEmulationRuntime ().GetSystemA().d().a());
                 break;
               }
             }
@@ -1275,12 +1274,12 @@ label_52:
           break;
       }
     }
-    if (this.p.Visible)
-      this.p.Close();
+    if (this.layerWindow.Visible)
+      this.layerWindow.Close();
     if (this.openFileDialog.ShowDialog() != DialogResult.OK)
       return;
     global::MainWindow.labFileName = this.openFileDialog.FileName;
-    this.loadLab(global::MainWindow.labFileName);
+    this.LoadLab(global::MainWindow.labFileName);
     this.Text = "NetLab - " + global::MainWindow.labFileName;
   }
 
@@ -1369,12 +1368,12 @@ label_52:
     this.logField.Clear();
     if (global::MainWindow.authSave)
       this.saveLab(global::MainWindow.authSavePath);
-    global::an.e = 0;
+    global::EmulationRuntime.e = 0;
     this.stopEmulationButton.Enabled = true;
     this.startEmulationButton.Enabled = false;
     this.statisticsButton.Enabled = false;
     ++global::MainWindow.userInfo.q;
-    this.get_an().startEmulation(global::MainWindow.h);
+    this.GetEmulationRuntime ().startEmulation(global::MainWindow.h);
     this.stopEmulationButton.Enabled = false;
     this.startEmulationButton.Enabled = true;
     this.statisticsButton.Enabled = true;
@@ -1387,7 +1386,7 @@ label_52:
 
   private void OnPasswordMenuItemClick(object A_0, EventArgs A_1)
   {
-    global::p p = new global::p();
+    global::PasswordWindow p = new global::PasswordWindow();
     byte[] salt = new byte[13]
     {
       (byte) 0,
@@ -1423,7 +1422,7 @@ label_52:
       (byte) 50,
       (byte) 174
     };
-    if (p.ShowDialog() == DialogResult.OK && ((IEnumerable<byte>) first).SequenceEqual<byte>((IEnumerable<byte>) new Rfc2898DeriveBytes(p.a, salt).GetBytes(16)))
+    if (p.ShowDialog() == DialogResult.OK && ((IEnumerable<byte>) first).SequenceEqual<byte>((IEnumerable<byte>) new Rfc2898DeriveBytes(p.answer, salt).GetBytes(16)))
     {
       this.allMenuItem.Enabled = true;
       this.networkMenuItem.Enabled = true;
@@ -1456,9 +1455,9 @@ label_52:
       return;
     using (MemoryStream memoryStream = new MemoryStream())
     {
-      this.get_an().d().k().g(memoryStream);
-      this.get_an().c().k().g(memoryStream);
-      this.get_an().b().k().g(memoryStream);
+      this.GetEmulationRuntime ().GetSystemA().GetProcessLayer().g(memoryStream);
+      this.GetEmulationRuntime ().GetGuide().GetProcessLayer().g(memoryStream);
+      this.GetEmulationRuntime ().GetSystemB().GetProcessLayer().g(memoryStream);
       memoryStream.Position = 0L;
       try
       {
@@ -1486,9 +1485,9 @@ label_52:
       return;
     using (MemoryStream memoryStream = new MemoryStream())
     {
-      this.get_an().d().j().g(memoryStream);
-      this.get_an().c().j().g(memoryStream);
-      this.get_an().b().j().g(memoryStream);
+      this.GetEmulationRuntime ().GetSystemA().GetUELayer().g(memoryStream);
+      this.GetEmulationRuntime ().GetGuide().GetUELayer().g(memoryStream);
+      this.GetEmulationRuntime ().GetSystemB().GetUELayer().g(memoryStream);
       memoryStream.Position = 0L;
       try
       {
@@ -1516,9 +1515,9 @@ label_52:
       return;
     using (MemoryStream memoryStream = new MemoryStream())
     {
-      this.get_an().d().i().g(memoryStream);
-      this.get_an().c().i().g(memoryStream);
-      this.get_an().b().i().g(memoryStream);
+      this.GetEmulationRuntime ().GetSystemA().GetApplicationLayer().g(memoryStream);
+      this.GetEmulationRuntime ().GetGuide().GetApplicationLayer().g(memoryStream);
+      this.GetEmulationRuntime ().GetSystemB().GetApplicationLayer().g(memoryStream);
       memoryStream.Position = 0L;
       try
       {
@@ -1546,9 +1545,9 @@ label_52:
       return;
     using (MemoryStream memoryStream = new MemoryStream())
     {
-      this.get_an().d().h().g(memoryStream);
-      this.get_an().c().h().g(memoryStream);
-      this.get_an().b().h().g(memoryStream);
+      this.GetEmulationRuntime ().GetSystemA().GetPresentationLayer().g(memoryStream);
+      this.GetEmulationRuntime ().GetGuide().GetPresentationLayer().g(memoryStream);
+      this.GetEmulationRuntime ().GetSystemB().GetPresentationLayer().g(memoryStream);
       memoryStream.Position = 0L;
       try
       {
@@ -1576,9 +1575,9 @@ label_52:
       return;
     using (MemoryStream memoryStream = new MemoryStream())
     {
-      this.get_an().d().g().g(memoryStream);
-      this.get_an().c().g().g(memoryStream);
-      this.get_an().b().g().g(memoryStream);
+      this.GetEmulationRuntime ().GetSystemA().GetSessionLayer().g(memoryStream);
+      this.GetEmulationRuntime ().GetGuide().GetSessionLayer().g(memoryStream);
+      this.GetEmulationRuntime ().GetSystemB().GetSessionLayer().g(memoryStream);
       memoryStream.Position = 0L;
       try
       {
@@ -1606,9 +1605,9 @@ label_52:
       return;
     using (MemoryStream memoryStream = new MemoryStream())
     {
-      this.get_an().d().f().g(memoryStream);
-      this.get_an().c().f().g(memoryStream);
-      this.get_an().b().f().g(memoryStream);
+      this.GetEmulationRuntime ().GetSystemA().GetTransportLayer().g(memoryStream);
+      this.GetEmulationRuntime ().GetGuide().GetTransportLayer().g(memoryStream);
+      this.GetEmulationRuntime ().GetSystemB().GetTransportLayer().g(memoryStream);
       memoryStream.Position = 0L;
       try
       {
@@ -1636,9 +1635,9 @@ label_52:
       return;
     using (MemoryStream memoryStream = new MemoryStream())
     {
-      this.get_an().d().e().g(memoryStream);
-      this.get_an().c().e().g(memoryStream);
-      this.get_an().b().e().g(memoryStream);
+      this.GetEmulationRuntime ().GetSystemA().GetNetworkLayer().g(memoryStream);
+      this.GetEmulationRuntime ().GetGuide().GetNetworkLayer().g(memoryStream);
+      this.GetEmulationRuntime ().GetSystemB().GetNetworkLayer().g(memoryStream);
       memoryStream.Position = 0L;
       try
       {
@@ -1675,9 +1674,9 @@ label_52:
           fileStream.Close();
         }
         memoryStream.Position = 0L;
-        this.get_an().d().k().c(memoryStream);
-        this.get_an().c().k().c(memoryStream);
-        this.get_an().b().k().c(memoryStream);
+        this.GetEmulationRuntime ().GetSystemA().GetProcessLayer().c(memoryStream);
+        this.GetEmulationRuntime ().GetGuide().GetProcessLayer().c(memoryStream);
+        this.GetEmulationRuntime ().GetSystemB().GetProcessLayer().c(memoryStream);
         memoryStream.Close();
       }
     }
@@ -1702,9 +1701,9 @@ label_52:
           fileStream.Close();
         }
         memoryStream.Position = 0L;
-        this.get_an().d().j().c(memoryStream);
-        this.get_an().c().j().c(memoryStream);
-        this.get_an().b().j().c(memoryStream);
+        this.GetEmulationRuntime ().GetSystemA().GetUELayer().c(memoryStream);
+        this.GetEmulationRuntime ().GetGuide().GetUELayer().c(memoryStream);
+        this.GetEmulationRuntime ().GetSystemB().GetUELayer().c(memoryStream);
         memoryStream.Close();
       }
     }
@@ -1729,9 +1728,9 @@ label_52:
           fileStream.Close();
         }
         memoryStream.Position = 0L;
-        this.get_an().d().i().c(memoryStream);
-        this.get_an().c().i().c(memoryStream);
-        this.get_an().b().i().c(memoryStream);
+        this.GetEmulationRuntime ().GetSystemA().GetApplicationLayer().c(memoryStream);
+        this.GetEmulationRuntime ().GetGuide().GetApplicationLayer().c(memoryStream);
+        this.GetEmulationRuntime ().GetSystemB().GetApplicationLayer().c(memoryStream);
         memoryStream.Close();
       }
     }
@@ -1756,9 +1755,9 @@ label_52:
           fileStream.Close();
         }
         memoryStream.Position = 0L;
-        this.get_an().d().h().c(memoryStream);
-        this.get_an().c().h().c(memoryStream);
-        this.get_an().b().h().c(memoryStream);
+        this.GetEmulationRuntime ().GetSystemA().GetPresentationLayer().c(memoryStream);
+        this.GetEmulationRuntime ().GetGuide().GetPresentationLayer().c(memoryStream);
+        this.GetEmulationRuntime ().GetSystemB().GetPresentationLayer().c(memoryStream);
         memoryStream.Close();
       }
     }
@@ -1783,9 +1782,9 @@ label_52:
           fileStream.Close();
         }
         memoryStream.Position = 0L;
-        this.get_an().d().g().c(memoryStream);
-        this.get_an().c().g().c(memoryStream);
-        this.get_an().b().g().c(memoryStream);
+        this.GetEmulationRuntime ().GetSystemA().GetSessionLayer().c(memoryStream);
+        this.GetEmulationRuntime ().GetGuide().GetSessionLayer().c(memoryStream);
+        this.GetEmulationRuntime ().GetSystemB().GetSessionLayer().c(memoryStream);
         memoryStream.Close();
       }
     }
@@ -1810,9 +1809,9 @@ label_52:
           fileStream.Close();
         }
         memoryStream.Position = 0L;
-        this.get_an().d().f().c(memoryStream);
-        this.get_an().c().f().c(memoryStream);
-        this.get_an().b().f().c(memoryStream);
+        this.GetEmulationRuntime ().GetSystemA().GetTransportLayer().c(memoryStream);
+        this.GetEmulationRuntime ().GetGuide().GetTransportLayer().c(memoryStream);
+        this.GetEmulationRuntime ().GetSystemB().GetTransportLayer().c(memoryStream);
         memoryStream.Close();
       }
     }
@@ -1837,9 +1836,9 @@ label_52:
           fileStream.Close();
         }
         memoryStream.Position = 0L;
-        this.get_an().d().e().c(memoryStream);
-        this.get_an().c().e().c(memoryStream);
-        this.get_an().b().e().c(memoryStream);
+        this.GetEmulationRuntime ().GetSystemA().GetNetworkLayer().c(memoryStream);
+        this.GetEmulationRuntime ().GetGuide().GetNetworkLayer().c(memoryStream);
+        this.GetEmulationRuntime ().GetSystemB().GetNetworkLayer().c(memoryStream);
         memoryStream.Close();
       }
     }
@@ -1860,9 +1859,9 @@ label_52:
       return;
     global::MainWindow.labFileName = "Untitled.lab";
     this.Text = "NetLab - Untitled.lab";
-    this.get_an().d().a();
-    this.get_an().b().a();
-    this.get_an().c().a();
+    this.GetEmulationRuntime ().GetSystemA().Clear();
+    this.GetEmulationRuntime ().GetSystemB().Clear();
+    this.GetEmulationRuntime ().GetGuide().Clear();
     global::MainWindow.syntaxNumber = (byte) (global::MainWindow.userInfo.variantNumber % 10 + 1);
     global::MainWindow.z = 0;
     global::MainWindow.y = 0;
@@ -1870,33 +1869,33 @@ label_52:
     this.loadSyntax();
     global::MainWindow.helpPath = Application.StartupPath + "\\help\\" + global::MainWindow.syntaxNumber.ToString() + ".chm";
     this.networkMenuItem.Checked = false;
-    this.get_an().d().e().b((byte) 0);
-    this.get_an().b().e().b((byte) 0);
-    this.get_an().c().e().b((byte) 0);
+    this.GetEmulationRuntime ().GetSystemA().GetNetworkLayer().b((byte) 0);
+    this.GetEmulationRuntime ().GetSystemB().GetNetworkLayer().b((byte) 0);
+    this.GetEmulationRuntime ().GetGuide().GetNetworkLayer().b((byte) 0);
     this.transportMenuItem.Checked = true;
-    this.get_an().d().f().b(global::MainWindow.syntaxNumber);
-    this.get_an().b().f().b(global::MainWindow.syntaxNumber);
-    this.get_an().c().f().b(global::MainWindow.syntaxNumber);
+    this.GetEmulationRuntime ().GetSystemA().GetTransportLayer().b(global::MainWindow.syntaxNumber);
+    this.GetEmulationRuntime ().GetSystemB().GetTransportLayer().b(global::MainWindow.syntaxNumber);
+    this.GetEmulationRuntime ().GetGuide().GetTransportLayer().b(global::MainWindow.syntaxNumber);
     this.sessionMenuItem.Checked = false;
-    this.get_an().d().g().b((byte) 0);
-    this.get_an().b().g().b((byte) 0);
-    this.get_an().c().g().b((byte) 0);
+    this.GetEmulationRuntime ().GetSystemA().GetSessionLayer().b((byte) 0);
+    this.GetEmulationRuntime ().GetSystemB().GetSessionLayer().b((byte) 0);
+    this.GetEmulationRuntime ().GetGuide().GetSessionLayer().b((byte) 0);
     this.presentationMenuItem.Checked = false;
-    this.get_an().d().h().b((byte) 0);
-    this.get_an().b().h().b((byte) 0);
-    this.get_an().c().h().b((byte) 0);
+    this.GetEmulationRuntime ().GetSystemA().GetPresentationLayer().b((byte) 0);
+    this.GetEmulationRuntime ().GetSystemB().GetPresentationLayer().b((byte) 0);
+    this.GetEmulationRuntime ().GetGuide().GetPresentationLayer().b((byte) 0);
     this.applicationMenuItem.Checked = false;
-    this.get_an().d().i().b((byte) 0);
-    this.get_an().b().i().b((byte) 0);
-    this.get_an().c().i().b((byte) 0);
+    this.GetEmulationRuntime ().GetSystemA().GetApplicationLayer().b((byte) 0);
+    this.GetEmulationRuntime ().GetSystemB().GetApplicationLayer().b((byte) 0);
+    this.GetEmulationRuntime ().GetGuide().GetApplicationLayer().b((byte) 0);
     this.ueMenuItem.Checked = false;
-    this.get_an().d().j().b((byte) 0);
-    this.get_an().b().j().b((byte) 0);
-    this.get_an().c().j().b((byte) 0);
+    this.GetEmulationRuntime ().GetSystemA().GetUELayer().b((byte) 0);
+    this.GetEmulationRuntime ().GetSystemB().GetUELayer().b((byte) 0);
+    this.GetEmulationRuntime ().GetGuide().GetUELayer().b((byte) 0);
     this.apMenuItem.Checked = false;
-    this.get_an().d().k().b((byte) 0);
-    this.get_an().b().k().b((byte) 0);
-    this.get_an().c().k().b((byte) 0);
+    this.GetEmulationRuntime ().GetSystemA().GetProcessLayer().b((byte) 0);
+    this.GetEmulationRuntime ().GetSystemB().GetProcessLayer().b((byte) 0);
+    this.GetEmulationRuntime ().GetGuide().GetProcessLayer().b((byte) 0);
     try
     {
       using (MemoryStream memoryStream = new MemoryStream())
@@ -1936,9 +1935,9 @@ label_52:
                       zipFile.Dispose();
                     }
                     A_0_1.Position = 0L;
-                    this.get_an().d().e().c(A_0_1);
-                    this.get_an().c().e().c(A_0_1);
-                    this.get_an().b().e().c(A_0_1);
+                    this.GetEmulationRuntime ().GetSystemA().GetNetworkLayer().c(A_0_1);
+                    this.GetEmulationRuntime ().GetGuide().GetNetworkLayer().c(A_0_1);
+                    this.GetEmulationRuntime ().GetSystemB().GetNetworkLayer().c(A_0_1);
                     A_0_1.Close();
                   }
                   using (MemoryStream A_0_2 = new MemoryStream())
@@ -1953,9 +1952,9 @@ label_52:
                       zipFile.Dispose();
                     }
                     A_0_2.Position = 0L;
-                    this.get_an().d().g().c(A_0_2);
-                    this.get_an().c().g().c(A_0_2);
-                    this.get_an().b().g().c(A_0_2);
+                    this.GetEmulationRuntime ().GetSystemA().GetSessionLayer().c(A_0_2);
+                    this.GetEmulationRuntime ().GetGuide().GetSessionLayer().c(A_0_2);
+                    this.GetEmulationRuntime ().GetSystemB().GetSessionLayer().c(A_0_2);
                     A_0_2.Close();
                   }
                 }
@@ -1964,61 +1963,61 @@ label_52:
                   int num = (int) MessageBox.Show(ex.Message, Resources.ErrorString, MessageBoxButtons.OK, MessageBoxIcon.Hand);
                 }
                 string str4 = str3.Substring(str3.IndexOf(";") + 1);
-                this.get_an().d().d().a(Convert.ToInt32(str4.Substring(0, str4.IndexOf(";"))));
+                this.GetEmulationRuntime ().GetSystemA().d().a(Convert.ToInt32(str4.Substring(0, str4.IndexOf(";"))));
                 string str5 = str4.Substring(str4.IndexOf(";") + 1);
-                this.get_an().d().d().i().b(Convert.ToInt32(str5.Substring(0, str5.IndexOf(";"))));
+                this.GetEmulationRuntime ().GetSystemA().d().i().b(Convert.ToInt32(str5.Substring(0, str5.IndexOf(";"))));
                 string str6 = str5.Substring(str5.IndexOf(";") + 1);
-                this.get_an().d().d().i().a(Convert.ToInt32(str6.Substring(0, str6.IndexOf(";"))));
+                this.GetEmulationRuntime ().GetSystemA().d().i().a(Convert.ToInt32(str6.Substring(0, str6.IndexOf(";"))));
                 string str7 = str6.Substring(str6.IndexOf(";") + 1);
-                this.get_an().d().d().e(Convert.ToDouble(str7.Substring(0, str7.IndexOf(";"))));
+                this.GetEmulationRuntime ().GetSystemA().d().e(Convert.ToDouble(str7.Substring(0, str7.IndexOf(";"))));
                 string str8 = str7.Substring(str7.IndexOf(";") + 1);
-                this.get_an().d().d().f().b(Convert.ToInt32(str8.Substring(0, str8.IndexOf(";"))));
+                this.GetEmulationRuntime ().GetSystemA().d().f().b(Convert.ToInt32(str8.Substring(0, str8.IndexOf(";"))));
                 string str9 = str8.Substring(str8.IndexOf(";") + 1);
-                this.get_an().d().d().f().a(Convert.ToInt32(str9.Substring(0, str9.IndexOf(";"))));
+                this.GetEmulationRuntime ().GetSystemA().d().f().a(Convert.ToInt32(str9.Substring(0, str9.IndexOf(";"))));
                 string str10 = str9.Substring(str9.IndexOf(";") + 1);
-                this.get_an().d().d().g().b(Convert.ToInt32(str10.Substring(0, str10.IndexOf(";"))));
+                this.GetEmulationRuntime ().GetSystemA().d().g().b(Convert.ToInt32(str10.Substring(0, str10.IndexOf(";"))));
                 string str11 = str10.Substring(str10.IndexOf(";") + 1);
-                this.get_an().d().d().g().a(Convert.ToInt32(str11.Substring(0, str11.IndexOf(";"))));
+                this.GetEmulationRuntime ().GetSystemA().d().g().a(Convert.ToInt32(str11.Substring(0, str11.IndexOf(";"))));
                 string str12 = str11.Substring(str11.IndexOf(";") + 1);
-                this.get_an().d().d().d(Convert.ToDouble(str12.Substring(0, str12.IndexOf(";"))));
+                this.GetEmulationRuntime ().GetSystemA().d().d(Convert.ToDouble(str12.Substring(0, str12.IndexOf(";"))));
                 string str13 = str12.Substring(str12.IndexOf(";") + 1);
-                this.get_an().d().d().c(Convert.ToDouble(str13.Substring(0, str13.IndexOf(";"))));
+                this.GetEmulationRuntime ().GetSystemA().d().c(Convert.ToDouble(str13.Substring(0, str13.IndexOf(";"))));
                 string str14 = str13.Substring(str13.IndexOf(";") + 1);
-                this.get_an().d().d().b(Convert.ToDouble(str14.Substring(0, str14.IndexOf(";"))));
+                this.GetEmulationRuntime ().GetSystemA().d().b(Convert.ToDouble(str14.Substring(0, str14.IndexOf(";"))));
                 string str15 = str14.Substring(str14.IndexOf(";") + 1);
-                this.get_an().d().d().b().b(Convert.ToInt32(str15.Substring(0, str15.IndexOf(";"))));
+                this.GetEmulationRuntime ().GetSystemA().d().b().b(Convert.ToInt32(str15.Substring(0, str15.IndexOf(";"))));
                 string str16 = str15.Substring(str15.IndexOf(";") + 1);
-                this.get_an().d().d().b().a(Convert.ToInt32(str16.Substring(0, str16.IndexOf(";"))));
+                this.GetEmulationRuntime ().GetSystemA().d().b().a(Convert.ToInt32(str16.Substring(0, str16.IndexOf(";"))));
                 string str17 = str16.Substring(str16.IndexOf(";") + 1);
-                this.get_an().d().d().a(Convert.ToDouble(str17));
-                this.get_an().c().d().a(this.get_an().d().d().j());
-                this.get_an().c().d().i().b(this.get_an().d().d().i().c());
-                this.get_an().c().d().i().a(this.get_an().d().d().i().b());
-                this.get_an().c().d().g().b(this.get_an().d().d().g().c());
-                this.get_an().c().d().g().a(this.get_an().d().d().g().b());
-                this.get_an().c().d().f().b(this.get_an().d().d().f().c());
-                this.get_an().c().d().f().a(this.get_an().d().d().f().b());
-                this.get_an().c().d().e(this.get_an().d().d().h());
-                this.get_an().c().d().d(this.get_an().d().d().e());
-                this.get_an().c().d().c(this.get_an().d().d().d());
-                this.get_an().c().d().b(this.get_an().d().d().c());
-                this.get_an().c().d().b().b(this.get_an().d().d().b().c());
-                this.get_an().c().d().b().a(this.get_an().d().d().b().b());
-                this.get_an().c().d().a(this.get_an().d().d().a());
-                this.get_an().b().d().a(this.get_an().d().d().j());
-                this.get_an().b().d().i().b(this.get_an().d().d().i().c());
-                this.get_an().b().d().i().a(this.get_an().d().d().i().b());
-                this.get_an().b().d().g().b(this.get_an().d().d().g().c());
-                this.get_an().b().d().g().a(this.get_an().d().d().g().b());
-                this.get_an().b().d().f().b(this.get_an().d().d().f().c());
-                this.get_an().b().d().f().a(this.get_an().d().d().f().b());
-                this.get_an().b().d().e(this.get_an().d().d().h());
-                this.get_an().b().d().d(this.get_an().d().d().e());
-                this.get_an().b().d().c(this.get_an().d().d().d());
-                this.get_an().b().d().b(this.get_an().d().d().c());
-                this.get_an().b().d().b().b(this.get_an().d().d().b().c());
-                this.get_an().b().d().b().a(this.get_an().d().d().b().b());
-                this.get_an().b().d().a(this.get_an().d().d().a());
+                this.GetEmulationRuntime ().GetSystemA().d().a(Convert.ToDouble(str17));
+                this.GetEmulationRuntime ().GetGuide().d().a(this.GetEmulationRuntime ().GetSystemA().d().j());
+                this.GetEmulationRuntime ().GetGuide().d().i().b(this.GetEmulationRuntime ().GetSystemA().d().i().c());
+                this.GetEmulationRuntime ().GetGuide().d().i().a(this.GetEmulationRuntime ().GetSystemA().d().i().b());
+                this.GetEmulationRuntime ().GetGuide().d().g().b(this.GetEmulationRuntime ().GetSystemA().d().g().c());
+                this.GetEmulationRuntime ().GetGuide().d().g().a(this.GetEmulationRuntime ().GetSystemA().d().g().b());
+                this.GetEmulationRuntime ().GetGuide().d().f().b(this.GetEmulationRuntime ().GetSystemA().d().f().c());
+                this.GetEmulationRuntime ().GetGuide().d().f().a(this.GetEmulationRuntime ().GetSystemA().d().f().b());
+                this.GetEmulationRuntime ().GetGuide().d().e(this.GetEmulationRuntime ().GetSystemA().d().h());
+                this.GetEmulationRuntime ().GetGuide().d().d(this.GetEmulationRuntime ().GetSystemA().d().e());
+                this.GetEmulationRuntime ().GetGuide().d().c(this.GetEmulationRuntime ().GetSystemA().d().d());
+                this.GetEmulationRuntime ().GetGuide().d().b(this.GetEmulationRuntime ().GetSystemA().d().c());
+                this.GetEmulationRuntime ().GetGuide().d().b().b(this.GetEmulationRuntime ().GetSystemA().d().b().c());
+                this.GetEmulationRuntime ().GetGuide().d().b().a(this.GetEmulationRuntime ().GetSystemA().d().b().b());
+                this.GetEmulationRuntime ().GetGuide().d().a(this.GetEmulationRuntime ().GetSystemA().d().a());
+                this.GetEmulationRuntime ().GetSystemB().d().a(this.GetEmulationRuntime ().GetSystemA().d().j());
+                this.GetEmulationRuntime ().GetSystemB().d().i().b(this.GetEmulationRuntime ().GetSystemA().d().i().c());
+                this.GetEmulationRuntime ().GetSystemB().d().i().a(this.GetEmulationRuntime ().GetSystemA().d().i().b());
+                this.GetEmulationRuntime ().GetSystemB().d().g().b(this.GetEmulationRuntime ().GetSystemA().d().g().c());
+                this.GetEmulationRuntime ().GetSystemB().d().g().a(this.GetEmulationRuntime ().GetSystemA().d().g().b());
+                this.GetEmulationRuntime ().GetSystemB().d().f().b(this.GetEmulationRuntime ().GetSystemA().d().f().c());
+                this.GetEmulationRuntime ().GetSystemB().d().f().a(this.GetEmulationRuntime ().GetSystemA().d().f().b());
+                this.GetEmulationRuntime ().GetSystemB().d().e(this.GetEmulationRuntime ().GetSystemA().d().h());
+                this.GetEmulationRuntime ().GetSystemB().d().d(this.GetEmulationRuntime ().GetSystemA().d().e());
+                this.GetEmulationRuntime ().GetSystemB().d().c(this.GetEmulationRuntime ().GetSystemA().d().d());
+                this.GetEmulationRuntime ().GetSystemB().d().b(this.GetEmulationRuntime ().GetSystemA().d().c());
+                this.GetEmulationRuntime ().GetSystemB().d().b().b(this.GetEmulationRuntime ().GetSystemA().d().b().c());
+                this.GetEmulationRuntime ().GetSystemB().d().b().a(this.GetEmulationRuntime ().GetSystemA().d().b().b());
+                this.GetEmulationRuntime ().GetSystemB().d().a(this.GetEmulationRuntime ().GetSystemA().d().a());
                 break;
               }
             }
@@ -2054,7 +2053,7 @@ label_52:
     w.b("task from " + global::MainWindow.userInfo.a, "ready");
   }
 
-  private void StopEmulation(object A_0, EventArgs A_1) => global::an.e = 6;
+  private void StopEmulation(object A_0, EventArgs A_1) => global::EmulationRuntime.e = 6;
 
   private void OnLoadLevelMenuItemClick(object A_0, EventArgs A_1)
   {
@@ -2062,7 +2061,7 @@ label_52:
 
   private void OnOptionsMenuItemClick(object A_0, EventArgs A_1)
   {
-    global::ap ap = new global::ap();
+    global::OptionsWindow ap = new global::OptionsWindow();
     int num = (int) ap.ShowDialog();
     ap.Dispose();
     switch (global::MainWindow.al)
@@ -2100,28 +2099,28 @@ label_52:
   {
   }
 
-  private void OnTraceMenuItemClick(object A_0, EventArgs A_1) => global::ab.a = this.traceMenuItem.Checked;
+  private void OnTraceMenuItemClick(object A_0, EventArgs A_1) => global::LayersTraceSettings.a = this.traceMenuItem.Checked;
 
   private void OnTransportTraceMenuItemClick(object A_0, EventArgs A_1)
   {
-    global::ab.layers[(object) "Transport"] = (object) this.transportTraceMenuItem.Checked;
+    global::LayersTraceSettings.layers[(object) "Transport"] = (object) this.transportTraceMenuItem.Checked;
   }
 
-  private void OnSessionTraceMenuItemClick(object A_0, EventArgs A_1) => global::ab.layers[(object) "Session"] = (object) this.sessionTraceMenuItem.Checked;
+  private void OnSessionTraceMenuItemClick(object A_0, EventArgs A_1) => global::LayersTraceSettings.layers[(object) "Session"] = (object) this.sessionTraceMenuItem.Checked;
 
   private void OnPresentationTraceStripMenuItemClick(object A_0, EventArgs A_1)
   {
-    global::ab.layers[(object) "Presentation"] = (object) this.presentationTraceStripMenuItem.Checked;
+    global::LayersTraceSettings.layers[(object) "Presentation"] = (object) this.presentationTraceStripMenuItem.Checked;
   }
 
   private void OnApplicationTraceStripMenuItemClick(object A_0, EventArgs A_1)
   {
-    global::ab.layers[(object) "Application"] = (object) this.applicationTraceStripMenuItem.Checked;
+    global::LayersTraceSettings.layers[(object) "Application"] = (object) this.applicationTraceStripMenuItem.Checked;
   }
 
-  private void OnUETraceStripMenuItemClick(object A_0, EventArgs A_1) => global::ab.layers[(object) "UE"] = (object) this.ueTraceStripMenuItem.Checked;
+  private void OnUETraceStripMenuItemClick(object A_0, EventArgs A_1) => global::LayersTraceSettings.layers[(object) "UE"] = (object) this.ueTraceStripMenuItem.Checked;
 
-  private void OnAPTraceStripMenuItemClick(object A_0, EventArgs A_1) => global::ab.layers[(object) "Process"] = (object) this.apTraceStripMenuItem.Checked;
+  private void OnAPTraceStripMenuItemClick(object A_0, EventArgs A_1) => global::LayersTraceSettings.layers[(object) "Process"] = (object) this.apTraceStripMenuItem.Checked;
 
   private void OnOpenNextLevelMenuItemClick(object A_0, EventArgs A_1)
   {
@@ -2129,12 +2128,12 @@ label_52:
       return;
     if (!this.sessionMenuItem.Checked)
     {
-      this.get_an().d().g().b();
-      this.get_an().b().g().b();
-      this.get_an().c().g().b();
-      this.get_an().d().g().b(global::MainWindow.syntaxNumber);
-      this.get_an().b().g().b(global::MainWindow.syntaxNumber);
-      this.get_an().c().g().b(global::MainWindow.syntaxNumber);
+      this.GetEmulationRuntime ().GetSystemA().GetSessionLayer().Clear();
+      this.GetEmulationRuntime ().GetSystemB().GetSessionLayer().Clear();
+      this.GetEmulationRuntime ().GetGuide().GetSessionLayer().Clear();
+      this.GetEmulationRuntime ().GetSystemA().GetSessionLayer().b(global::MainWindow.syntaxNumber);
+      this.GetEmulationRuntime ().GetSystemB().GetSessionLayer().b(global::MainWindow.syntaxNumber);
+      this.GetEmulationRuntime ().GetGuide().GetSessionLayer().b(global::MainWindow.syntaxNumber);
       this.sessionMenuItem.Checked = true;
       try
       {
@@ -2176,9 +2175,9 @@ label_52:
                         zipFile.Dispose();
                       }
                       A_0_1.Position = 0L;
-                      this.get_an().d().h().c(A_0_1);
-                      this.get_an().c().h().c(A_0_1);
-                      this.get_an().b().h().c(A_0_1);
+                      this.GetEmulationRuntime ().GetSystemA().GetPresentationLayer().c(A_0_1);
+                      this.GetEmulationRuntime ().GetGuide().GetPresentationLayer().c(A_0_1);
+                      this.GetEmulationRuntime ().GetSystemB().GetPresentationLayer().c(A_0_1);
                       A_0_1.Close();
                       break;
                     }
@@ -2206,12 +2205,12 @@ label_52:
     }
     else if (!this.presentationMenuItem.Checked)
     {
-      this.get_an().d().h().b();
-      this.get_an().b().h().b();
-      this.get_an().c().h().b();
-      this.get_an().d().h().b(global::MainWindow.syntaxNumber);
-      this.get_an().b().h().b(global::MainWindow.syntaxNumber);
-      this.get_an().c().h().b(global::MainWindow.syntaxNumber);
+      this.GetEmulationRuntime ().GetSystemA().GetPresentationLayer().Clear();
+      this.GetEmulationRuntime ().GetSystemB().GetPresentationLayer().Clear();
+      this.GetEmulationRuntime ().GetGuide().GetPresentationLayer().Clear();
+      this.GetEmulationRuntime ().GetSystemA().GetPresentationLayer().b(global::MainWindow.syntaxNumber);
+      this.GetEmulationRuntime ().GetSystemB().GetPresentationLayer().b(global::MainWindow.syntaxNumber);
+      this.GetEmulationRuntime ().GetGuide().GetPresentationLayer().b(global::MainWindow.syntaxNumber);
       this.presentationMenuItem.Checked = true;
       try
       {
@@ -2253,9 +2252,9 @@ label_52:
                         zipFile.Dispose();
                       }
                       A_0_2.Position = 0L;
-                      this.get_an().d().i().c(A_0_2);
-                      this.get_an().c().i().c(A_0_2);
-                      this.get_an().b().i().c(A_0_2);
+                      this.GetEmulationRuntime ().GetSystemA().GetApplicationLayer().c(A_0_2);
+                      this.GetEmulationRuntime ().GetGuide().GetApplicationLayer().c(A_0_2);
+                      this.GetEmulationRuntime ().GetSystemB().GetApplicationLayer().c(A_0_2);
                       A_0_2.Close();
                       break;
                     }
@@ -2285,11 +2284,11 @@ label_52:
     {
       if (this.applicationMenuItem.Checked)
         return;
-      this.get_an().d().i().b();
-      this.get_an().b().i().b();
-      this.get_an().c().i().b();
-      this.get_an().d().i().b(global::MainWindow.syntaxNumber);
-      this.get_an().b().i().b(global::MainWindow.syntaxNumber);
+      this.GetEmulationRuntime ().GetSystemA().GetApplicationLayer().Clear();
+      this.GetEmulationRuntime ().GetSystemB().GetApplicationLayer().Clear();
+      this.GetEmulationRuntime ().GetGuide().GetApplicationLayer().Clear();
+      this.GetEmulationRuntime ().GetSystemA().GetApplicationLayer().b(global::MainWindow.syntaxNumber);
+      this.GetEmulationRuntime ().GetSystemB().GetApplicationLayer().b(global::MainWindow.syntaxNumber);
       this.applicationMenuItem.Checked = true;
       try
       {
@@ -2333,9 +2332,9 @@ label_52:
                         zipFile.Dispose();
                       }
                       A_0_3.Position = 0L;
-                      this.get_an().d().j().c(A_0_3);
-                      this.get_an().c().j().c(A_0_3);
-                      this.get_an().b().j().c(A_0_3);
+                      this.GetEmulationRuntime ().GetSystemA().GetUELayer().c(A_0_3);
+                      this.GetEmulationRuntime ().GetGuide().GetUELayer().c(A_0_3);
+                      this.GetEmulationRuntime ().GetSystemB().GetUELayer().c(A_0_3);
                       A_0_3.Close();
                     }
                   }
@@ -2357,7 +2356,7 @@ label_52:
                         zipFile.Dispose();
                       }
                       memoryStream.Position = 0L;
-                      this.get_an().c().i().c(memoryStream);
+                      this.GetEmulationRuntime ().GetGuide().GetApplicationLayer().c(memoryStream);
                       memoryStream.Close();
                       break;
                     }
@@ -2385,7 +2384,7 @@ label_52:
     }
   }
 
-  private void OnNetworkTraceMenuItemClick(object A_0, EventArgs A_1) => global::ab.layers[(object) "Network"] = (object) this.networkTraceMenuItem.Checked;
+  private void OnNetworkTraceMenuItemClick(object A_0, EventArgs A_1) => global::LayersTraceSettings.layers[(object) "Network"] = (object) this.networkTraceMenuItem.Checked;
 
   private void updateProgram(object A_0, EventArgs A_1)
   {

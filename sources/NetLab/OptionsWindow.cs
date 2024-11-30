@@ -10,8 +10,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 
-#nullable disable
-public class ap : Form
+public class OptionsWindow : Form
 {
   private Color a;
   private Font b;
@@ -56,7 +55,7 @@ public class ap : Form
   private RadioButton ao;
   private OpenFileDialog ap;
 
-  public ap() => this.a();
+  public OptionsWindow() => this.a();
 
   private void g(object A_0, EventArgs A_1)
   {

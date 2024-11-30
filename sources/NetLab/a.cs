@@ -6,7 +6,6 @@
 
 using System.Runtime.InteropServices;
 
-#nullable disable
 [StructLayout(LayoutKind.Sequential, Size = 1)]
 public struct a
 {

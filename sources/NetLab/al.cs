@@ -120,27 +120,27 @@ public class al
     this.n = new Queue();
   }
 
-  public void a(string A_0, SortedList A_1, am A_2)
+  public void a(string A_0, SortedList A_1, Participant A_2)
   {
     if (!(A_0 == "N_INIT.REQ"))
       return;
     this.l = new byte[3];
     this.m = new byte[3];
     this.n.Clear();
-    A_2.e().e.Add((object) "MaxPacketSize", (object) new af("MaxPacketSize", (object) this.j(), ac.a));
-    A_2.e().e.Add((object) "ConnectDelayBase", (object) new af("ConnectDelayBase", (object) (this.i().c() - 3), ac.a));
-    A_2.e().e.Add((object) "ConnectDelayDispersion", (object) new af("ConnectDelayDispersion", (object) this.i().b(), ac.a));
-    A_2.e().e.Add((object) "ConnectErrorProbability", (object) new af("ConnectErrorProbability", (object) (int) (this.h() * 10000.0), ac.a));
-    A_2.e().e.Add((object) "TransferRateBase", (object) new af("TransferRateBase", (object) this.g().c(), ac.a));
-    A_2.e().e.Add((object) "TransferRateDispersion", (object) new af("TransferRateDispersion", (object) this.g().b(), ac.a));
-    A_2.e().e.Add((object) "TransferDelayBase", (object) new af("TransferDelayBase", (object) (this.f().c() - 3), ac.a));
-    A_2.e().e.Add((object) "TransferDelayDispersion", (object) new af("TransferDelayDispersion", (object) this.f().b(), ac.a));
-    A_2.e().e.Add((object) "TransferErrorProbability", (object) new af("TransferErrorProbability", (object) (int) (this.e() * 10000.0), ac.a));
-    A_2.e().e.Add((object) "PacketLoseProbability", (object) new af("PacketLoseProbability", (object) (int) (this.d() * 10000.0), ac.a));
-    A_2.e().e.Add((object) "DisconnectProbability", (object) new af("DisconnectProbability", (object) (int) (this.c() * 10000.0), ac.a));
-    A_2.e().e.Add((object) "DisconnectDelayBase", (object) new af("DisconnectDelayBase", (object) (this.b().c() - 3), ac.a));
-    A_2.e().e.Add((object) "DisconnectDelayDispersion", (object) new af("DisconnectDelayDispersion", (object) this.b().b(), ac.a));
-    A_2.e().e.Add((object) "DuplicateProbability", (object) new af("DuplicateProbability", (object) (int) (this.a() * 10000.0), ac.a));
+    A_2.GetNetworkLayer().e.Add((object) "MaxPacketSize", (object) new af("MaxPacketSize", (object) this.j(), ac.a));
+    A_2.GetNetworkLayer().e.Add((object) "ConnectDelayBase", (object) new af("ConnectDelayBase", (object) (this.i().c() - 3), ac.a));
+    A_2.GetNetworkLayer().e.Add((object) "ConnectDelayDispersion", (object) new af("ConnectDelayDispersion", (object) this.i().b(), ac.a));
+    A_2.GetNetworkLayer().e.Add((object) "ConnectErrorProbability", (object) new af("ConnectErrorProbability", (object) (int) (this.h() * 10000.0), ac.a));
+    A_2.GetNetworkLayer().e.Add((object) "TransferRateBase", (object) new af("TransferRateBase", (object) this.g().c(), ac.a));
+    A_2.GetNetworkLayer().e.Add((object) "TransferRateDispersion", (object) new af("TransferRateDispersion", (object) this.g().b(), ac.a));
+    A_2.GetNetworkLayer().e.Add((object) "TransferDelayBase", (object) new af("TransferDelayBase", (object) (this.f().c() - 3), ac.a));
+    A_2.GetNetworkLayer().e.Add((object) "TransferDelayDispersion", (object) new af("TransferDelayDispersion", (object) this.f().b(), ac.a));
+    A_2.GetNetworkLayer().e.Add((object) "TransferErrorProbability", (object) new af("TransferErrorProbability", (object) (int) (this.e() * 10000.0), ac.a));
+    A_2.GetNetworkLayer().e.Add((object) "PacketLoseProbability", (object) new af("PacketLoseProbability", (object) (int) (this.d() * 10000.0), ac.a));
+    A_2.GetNetworkLayer().e.Add((object) "DisconnectProbability", (object) new af("DisconnectProbability", (object) (int) (this.c() * 10000.0), ac.a));
+    A_2.GetNetworkLayer().e.Add((object) "DisconnectDelayBase", (object) new af("DisconnectDelayBase", (object) (this.b().c() - 3), ac.a));
+    A_2.GetNetworkLayer().e.Add((object) "DisconnectDelayDispersion", (object) new af("DisconnectDelayDispersion", (object) this.b().b(), ac.a));
+    A_2.GetNetworkLayer().e.Add((object) "DuplicateProbability", (object) new af("DuplicateProbability", (object) (int) (this.a() * 10000.0), ac.a));
     A_2.b("Network", "N_INIT.REQ", (SortedList) null);
     A_2.b("Transport", "T_INIT.REQ", (SortedList) null);
     A_2.b("Session", "S_INIT.REQ", (SortedList) null);

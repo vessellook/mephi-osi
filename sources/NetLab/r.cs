@@ -14,14 +14,14 @@ using System.Windows.Forms;
 public class r : Form
 {
   private string a;
-  private ak[] b;
+  private LayerParticipant[] b;
   private IContainer c;
   private TextBox d;
   private Label e;
   private Button f;
   private Button g;
 
-  public r(string A_0, ak[] A_1)
+  public r(string A_0, LayerParticipant[] A_1)
   {
     this.a();
     this.a = A_0;

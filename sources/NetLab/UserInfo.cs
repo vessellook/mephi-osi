@@ -7,7 +7,7 @@
 using System;
 
 #nullable disable
-public struct t
+public struct UserInfo
 {
   public string a;
   public string b;

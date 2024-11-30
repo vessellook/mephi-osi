@@ -14,12 +14,11 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml;
 
-#nullable disable
 public class EditorWindow : Form
 {
   private global::aj[] a;
   private DateTime b;
-  private global::an an;
+  private global::EmulationRuntime an;
   private bool insertMode;
   private global::SyntaxHighlighter e;
   private ArrayList states2 = new ArrayList();
@@ -99,7 +98,7 @@ public class EditorWindow : Form
     this.mutexMaybe = false;
   }
 
-  public EditorWindow(global::aj[] A_0, global::an an)
+  public EditorWindow(global::aj[] A_0, global::EmulationRuntime an)
   {
     this.Initialize();
     this.b = new DateTime();

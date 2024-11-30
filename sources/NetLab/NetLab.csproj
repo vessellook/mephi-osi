@@ -78,7 +78,7 @@
     <Compile Include="o.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="p.cs">
+    <Compile Include="PasswordWindow.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="NewLabDialog.cs">

@@ -15,7 +15,7 @@ using System.Windows.Forms;
 #nullable disable
 public class LayerWindow : Form
 {
-  private an an;
+  private EmulationRuntime an;
   private ArrayList editors;
   private IContainer e;
   private Button editButton;
@@ -36,21 +36,21 @@ public class LayerWindow : Form
 
   [CompilerGenerated]
   [SpecialName]
-  public ak d() => this.a;
+  public LayerParticipant d() => this.a;
 
   [CompilerGenerated]
   [SpecialName]
-  public void a(ak A_0) => this.a = A_0;
+  public void a(LayerParticipant A_0) => this.a = A_0;
 
   [CompilerGenerated]
   [SpecialName]
-  public am c() => this.b;
+  public Participant c() => this.b;
 
   [CompilerGenerated]
   [SpecialName]
-  public void a(am A_0) => this.b = A_0;
+  public void a(Participant A_0) => this.b = A_0;
 
-  public LayerWindow(an an)
+  public LayerWindow(EmulationRuntime an)
   {
     this.Initialize();
     this.an = an;
@@ -185,8 +185,8 @@ label_17:
             case 2:
               if (str1 == "UE")
               {
-                this.a(this.an.c());
-                this.a(this.an.c().j());
+                this.a(this.an.GetGuide());
+                this.a(this.an.GetGuide().GetUELayer());
                 goto label_56;
               }
               else
@@ -197,8 +197,8 @@ label_17:
                 case 'N':
                   if (str1 == "Network")
                   {
-                    this.a(this.an.c());
-                    this.a(this.an.c().e());
+                    this.a(this.an.GetGuide());
+                    this.a(this.an.GetGuide().GetNetworkLayer());
                     goto label_56;
                   }
                   else
@@ -206,8 +206,8 @@ label_17:
                 case 'P':
                   if (str1 == "Process")
                   {
-                    this.a(this.an.c());
-                    this.a(this.an.c().k());
+                    this.a(this.an.GetGuide());
+                    this.a(this.an.GetGuide().GetProcessLayer());
                     goto label_56;
                   }
                   else
@@ -215,8 +215,8 @@ label_17:
                 case 'S':
                   if (str1 == "Session")
                   {
-                    this.a(this.an.c());
-                    this.a(this.an.c().g());
+                    this.a(this.an.GetGuide());
+                    this.a(this.an.GetGuide().GetSessionLayer());
                     goto label_56;
                   }
                   else
@@ -226,8 +226,8 @@ label_17:
             case 9:
               if (str1 == "Transport")
               {
-                this.a(this.an.c());
-                this.a(this.an.c().f());
+                this.a(this.an.GetGuide());
+                this.a(this.an.GetGuide().GetTransportLayer());
                 goto label_56;
               }
               else
@@ -235,8 +235,8 @@ label_17:
             case 11:
               if (str1 == "Application")
               {
-                this.a(this.an.c());
-                this.a(this.an.c().i());
+                this.a(this.an.GetGuide());
+                this.a(this.an.GetGuide().GetApplicationLayer());
                 goto label_56;
               }
               else
@@ -244,8 +244,8 @@ label_17:
             case 12:
               if (str1 == "Presentation")
               {
-                this.a(this.an.c());
-                this.a(this.an.c().h());
+                this.a(this.an.GetGuide());
+                this.a(this.an.GetGuide().GetPresentationLayer());
                 goto label_56;
               }
               else
@@ -262,8 +262,8 @@ label_17:
             case 2:
               if (str2 == "UE")
               {
-                this.a(this.an.b());
-                this.a(this.an.b().j());
+                this.a(this.an.GetSystemB());
+                this.a(this.an.GetSystemB().GetUELayer());
                 goto label_56;
               }
               else
@@ -274,8 +274,8 @@ label_17:
                 case 'N':
                   if (str2 == "Network")
                   {
-                    this.a(this.an.b());
-                    this.a(this.an.b().e());
+                    this.a(this.an.GetSystemB());
+                    this.a(this.an.GetSystemB().GetNetworkLayer());
                     goto label_56;
                   }
                   else
@@ -283,8 +283,8 @@ label_17:
                 case 'P':
                   if (str2 == "Process")
                   {
-                    this.a(this.an.b());
-                    this.a(this.an.b().k());
+                    this.a(this.an.GetSystemB());
+                    this.a(this.an.GetSystemB().GetProcessLayer());
                     goto label_56;
                   }
                   else
@@ -292,8 +292,8 @@ label_17:
                 case 'S':
                   if (str2 == "Session")
                   {
-                    this.a(this.an.b());
-                    this.a(this.an.b().g());
+                    this.a(this.an.GetSystemB());
+                    this.a(this.an.GetSystemB().GetSessionLayer());
                     goto label_56;
                   }
                   else
@@ -303,8 +303,8 @@ label_17:
             case 9:
               if (str2 == "Transport")
               {
-                this.a(this.an.b());
-                this.a(this.an.b().f());
+                this.a(this.an.GetSystemB());
+                this.a(this.an.GetSystemB().GetTransportLayer());
                 goto label_56;
               }
               else
@@ -312,8 +312,8 @@ label_17:
             case 11:
               if (str2 == "Application")
               {
-                this.a(this.an.b());
-                this.a(this.an.b().i());
+                this.a(this.an.GetSystemB());
+                this.a(this.an.GetSystemB().GetApplicationLayer());
                 goto label_56;
               }
               else
@@ -321,8 +321,8 @@ label_17:
             case 12:
               if (str2 == "Presentation")
               {
-                this.a(this.an.b());
-                this.a(this.an.b().h());
+                this.a(this.an.GetSystemB());
+                this.a(this.an.GetSystemB().GetPresentationLayer());
                 goto label_56;
               }
               else
@@ -339,8 +339,8 @@ label_17:
             case 2:
               if (str3 == "UE")
               {
-                this.a(this.an.d());
-                this.a(this.an.d().j());
+                this.a(this.an.GetSystemA());
+                this.a(this.an.GetSystemA().GetUELayer());
                 goto label_56;
               }
               else
@@ -351,8 +351,8 @@ label_17:
                 case 'N':
                   if (str3 == "Network")
                   {
-                    this.a(this.an.d());
-                    this.a(this.an.d().e());
+                    this.a(this.an.GetSystemA());
+                    this.a(this.an.GetSystemA().GetNetworkLayer());
                     goto label_56;
                   }
                   else
@@ -360,8 +360,8 @@ label_17:
                 case 'P':
                   if (str3 == "Process")
                   {
-                    this.a(this.an.d());
-                    this.a(this.an.d().k());
+                    this.a(this.an.GetSystemA());
+                    this.a(this.an.GetSystemA().GetProcessLayer());
                     goto label_56;
                   }
                   else
@@ -369,8 +369,8 @@ label_17:
                 case 'S':
                   if (str3 == "Session")
                   {
-                    this.a(this.an.d());
-                    this.a(this.an.d().g());
+                    this.a(this.an.GetSystemA());
+                    this.a(this.an.GetSystemA().GetSessionLayer());
                     goto label_56;
                   }
                   else
@@ -380,8 +380,8 @@ label_17:
             case 9:
               if (str3 == "Transport")
               {
-                this.a(this.an.d());
-                this.a(this.an.d().f());
+                this.a(this.an.GetSystemA());
+                this.a(this.an.GetSystemA().GetTransportLayer());
                 goto label_56;
               }
               else
@@ -389,8 +389,8 @@ label_17:
             case 11:
               if (str3 == "Application")
               {
-                this.a(this.an.d());
-                this.a(this.an.d().i());
+                this.a(this.an.GetSystemA());
+                this.a(this.an.GetSystemA().GetApplicationLayer());
                 goto label_56;
               }
               else
@@ -398,8 +398,8 @@ label_17:
             case 12:
               if (str3 == "Presentation")
               {
-                this.a(this.an.d());
-                this.a(this.an.d().h());
+                this.a(this.an.GetSystemA());
+                this.a(this.an.GetSystemA().GetPresentationLayer());
                 goto label_56;
               }
               else
@@ -427,8 +427,8 @@ label_56:
             case 2:
               if (str1 == "UE")
               {
-                this.a(this.an.c());
-                this.a(this.an.c().j());
+                this.a(this.an.GetGuide());
+                this.a(this.an.GetGuide().GetUELayer());
                 goto label_56;
               }
               else
@@ -439,8 +439,8 @@ label_56:
                 case 'N':
                   if (str1 == "Network")
                   {
-                    this.a(this.an.c());
-                    this.a(this.an.c().e());
+                    this.a(this.an.GetGuide());
+                    this.a(this.an.GetGuide().GetNetworkLayer());
                     goto label_56;
                   }
                   else
@@ -448,8 +448,8 @@ label_56:
                 case 'P':
                   if (str1 == "Process")
                   {
-                    this.a(this.an.c());
-                    this.a(this.an.c().k());
+                    this.a(this.an.GetGuide());
+                    this.a(this.an.GetGuide().GetProcessLayer());
                     goto label_56;
                   }
                   else
@@ -457,8 +457,8 @@ label_56:
                 case 'S':
                   if (str1 == "Session")
                   {
-                    this.a(this.an.c());
-                    this.a(this.an.c().g());
+                    this.a(this.an.GetGuide());
+                    this.a(this.an.GetGuide().GetSessionLayer());
                     goto label_56;
                   }
                   else
@@ -468,8 +468,8 @@ label_56:
             case 9:
               if (str1 == "Transport")
               {
-                this.a(this.an.c());
-                this.a(this.an.c().f());
+                this.a(this.an.GetGuide());
+                this.a(this.an.GetGuide().GetTransportLayer());
                 goto label_56;
               }
               else
@@ -477,8 +477,8 @@ label_56:
             case 11:
               if (str1 == "Application")
               {
-                this.a(this.an.c());
-                this.a(this.an.c().i());
+                this.a(this.an.GetGuide());
+                this.a(this.an.GetGuide().GetApplicationLayer());
                 goto label_56;
               }
               else
@@ -486,8 +486,8 @@ label_56:
             case 12:
               if (str1 == "Presentation")
               {
-                this.a(this.an.c());
-                this.a(this.an.c().h());
+                this.a(this.an.GetGuide());
+                this.a(this.an.GetGuide().GetPresentationLayer());
                 goto label_56;
               }
               else
@@ -504,8 +504,8 @@ label_56:
             case 2:
               if (str2 == "UE")
               {
-                this.a(this.an.b());
-                this.a(this.an.b().j());
+                this.a(this.an.GetSystemB());
+                this.a(this.an.GetSystemB().GetUELayer());
                 goto label_56;
               }
               else
@@ -516,8 +516,8 @@ label_56:
                 case 'N':
                   if (str2 == "Network")
                   {
-                    this.a(this.an.b());
-                    this.a(this.an.b().e());
+                    this.a(this.an.GetSystemB());
+                    this.a(this.an.GetSystemB().GetNetworkLayer());
                     goto label_56;
                   }
                   else
@@ -525,8 +525,8 @@ label_56:
                 case 'P':
                   if (str2 == "Process")
                   {
-                    this.a(this.an.b());
-                    this.a(this.an.b().k());
+                    this.a(this.an.GetSystemB());
+                    this.a(this.an.GetSystemB().GetProcessLayer());
                     goto label_56;
                   }
                   else
@@ -534,8 +534,8 @@ label_56:
                 case 'S':
                   if (str2 == "Session")
                   {
-                    this.a(this.an.b());
-                    this.a(this.an.b().g());
+                    this.a(this.an.GetSystemB());
+                    this.a(this.an.GetSystemB().GetSessionLayer());
                     goto label_56;
                   }
                   else
@@ -545,8 +545,8 @@ label_56:
             case 9:
               if (str2 == "Transport")
               {
-                this.a(this.an.b());
-                this.a(this.an.b().f());
+                this.a(this.an.GetSystemB());
+                this.a(this.an.GetSystemB().GetTransportLayer());
                 goto label_56;
               }
               else
@@ -554,8 +554,8 @@ label_56:
             case 11:
               if (str2 == "Application")
               {
-                this.a(this.an.b());
-                this.a(this.an.b().i());
+                this.a(this.an.GetSystemB());
+                this.a(this.an.GetSystemB().GetApplicationLayer());
                 goto label_56;
               }
               else
@@ -563,8 +563,8 @@ label_56:
             case 12:
               if (str2 == "Presentation")
               {
-                this.a(this.an.b());
-                this.a(this.an.b().h());
+                this.a(this.an.GetSystemB());
+                this.a(this.an.GetSystemB().GetPresentationLayer());
                 goto label_56;
               }
               else
@@ -581,8 +581,8 @@ label_56:
             case 2:
               if (str3 == "UE")
               {
-                this.a(this.an.d());
-                this.a(this.an.d().j());
+                this.a(this.an.GetSystemA());
+                this.a(this.an.GetSystemA().GetUELayer());
                 goto label_56;
               }
               else
@@ -593,8 +593,8 @@ label_56:
                 case 'N':
                   if (str3 == "Network")
                   {
-                    this.a(this.an.d());
-                    this.a(this.an.d().e());
+                    this.a(this.an.GetSystemA());
+                    this.a(this.an.GetSystemA().GetNetworkLayer());
                     goto label_56;
                   }
                   else
@@ -602,8 +602,8 @@ label_56:
                 case 'P':
                   if (str3 == "Process")
                   {
-                    this.a(this.an.d());
-                    this.a(this.an.d().k());
+                    this.a(this.an.GetSystemA());
+                    this.a(this.an.GetSystemA().GetProcessLayer());
                     goto label_56;
                   }
                   else
@@ -611,8 +611,8 @@ label_56:
                 case 'S':
                   if (str3 == "Session")
                   {
-                    this.a(this.an.d());
-                    this.a(this.an.d().g());
+                    this.a(this.an.GetSystemA());
+                    this.a(this.an.GetSystemA().GetSessionLayer());
                     goto label_56;
                   }
                   else
@@ -622,8 +622,8 @@ label_56:
             case 9:
               if (str3 == "Transport")
               {
-                this.a(this.an.d());
-                this.a(this.an.d().f());
+                this.a(this.an.GetSystemA());
+                this.a(this.an.GetSystemA().GetTransportLayer());
                 goto label_56;
               }
               else
@@ -631,8 +631,8 @@ label_56:
             case 11:
               if (str3 == "Application")
               {
-                this.a(this.an.d());
-                this.a(this.an.d().i());
+                this.a(this.an.GetSystemA());
+                this.a(this.an.GetSystemA().GetApplicationLayer());
                 goto label_56;
               }
               else
@@ -640,8 +640,8 @@ label_56:
             case 12:
               if (str3 == "Presentation")
               {
-                this.a(this.an.d());
-                this.a(this.an.d().h());
+                this.a(this.an.GetSystemA());
+                this.a(this.an.GetSystemA().GetPresentationLayer());
                 goto label_56;
               }
               else
@@ -660,61 +660,61 @@ label_56:
   {
     if (this.bank0Button.Checked)
     {
-      this.an.d().e().a((byte) 0);
-      this.an.c().e().a((byte) 0);
-      this.an.b().e().a((byte) 0);
-      this.an.d().f().a((byte) 0);
-      this.an.d().g().a((byte) 0);
-      this.an.d().h().a((byte) 0);
-      this.an.d().i().a((byte) 0);
-      this.an.d().j().a((byte) 0);
-      this.an.d().k().a((byte) 0);
-      this.an.c().f().a((byte) 0);
-      this.an.c().g().a((byte) 0);
-      this.an.c().h().a((byte) 0);
-      this.an.c().i().a((byte) 0);
-      this.an.c().j().a((byte) 0);
-      this.an.c().k().a((byte) 0);
-      this.an.b().f().a((byte) 0);
-      this.an.b().g().a((byte) 0);
-      this.an.b().h().a((byte) 0);
-      this.an.b().i().a((byte) 0);
-      this.an.b().j().a((byte) 0);
-      this.an.b().k().a((byte) 0);
+      this.an.GetSystemA().GetNetworkLayer().a((byte) 0);
+      this.an.GetGuide().GetNetworkLayer().a((byte) 0);
+      this.an.GetSystemB().GetNetworkLayer().a((byte) 0);
+      this.an.GetSystemA().GetTransportLayer().a((byte) 0);
+      this.an.GetSystemA().GetSessionLayer().a((byte) 0);
+      this.an.GetSystemA().GetPresentationLayer().a((byte) 0);
+      this.an.GetSystemA().GetApplicationLayer().a((byte) 0);
+      this.an.GetSystemA().GetUELayer().a((byte) 0);
+      this.an.GetSystemA().GetProcessLayer().a((byte) 0);
+      this.an.GetGuide().GetTransportLayer().a((byte) 0);
+      this.an.GetGuide().GetSessionLayer().a((byte) 0);
+      this.an.GetGuide().GetPresentationLayer().a((byte) 0);
+      this.an.GetGuide().GetApplicationLayer().a((byte) 0);
+      this.an.GetGuide().GetUELayer().a((byte) 0);
+      this.an.GetGuide().GetProcessLayer().a((byte) 0);
+      this.an.GetSystemB().GetTransportLayer().a((byte) 0);
+      this.an.GetSystemB().GetSessionLayer().a((byte) 0);
+      this.an.GetSystemB().GetPresentationLayer().a((byte) 0);
+      this.an.GetSystemB().GetApplicationLayer().a((byte) 0);
+      this.an.GetSystemB().GetUELayer().a((byte) 0);
+      this.an.GetSystemB().GetProcessLayer().a((byte) 0);
     }
     else
     {
-      this.an.d().e().a((byte) 1);
-      this.an.c().e().a((byte) 1);
-      this.an.b().e().a((byte) 1);
-      this.an.d().f().a((byte) 1);
-      this.an.d().g().a((byte) 1);
-      this.an.d().h().a((byte) 1);
-      this.an.d().i().a((byte) 1);
-      this.an.d().j().a((byte) 1);
-      this.an.d().k().a((byte) 1);
-      this.an.c().f().a((byte) 1);
-      this.an.c().g().a((byte) 1);
-      this.an.c().h().a((byte) 1);
-      this.an.c().i().a((byte) 1);
-      this.an.c().j().a((byte) 1);
-      this.an.c().k().a((byte) 1);
-      this.an.b().f().a((byte) 1);
-      this.an.b().g().a((byte) 1);
-      this.an.b().h().a((byte) 1);
-      this.an.b().i().a((byte) 1);
-      this.an.b().j().a((byte) 1);
-      this.an.b().k().a((byte) 1);
+      this.an.GetSystemA().GetNetworkLayer().a((byte) 1);
+      this.an.GetGuide().GetNetworkLayer().a((byte) 1);
+      this.an.GetSystemB().GetNetworkLayer().a((byte) 1);
+      this.an.GetSystemA().GetTransportLayer().a((byte) 1);
+      this.an.GetSystemA().GetSessionLayer().a((byte) 1);
+      this.an.GetSystemA().GetPresentationLayer().a((byte) 1);
+      this.an.GetSystemA().GetApplicationLayer().a((byte) 1);
+      this.an.GetSystemA().GetUELayer().a((byte) 1);
+      this.an.GetSystemA().GetProcessLayer().a((byte) 1);
+      this.an.GetGuide().GetTransportLayer().a((byte) 1);
+      this.an.GetGuide().GetSessionLayer().a((byte) 1);
+      this.an.GetGuide().GetPresentationLayer().a((byte) 1);
+      this.an.GetGuide().GetApplicationLayer().a((byte) 1);
+      this.an.GetGuide().GetUELayer().a((byte) 1);
+      this.an.GetGuide().GetProcessLayer().a((byte) 1);
+      this.an.GetSystemB().GetTransportLayer().a((byte) 1);
+      this.an.GetSystemB().GetSessionLayer().a((byte) 1);
+      this.an.GetSystemB().GetPresentationLayer().a((byte) 1);
+      this.an.GetSystemB().GetApplicationLayer().a((byte) 1);
+      this.an.GetSystemB().GetUELayer().a((byte) 1);
+      this.an.GetSystemB().GetProcessLayer().a((byte) 1);
     }
     this.b();
   }
 
   private void OnAddButtonClick(object A_0, EventArgs A_1)
   {
-    ak[] A_0_1;
+    LayerParticipant[] A_0_1;
     if (MainWindow.t)
     {
-      A_0_1 = new ak[1]{ this.d() };
+      A_0_1 = new LayerParticipant[1]{ this.d() };
     }
     else
     {
@@ -726,10 +726,10 @@ label_56:
           case 2:
             if (str == "UE")
             {
-              A_0_1 = new ak[2]
+              A_0_1 = new LayerParticipant[2]
               {
-                this.an.d().j(),
-                this.an.b().j()
+                this.an.GetSystemA().GetUELayer(),
+                this.an.GetSystemB().GetUELayer()
               };
               goto label_20;
             }
@@ -741,11 +741,11 @@ label_56:
               case 'N':
                 if (str == "Network")
                 {
-                  A_0_1 = new ak[3]
+                  A_0_1 = new LayerParticipant[3]
                   {
-                    this.an.d().e(),
-                    this.an.c().e(),
-                    this.an.b().e()
+                    this.an.GetSystemA().GetNetworkLayer(),
+                    this.an.GetGuide().GetNetworkLayer(),
+                    this.an.GetSystemB().GetNetworkLayer()
                   };
                   goto label_20;
                 }
@@ -754,10 +754,10 @@ label_56:
               case 'P':
                 if (str == "Process")
                 {
-                  A_0_1 = new ak[2]
+                  A_0_1 = new LayerParticipant[2]
                   {
-                    this.an.d().k(),
-                    this.an.b().k()
+                    this.an.GetSystemA().GetProcessLayer(),
+                    this.an.GetSystemB().GetProcessLayer()
                   };
                   goto label_20;
                 }
@@ -766,11 +766,11 @@ label_56:
               case 'S':
                 if (str == "Session")
                 {
-                  A_0_1 = new ak[3]
+                  A_0_1 = new LayerParticipant[3]
                   {
-                    this.an.d().g(),
-                    this.an.c().g(),
-                    this.an.b().g()
+                    this.an.GetSystemA().GetSessionLayer(),
+                    this.an.GetGuide().GetSessionLayer(),
+                    this.an.GetSystemB().GetSessionLayer()
                   };
                   goto label_20;
                 }
@@ -781,11 +781,11 @@ label_56:
           case 9:
             if (str == "Transport")
             {
-              A_0_1 = new ak[3]
+              A_0_1 = new LayerParticipant[3]
               {
-                this.an.d().f(),
-                this.an.c().f(),
-                this.an.b().f()
+                this.an.GetSystemA().GetTransportLayer(),
+                this.an.GetGuide().GetTransportLayer(),
+                this.an.GetSystemB().GetTransportLayer()
               };
               goto label_20;
             }
@@ -794,10 +794,10 @@ label_56:
           case 11:
             if (str == "Application")
             {
-              A_0_1 = new ak[2]
+              A_0_1 = new LayerParticipant[2]
               {
-                this.an.d().i(),
-                this.an.b().i()
+                this.an.GetSystemA().GetApplicationLayer(),
+                this.an.GetSystemB().GetApplicationLayer()
               };
               goto label_20;
             }
@@ -806,11 +806,11 @@ label_56:
           case 12:
             if (str == "Presentation")
             {
-              A_0_1 = new ak[3]
+              A_0_1 = new LayerParticipant[3]
               {
-                this.an.d().h(),
-                this.an.c().h(),
-                this.an.b().h()
+                this.an.GetSystemA().GetPresentationLayer(),
+                this.an.GetGuide().GetPresentationLayer(),
+                this.an.GetSystemB().GetPresentationLayer()
               };
               goto label_20;
             }
@@ -841,16 +841,16 @@ label_20:
       string str = this.d().k();
       if (str != null)
       {
-        ak[] akArray;
+        LayerParticipant[] akArray;
         switch (str.Length)
         {
           case 2:
             if (str == "UE")
             {
-              akArray = new ak[2]
+              akArray = new LayerParticipant[2]
               {
-                this.an.d().j(),
-                this.an.b().j()
+                this.an.GetSystemA().GetUELayer(),
+                this.an.GetSystemB().GetUELayer()
               };
               break;
             }
@@ -861,11 +861,11 @@ label_20:
               case 'N':
                 if (str == "Network")
                 {
-                  akArray = new ak[3]
+                  akArray = new LayerParticipant[3]
                   {
-                    this.an.d().e(),
-                    this.an.c().e(),
-                    this.an.b().e()
+                    this.an.GetSystemA().GetNetworkLayer(),
+                    this.an.GetGuide().GetNetworkLayer(),
+                    this.an.GetSystemB().GetNetworkLayer()
                   };
                   break;
                 }
@@ -873,10 +873,10 @@ label_20:
               case 'P':
                 if (str == "Process")
                 {
-                  akArray = new ak[2]
+                  akArray = new LayerParticipant[2]
                   {
-                    this.an.d().k(),
-                    this.an.b().k()
+                    this.an.GetSystemA().GetProcessLayer(),
+                    this.an.GetSystemB().GetProcessLayer()
                   };
                   break;
                 }
@@ -884,11 +884,11 @@ label_20:
               case 'S':
                 if (str == "Session")
                 {
-                  akArray = new ak[3]
+                  akArray = new LayerParticipant[3]
                   {
-                    this.an.d().g(),
-                    this.an.c().g(),
-                    this.an.b().g()
+                    this.an.GetSystemA().GetSessionLayer(),
+                    this.an.GetGuide().GetSessionLayer(),
+                    this.an.GetSystemB().GetSessionLayer()
                   };
                   break;
                 }
@@ -900,11 +900,11 @@ label_20:
           case 9:
             if (str == "Transport")
             {
-              akArray = new ak[3]
+              akArray = new LayerParticipant[3]
               {
-                this.an.d().f(),
-                this.an.c().f(),
-                this.an.b().f()
+                this.an.GetSystemA().GetTransportLayer(),
+                this.an.GetGuide().GetTransportLayer(),
+                this.an.GetSystemB().GetTransportLayer()
               };
               break;
             }
@@ -912,10 +912,10 @@ label_20:
           case 11:
             if (str == "Application")
             {
-              akArray = new ak[2]
+              akArray = new LayerParticipant[2]
               {
-                this.an.d().i(),
-                this.an.b().i()
+                this.an.GetSystemA().GetApplicationLayer(),
+                this.an.GetSystemB().GetApplicationLayer()
               };
               break;
             }
@@ -923,11 +923,11 @@ label_20:
           case 12:
             if (str == "Presentation")
             {
-              akArray = new ak[3]
+              akArray = new LayerParticipant[3]
               {
-                this.an.d().h(),
-                this.an.c().h(),
-                this.an.b().h()
+                this.an.GetSystemA().GetPresentationLayer(),
+                this.an.GetGuide().GetPresentationLayer(),
+                this.an.GetSystemB().GetPresentationLayer()
               };
               break;
             }
@@ -953,10 +953,10 @@ label_30:
   {
     if (this.eventsListBox.SelectedItems.Count <= 0)
       return;
-    ak[] A_1_1;
+    LayerParticipant[] A_1_1;
     if (MainWindow.t)
     {
-      A_1_1 = new ak[1]{ this.d() };
+      A_1_1 = new LayerParticipant[1]{ this.d() };
     }
     else
     {
@@ -968,10 +968,10 @@ label_30:
           case 2:
             if (str == "UE")
             {
-              A_1_1 = new ak[2]
+              A_1_1 = new LayerParticipant[2]
               {
-                this.an.d().j(),
-                this.an.b().j()
+                this.an.GetSystemA().GetUELayer(),
+                this.an.GetSystemB().GetUELayer()
               };
               goto label_22;
             }
@@ -983,11 +983,11 @@ label_30:
               case 'N':
                 if (str == "Network")
                 {
-                  A_1_1 = new ak[3]
+                  A_1_1 = new LayerParticipant[3]
                   {
-                    this.an.d().e(),
-                    this.an.c().e(),
-                    this.an.b().e()
+                    this.an.GetSystemA().GetNetworkLayer(),
+                    this.an.GetGuide().GetNetworkLayer(),
+                    this.an.GetSystemB().GetNetworkLayer()
                   };
                   goto label_22;
                 }
@@ -996,10 +996,10 @@ label_30:
               case 'P':
                 if (str == "Process")
                 {
-                  A_1_1 = new ak[2]
+                  A_1_1 = new LayerParticipant[2]
                   {
-                    this.an.d().k(),
-                    this.an.b().k()
+                    this.an.GetSystemA().GetProcessLayer(),
+                    this.an.GetSystemB().GetProcessLayer()
                   };
                   goto label_22;
                 }
@@ -1008,11 +1008,11 @@ label_30:
               case 'S':
                 if (str == "Session")
                 {
-                  A_1_1 = new ak[3]
+                  A_1_1 = new LayerParticipant[3]
                   {
-                    this.an.d().g(),
-                    this.an.c().g(),
-                    this.an.b().g()
+                    this.an.GetSystemA().GetSessionLayer(),
+                    this.an.GetGuide().GetSessionLayer(),
+                    this.an.GetSystemB().GetSessionLayer()
                   };
                   goto label_22;
                 }
@@ -1023,11 +1023,11 @@ label_30:
           case 9:
             if (str == "Transport")
             {
-              A_1_1 = new ak[3]
+              A_1_1 = new LayerParticipant[3]
               {
-                this.an.d().f(),
-                this.an.c().f(),
-                this.an.b().f()
+                this.an.GetSystemA().GetTransportLayer(),
+                this.an.GetGuide().GetTransportLayer(),
+                this.an.GetSystemB().GetTransportLayer()
               };
               goto label_22;
             }
@@ -1036,10 +1036,10 @@ label_30:
           case 11:
             if (str == "Application")
             {
-              A_1_1 = new ak[2]
+              A_1_1 = new LayerParticipant[2]
               {
-                this.an.d().i(),
-                this.an.b().i()
+                this.an.GetSystemA().GetApplicationLayer(),
+                this.an.GetSystemB().GetApplicationLayer()
               };
               goto label_22;
             }
@@ -1048,11 +1048,11 @@ label_30:
           case 12:
             if (str == "Presentation")
             {
-              A_1_1 = new ak[3]
+              A_1_1 = new LayerParticipant[3]
               {
-                this.an.d().h(),
-                this.an.c().h(),
-                this.an.b().h()
+                this.an.GetSystemA().GetPresentationLayer(),
+                this.an.GetGuide().GetPresentationLayer(),
+                this.an.GetSystemB().GetPresentationLayer()
               };
               goto label_22;
             }
@@ -1071,10 +1071,10 @@ label_22:
 
   private void OnReduplicateButtonClick(object A_0, EventArgs A_1)
   {
-    ak[] akArray;
+    LayerParticipant[] akArray;
     if (MainWindow.t)
     {
-      akArray = new ak[1]{ this.d() };
+      akArray = new LayerParticipant[1]{ this.d() };
     }
     else
     {
@@ -1086,10 +1086,10 @@ label_22:
           case 2:
             if (str == "UE")
             {
-              akArray = new ak[2]
+              akArray = new LayerParticipant[2]
               {
-                this.an.d().j(),
-                this.an.b().j()
+                this.an.GetSystemA().GetUELayer(),
+                this.an.GetSystemB().GetUELayer()
               };
               goto label_20;
             }
@@ -1101,11 +1101,11 @@ label_22:
               case 'N':
                 if (str == "Network")
                 {
-                  akArray = new ak[3]
+                  akArray = new LayerParticipant[3]
                   {
-                    this.an.d().e(),
-                    this.an.c().e(),
-                    this.an.b().e()
+                    this.an.GetSystemA().GetNetworkLayer(),
+                    this.an.GetGuide().GetNetworkLayer(),
+                    this.an.GetSystemB().GetNetworkLayer()
                   };
                   goto label_20;
                 }
@@ -1114,10 +1114,10 @@ label_22:
               case 'P':
                 if (str == "Process")
                 {
-                  akArray = new ak[2]
+                  akArray = new LayerParticipant[2]
                   {
-                    this.an.d().k(),
-                    this.an.b().k()
+                    this.an.GetSystemA().GetProcessLayer(),
+                    this.an.GetSystemB().GetProcessLayer()
                   };
                   goto label_20;
                 }
@@ -1126,11 +1126,11 @@ label_22:
               case 'S':
                 if (str == "Session")
                 {
-                  akArray = new ak[3]
+                  akArray = new LayerParticipant[3]
                   {
-                    this.an.d().g(),
-                    this.an.c().g(),
-                    this.an.b().g()
+                    this.an.GetSystemA().GetSessionLayer(),
+                    this.an.GetGuide().GetSessionLayer(),
+                    this.an.GetSystemB().GetSessionLayer()
                   };
                   goto label_20;
                 }
@@ -1141,11 +1141,11 @@ label_22:
           case 9:
             if (str == "Transport")
             {
-              akArray = new ak[3]
+              akArray = new LayerParticipant[3]
               {
-                this.an.d().f(),
-                this.an.c().f(),
-                this.an.b().f()
+                this.an.GetSystemA().GetTransportLayer(),
+                this.an.GetGuide().GetTransportLayer(),
+                this.an.GetSystemB().GetTransportLayer()
               };
               goto label_20;
             }
@@ -1154,10 +1154,10 @@ label_22:
           case 11:
             if (str == "Application")
             {
-              akArray = new ak[2]
+              akArray = new LayerParticipant[2]
               {
-                this.an.d().i(),
-                this.an.b().i()
+                this.an.GetSystemA().GetApplicationLayer(),
+                this.an.GetSystemB().GetApplicationLayer()
               };
               goto label_20;
             }
@@ -1166,11 +1166,11 @@ label_22:
           case 12:
             if (str == "Presentation")
             {
-              akArray = new ak[3]
+              akArray = new LayerParticipant[3]
               {
-                this.an.d().h(),
-                this.an.c().h(),
-                this.an.b().h()
+                this.an.GetSystemA().GetPresentationLayer(),
+                this.an.GetGuide().GetPresentationLayer(),
+                this.an.GetSystemB().GetPresentationLayer()
               };
               goto label_20;
             }
@@ -1245,10 +1245,10 @@ label_20:
         return;
       }
     }
-    ak[] akArray;
+    LayerParticipant[] akArray;
     if (MainWindow.t)
     {
-      akArray = new ak[1]{ this.d() };
+      akArray = new LayerParticipant[1]{ this.d() };
     }
     else
     {
@@ -1260,10 +1260,10 @@ label_20:
           case 2:
             if (str == "UE")
             {
-              akArray = new ak[2]
+              akArray = new LayerParticipant[2]
               {
-                this.an.d().j(),
-                this.an.b().j()
+                this.an.GetSystemA().GetUELayer(),
+                this.an.GetSystemB().GetUELayer()
               };
               goto label_30;
             }
@@ -1275,11 +1275,11 @@ label_20:
               case 'N':
                 if (str == "Network")
                 {
-                  akArray = new ak[3]
+                  akArray = new LayerParticipant[3]
                   {
-                    this.an.d().e(),
-                    this.an.c().e(),
-                    this.an.b().e()
+                    this.an.GetSystemA().GetNetworkLayer(),
+                    this.an.GetGuide().GetNetworkLayer(),
+                    this.an.GetSystemB().GetNetworkLayer()
                   };
                   goto label_30;
                 }
@@ -1288,10 +1288,10 @@ label_20:
               case 'P':
                 if (str == "Process")
                 {
-                  akArray = new ak[2]
+                  akArray = new LayerParticipant[2]
                   {
-                    this.an.d().k(),
-                    this.an.b().k()
+                    this.an.GetSystemA().GetProcessLayer(),
+                    this.an.GetSystemB().GetProcessLayer()
                   };
                   goto label_30;
                 }
@@ -1300,11 +1300,11 @@ label_20:
               case 'S':
                 if (str == "Session")
                 {
-                  akArray = new ak[3]
+                  akArray = new LayerParticipant[3]
                   {
-                    this.an.d().g(),
-                    this.an.c().g(),
-                    this.an.b().g()
+                    this.an.GetSystemA().GetSessionLayer(),
+                    this.an.GetGuide().GetSessionLayer(),
+                    this.an.GetSystemB().GetSessionLayer()
                   };
                   goto label_30;
                 }
@@ -1315,11 +1315,11 @@ label_20:
           case 9:
             if (str == "Transport")
             {
-              akArray = new ak[3]
+              akArray = new LayerParticipant[3]
               {
-                this.an.d().f(),
-                this.an.c().f(),
-                this.an.b().f()
+                this.an.GetSystemA().GetTransportLayer(),
+                this.an.GetGuide().GetTransportLayer(),
+                this.an.GetSystemB().GetTransportLayer()
               };
               goto label_30;
             }
@@ -1328,10 +1328,10 @@ label_20:
           case 11:
             if (str == "Application")
             {
-              akArray = new ak[2]
+              akArray = new LayerParticipant[2]
               {
-                this.an.d().i(),
-                this.an.b().i()
+                this.an.GetSystemA().GetApplicationLayer(),
+                this.an.GetSystemB().GetApplicationLayer()
               };
               goto label_30;
             }
@@ -1340,11 +1340,11 @@ label_20:
           case 12:
             if (str == "Presentation")
             {
-              akArray = new ak[3]
+              akArray = new LayerParticipant[3]
               {
-                this.an.d().h(),
-                this.an.c().h(),
-                this.an.b().h()
+                this.an.GetSystemA().GetPresentationLayer(),
+                this.an.GetGuide().GetPresentationLayer(),
+                this.an.GetSystemB().GetPresentationLayer()
               };
               goto label_30;
             }
@@ -1451,10 +1451,10 @@ label_30:
           return;
         }
       }
-      ak[] akArray;
+      LayerParticipant[] akArray;
       if (MainWindow.t)
       {
-        akArray = new ak[1]{ this.d() };
+        akArray = new LayerParticipant[1]{ this.d() };
       }
       else
       {
@@ -1466,10 +1466,10 @@ label_30:
             case 2:
               if (str3 == "UE")
               {
-                akArray = new ak[2]
+                akArray = new LayerParticipant[2]
                 {
-                  this.an.d().j(),
-                  this.an.b().j()
+                  this.an.GetSystemA().GetUELayer(),
+                  this.an.GetSystemB().GetUELayer()
                 };
                 goto label_45;
               }
@@ -1481,11 +1481,11 @@ label_30:
                 case 'N':
                   if (str3 == "Network")
                   {
-                    akArray = new ak[3]
+                    akArray = new LayerParticipant[3]
                     {
-                      this.an.d().e(),
-                      this.an.c().e(),
-                      this.an.b().e()
+                      this.an.GetSystemA().GetNetworkLayer(),
+                      this.an.GetGuide().GetNetworkLayer(),
+                      this.an.GetSystemB().GetNetworkLayer()
                     };
                     goto label_45;
                   }
@@ -1494,10 +1494,10 @@ label_30:
                 case 'P':
                   if (str3 == "Process")
                   {
-                    akArray = new ak[2]
+                    akArray = new LayerParticipant[2]
                     {
-                      this.an.d().k(),
-                      this.an.b().k()
+                      this.an.GetSystemA().GetProcessLayer(),
+                      this.an.GetSystemB().GetProcessLayer()
                     };
                     goto label_45;
                   }
@@ -1506,11 +1506,11 @@ label_30:
                 case 'S':
                   if (str3 == "Session")
                   {
-                    akArray = new ak[3]
+                    akArray = new LayerParticipant[3]
                     {
-                      this.an.d().g(),
-                      this.an.c().g(),
-                      this.an.b().g()
+                      this.an.GetSystemA().GetSessionLayer(),
+                      this.an.GetGuide().GetSessionLayer(),
+                      this.an.GetSystemB().GetSessionLayer()
                     };
                     goto label_45;
                   }
@@ -1521,11 +1521,11 @@ label_30:
             case 9:
               if (str3 == "Transport")
               {
-                akArray = new ak[3]
+                akArray = new LayerParticipant[3]
                 {
-                  this.an.d().f(),
-                  this.an.c().f(),
-                  this.an.b().f()
+                  this.an.GetSystemA().GetTransportLayer(),
+                  this.an.GetGuide().GetTransportLayer(),
+                  this.an.GetSystemB().GetTransportLayer()
                 };
                 goto label_45;
               }
@@ -1534,10 +1534,10 @@ label_30:
             case 11:
               if (str3 == "Application")
               {
-                akArray = new ak[2]
+                akArray = new LayerParticipant[2]
                 {
-                  this.an.d().i(),
-                  this.an.b().i()
+                  this.an.GetSystemA().GetApplicationLayer(),
+                  this.an.GetSystemB().GetApplicationLayer()
                 };
                 goto label_45;
               }
@@ -1546,11 +1546,11 @@ label_30:
             case 12:
               if (str3 == "Presentation")
               {
-                akArray = new ak[3]
+                akArray = new LayerParticipant[3]
                 {
-                  this.an.d().h(),
-                  this.an.c().h(),
-                  this.an.b().h()
+                  this.an.GetSystemA().GetPresentationLayer(),
+                  this.an.GetGuide().GetPresentationLayer(),
+                  this.an.GetSystemB().GetPresentationLayer()
                 };
                 goto label_45;
               }
@@ -1610,13 +1610,13 @@ label_17:
           string str1 = this.d().k();
           if (str1 != null)
           {
-            ak ak;
+            LayerParticipant ak;
             switch (str1.Length)
             {
               case 2:
                 if (str1 == "UE")
                 {
-                  ak = this.an.d().j();
+                  ak = this.an.GetSystemA().GetUELayer();
                   break;
                 }
                 goto label_24;
@@ -1626,21 +1626,21 @@ label_17:
                   case 'N':
                     if (str1 == "Network")
                     {
-                      ak = this.an.d().e();
+                      ak = this.an.GetSystemA().GetNetworkLayer();
                       break;
                     }
                     goto label_24;
                   case 'P':
                     if (str1 == "Process")
                     {
-                      ak = this.an.d().k();
+                      ak = this.an.GetSystemA().GetProcessLayer();
                       break;
                     }
                     goto label_24;
                   case 'S':
                     if (str1 == "Session")
                     {
-                      ak = this.an.d().g();
+                      ak = this.an.GetSystemA().GetSessionLayer();
                       break;
                     }
                     goto label_24;
@@ -1651,21 +1651,21 @@ label_17:
               case 9:
                 if (str1 == "Transport")
                 {
-                  ak = this.an.d().f();
+                  ak = this.an.GetSystemA().GetTransportLayer();
                   break;
                 }
                 goto label_24;
               case 11:
                 if (str1 == "Application")
                 {
-                  ak = this.an.d().i();
+                  ak = this.an.GetSystemA().GetApplicationLayer();
                   break;
                 }
                 goto label_24;
               case 12:
                 if (str1 == "Presentation")
                 {
-                  ak = this.an.d().h();
+                  ak = this.an.GetSystemA().GetPresentationLayer();
                   break;
                 }
                 goto label_24;
@@ -1687,13 +1687,13 @@ label_24:
           string str2 = this.d().k();
           if (str2 != null)
           {
-            ak ak;
+            LayerParticipant ak;
             switch (str2.Length)
             {
               case 2:
                 if (str2 == "UE")
                 {
-                  ak = this.an.c().j();
+                  ak = this.an.GetGuide().GetUELayer();
                   break;
                 }
                 goto label_45;
@@ -1703,21 +1703,21 @@ label_24:
                   case 'N':
                     if (str2 == "Network")
                     {
-                      ak = this.an.c().e();
+                      ak = this.an.GetGuide().GetNetworkLayer();
                       break;
                     }
                     goto label_45;
                   case 'P':
                     if (str2 == "Process")
                     {
-                      ak = this.an.c().k();
+                      ak = this.an.GetGuide().GetProcessLayer();
                       break;
                     }
                     goto label_45;
                   case 'S':
                     if (str2 == "Session")
                     {
-                      ak = this.an.c().g();
+                      ak = this.an.GetGuide().GetSessionLayer();
                       break;
                     }
                     goto label_45;
@@ -1728,21 +1728,21 @@ label_24:
               case 9:
                 if (str2 == "Transport")
                 {
-                  ak = this.an.c().f();
+                  ak = this.an.GetGuide().GetTransportLayer();
                   break;
                 }
                 goto label_45;
               case 11:
                 if (str2 == "Application")
                 {
-                  ak = this.an.c().i();
+                  ak = this.an.GetGuide().GetApplicationLayer();
                   break;
                 }
                 goto label_45;
               case 12:
                 if (str2 == "Presentation")
                 {
-                  ak = this.an.c().h();
+                  ak = this.an.GetGuide().GetPresentationLayer();
                   break;
                 }
                 goto label_45;
@@ -1764,13 +1764,13 @@ label_45:
           string str3 = this.d().k();
           if (str3 != null)
           {
-            ak ak;
+            LayerParticipant ak;
             switch (str3.Length)
             {
               case 2:
                 if (str3 == "UE")
                 {
-                  ak = this.an.b().j();
+                  ak = this.an.GetSystemB().GetUELayer();
                   break;
                 }
                 goto label_67;
@@ -1780,21 +1780,21 @@ label_45:
                   case 'N':
                     if (str3 == "Network")
                     {
-                      ak = this.an.b().e();
+                      ak = this.an.GetSystemB().GetNetworkLayer();
                       break;
                     }
                     goto label_67;
                   case 'P':
                     if (str3 == "Process")
                     {
-                      ak = this.an.b().k();
+                      ak = this.an.GetSystemB().GetProcessLayer();
                       break;
                     }
                     goto label_67;
                   case 'S':
                     if (str3 == "Session")
                     {
-                      ak = this.an.b().g();
+                      ak = this.an.GetSystemB().GetSessionLayer();
                       break;
                     }
                     goto label_67;
@@ -1805,21 +1805,21 @@ label_45:
               case 9:
                 if (str3 == "Transport")
                 {
-                  ak = this.an.b().f();
+                  ak = this.an.GetSystemB().GetTransportLayer();
                   break;
                 }
                 goto label_67;
               case 11:
                 if (str3 == "Application")
                 {
-                  ak = this.an.b().i();
+                  ak = this.an.GetSystemB().GetApplicationLayer();
                   break;
                 }
                 goto label_67;
               case 12:
                 if (str3 == "Presentation")
                 {
-                  ak = this.an.b().h();
+                  ak = this.an.GetSystemB().GetPresentationLayer();
                   break;
                 }
                 goto label_67;

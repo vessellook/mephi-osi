@@ -16,7 +16,7 @@ using System.Windows.Forms;
 public class at : Form
 {
   private MainWindow a;
-  private ak b;
+  private LayerParticipant b;
   private int c;
   private int d;
   private IContainer e;
@@ -170,7 +170,7 @@ public class at : Form
     }
   }
 
-  private void a(ak A_0, ref aq A_1)
+  private void a(LayerParticipant A_0, ref aq A_1)
   {
     for (int index = 0; index < A_0.h().Count; ++index)
       this.a((aj) A_0.h().GetByIndex(index), ref A_1);

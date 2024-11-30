@@ -11,26 +11,25 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Windows.Forms;
 
-#nullable disable
 public class ai
 {
   private global::MainWindow a;
-  private am b;
-  private ak c;
+  private Participant b;
+  private LayerParticipant c;
   private aj d;
   private SortedList e;
   private int f;
   private Stack g;
-  private an h;
+  private EmulationRuntime h;
 
-  public ai(SortedList A_0, aj A_1, ak A_2, am A_3, global::MainWindow A_4)
+  public ai(SortedList A_0, aj A_1, LayerParticipant A_2, Participant A_3, global::MainWindow A_4)
   {
     this.e = A_0;
     this.d = A_1;
     this.c = A_2;
     this.b = A_3;
     this.a = A_4;
-    this.h = A_4.get_an();
+    this.h = A_4.GetEmulationRuntime ();
     this.g = new Stack();
   }
 
@@ -228,7 +227,7 @@ public class ai
     if (A_0.Length == 0 || A_0[0] != ')')
       throw new InvalidOperationException(this.b.b() + " " + this.c.k() + " " + this.d.o() + (this.f + 1).ToString() + Resources.ErrorNoClosingBracket);
     A_0 = A_0.Remove(0, 1);
-    return new af("Internal", (object) an.k.Next(af.e()), ac.a);
+    return new af("Internal", (object) EmulationRuntime.rand.Next(af.e()), ac.a);
   }
 
   private af i(ref string A_0)
@@ -820,7 +819,7 @@ label_44:
 
   private void q(string A_0)
   {
-    if (an.f || this.a.dm.Checked && this.c.k() == "Transport" || this.a.dn.Checked && this.c.k() == "Session" || this.a.dp.Checked && this.c.k() == "Presentation" || this.a.dq.Checked && this.c.k() == "Application" || this.a.dr.Checked && this.c.k() == "UE" || this.a.ds.Checked && this.c.k() == "Process" || this.a.dl.Checked && this.c.k() == "Network")
+    if (EmulationRuntime.f || this.a.dm.Checked && this.c.k() == "Transport" || this.a.dn.Checked && this.c.k() == "Session" || this.a.dp.Checked && this.c.k() == "Presentation" || this.a.dq.Checked && this.c.k() == "Application" || this.a.dr.Checked && this.c.k() == "UE" || this.a.ds.Checked && this.c.k() == "Process" || this.a.dl.Checked && this.c.k() == "Network")
       return;
     StringBuilder stringBuilder = new StringBuilder();
     ad.e(ref A_0);
@@ -1194,17 +1193,17 @@ label_44:
     }
     this.g.Clear();
     bool flag1 = this.c.k() == "Network" && this.a.c7.Checked || this.c.k() == "Transport" && this.a.c6.Checked || this.c.k() == "Session" && this.a.c5.Checked || this.c.k() == "Presentation" && this.a.c4.Checked || this.c.k() == "Application" && this.a.c3.Checked || this.c.k() == "UE" && this.a.c2.Checked || this.c.k() == "Process" && this.a.c1.Checked;
-    bool flag2 = (bool) ab.layers[(object) this.c.k()];
-    if (an.e > 0 & flag1)
+    bool flag2 = (bool) LayersTraceSettings.layers[(object) this.c.k()];
+    if (EmulationRuntime.e > 0 & flag1)
       this.a.v.a((object[]) this.d.k().ToArray(typeof (string)), this.b.b(), this.d.o());
-    if (an.e == 2 & flag1)
-      an.e = 1;
+    if (EmulationRuntime.e == 2 & flag1)
+      EmulationRuntime.e = 1;
     for (this.f = 0; this.f < this.d.l().Count; ++this.f)
     {
       int num;
-      if (((!flag1 ? 0 : (ab.a ? 1 : 0)) & (flag2 ? 1 : 0)) != 0)
+      if (((!flag1 ? 0 : (LayersTraceSettings.a ? 1 : 0)) & (flag2 ? 1 : 0)) != 0)
       {
-        an h = this.h;
+        EmulationRuntime h = this.h;
         string[] strArray = new string[7]
         {
           this.b.b(),
@@ -1218,7 +1217,7 @@ label_44:
         num = this.f + 1;
         strArray[6] = num.ToString();
         string A_0 = string.Concat(strArray).Replace("SystemA", "Система А").Replace("SystemB", "Система B").Replace("Guide", "Справочник");
-        h.addToLog(A_0);
+        h.AddToLog(A_0);
       }
       string A_0_1 = (string) this.d.l()[this.f];
       ad.e(ref A_0_1);
@@ -1231,7 +1230,7 @@ label_44:
           if (A_0_1.Length == 0)
             continue;
         }
-        if (an.e > 0 & flag1)
+        if (EmulationRuntime.e > 0 & flag1)
           this.a.v.a(A_0_2, this.f);
         if (A_0_2 != null)
         {
@@ -1321,8 +1320,8 @@ label_44:
                 case 'b':
                   if (A_0_2 == "break")
                   {
-                    if (an.e != 0)
-                      an.e = 1;
+                    if (EmulationRuntime.e != 0)
+                      EmulationRuntime.e = 1;
                     this.a.v.a((object[]) this.d.k().ToArray(typeof (string)), this.b.b(), this.d.o());
                     this.a.v.a(A_0_2, this.f);
                     break;
@@ -1331,7 +1330,7 @@ label_44:
                 case 'o':
                   if (A_0_2 == "outon")
                   {
-                    an.f = false;
+                    EmulationRuntime.f = false;
                     break;
                   }
                   goto label_79;
@@ -1376,7 +1375,7 @@ label_44:
                 case 'o':
                   if (A_0_2 == "outoff")
                   {
-                    an.f = true;
+                    EmulationRuntime.f = true;
                     break;
                   }
                   goto label_79;
@@ -1490,7 +1489,7 @@ label_44:
             default:
               goto label_79;
           }
-          if (an.e != 0 & flag1)
+          if (EmulationRuntime.e != 0 & flag1)
           {
             string[] A_0_3 = new string[this.a.v.b.Count];
             for (int index1 = 0; index1 < this.a.v.b.Count; ++index1)
@@ -1529,9 +1528,9 @@ label_44:
             }
             this.a.v.a((object[]) A_0_3);
           }
-          if (an.e == 1 & flag1)
-            an.e = 4;
-          while (an.e == 4)
+          if (EmulationRuntime.e == 1 & flag1)
+            EmulationRuntime.e = 4;
+          while (EmulationRuntime.e == 4)
             Application.DoEvents();
           continue;
         }

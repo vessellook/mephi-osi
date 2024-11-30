@@ -15,13 +15,13 @@ using System.Windows.Forms;
 public class g : Form
 {
   private DataTable a;
-  private ak b;
+  private LayerParticipant b;
   private IContainer c;
   private DataGridView d;
   private MenuStrip e;
   private ToolStripMenuItem f;
 
-  public g(ak A_0)
+  public g(LayerParticipant A_0)
   {
     this.a();
     this.b = A_0;
