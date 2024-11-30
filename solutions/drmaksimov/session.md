@@ -2,6 +2,458 @@
 
 Год создания 2024.
 
+# Уровень представления
+
+Скопировано из asvaselyuk
+
+## P_INIT.REQ
+
+```
+declare integer CODE_SYNTAX_REQ
+declare integer CODE_SYNTAX_RESP
+declare integer CODE_EXPEDITED_DATA
+declare integer CODE_P_P_ABORT
+
+setto 1 CODE_SYNTAX_REQ
+setto 2 CODE_SYNTAX_RESP
+setto 3 CODE_EXPEDITED_DATA
+setto 4 CODE_P_P_ABORT
+
+declare string TERMINAL
+setto "!&" TERMINAL
+
+declare integer code_pac
+declare string left_border
+declare string right_border
+declare buffer allowed_syntaxes
+declare integer current_syntax
+declare integer syntax_pac
+declare integer syntax_pac2
+declare buffer current_buffer
+declare buffer current_quality
+declare string tmp
+declare integer wait_s_u_abort
+declare buffer sizes
+declare buffer prefix
+declare buffer output
+declare integer curr_len
+declare integer count_len
+declare integer loops
+declare integer pos_1
+declare integer pos_2
+```
+
+## P_CONNECT.REQ
+
+```
+;параметры:  address (число), quality (буфер), demand (буфер), context (буфер)
+left_border 1 right_border 1 allowed_syntaxes sizeof(context)-2 unpack context
+generatedown S_CONNECT.REQ address $address quality $quality demand $demand
+```
+
+## P_CONNECT.RESP
+
+```
+;параметры:  address (число), quality (буфер), context (буфер)
+left_border 1 right_border 1 allowed_syntaxes sizeof(context)-2 unpack context
+generatedown S_CONNECT.RESP address $address quality $quality
+```
+
+## P_DATA.REQ
+TODO: нужно конвертацию сделать
+```
+;параметры:  userdata (буфер)
+code_pac 1 current_buffer sizeof(userdata)-1 unpack userdata
+if struct $code_pac == 1
+no_struct:
+if sized_no_struct $current_syntax == 1
+output pack sizeof(current_buffer)+1+sizeof(TERMINAL) $code_pac 1 $current_buffer sizeof(current_buffer) $TERMINAL sizeof(TERMINAL)
+goto send
+
+sized_no_struct:
+output pack sizeof(current_buffer)+1 sizeof(current_buffer) 1 $current_buffer sizeof(current_buffer)
+goto send
+
+struct:
+setto 0 loops
+sizes pack 0
+tmp 1 current_buffer sizeof(current_buffer)-1 unpack current_buffer
+setto 0 pos_1
+setto 0 pos_2
+loop:
+setto $loops+1 loops
+if break_loop $loops >= 5
+tmp $pos_2 current_buffer sizeof(current_buffer)-$pos_2 unpack current_buffer
+tmp sizeof(current_buffer) unpack current_buffer
+setto pos($left_border,tmp) pos_1
+setto pos($right_border,tmp) pos_2
+if break_loop ($pos_2 == 0) && ($pos_1 == 0)
+;empty if $pos_2 <= $pos_1 + 1
+tmp $pos_1 prefix $pos_2-$pos_1-1 unpack current_buffer
+goto append
+
+append:
+if sized_append $current_syntax == 1
+prefix pack sizeof(prefix)+sizeof(TERMINAL) $prefix sizeof(prefix) $TERMINAL sizeof(TERMINAL)
+output pack sizeof(output)+sizeof(prefix) $output sizeof(output) $prefix sizeof(prefix)
+goto loop
+
+sized_append:
+output pack sizeof(prefix)+1+sizeof(output) $output sizeof(output) sizeof(prefix) 1 $prefix sizeof(prefix)
+goto loop
+
+break_loop:
+if send $current_syntax == 2
+output pack sizeof(output)+1 sizeof(output) 1 $output sizeof(output)
+
+send:
+output pack sizeof(output)+1 $code_pac 1 $output sizeof(output)
+generatedown S_DATA.REQ userdata $output
+```
+
+## P_EXPEDITED_DATA.REQ
+TODO: нужно конвертацию сделать
+```
+;параметры:  userdata (буфер)
+code_pac 1 current_buffer sizeof(userdata)-1 unpack userdata
+if struct $code_pac == 1
+no_struct:
+if sized_no_struct $current_syntax == 1
+output pack sizeof(current_buffer)+1+sizeof(TERMINAL) $code_pac 1 $current_buffer sizeof(current_buffer) $TERMINAL sizeof(TERMINAL)
+goto send
+
+sized_no_struct:
+output pack sizeof(current_buffer)+1 sizeof(current_buffer) 1 $current_buffer sizeof(current_buffer)
+goto send
+
+struct:
+setto 0 loops
+sizes pack 0
+output pack 0
+tmp 1 current_buffer sizeof(current_buffer)-2 unpack current_buffer
+setto 0 pos_1
+setto 0 pos_2
+loop:
+setto $loops+1 loops
+if break_loop $loops >= 5
+tmp $pos_2 current_buffer sizeof(current_buffer)-$pos_2 unpack current_buffer
+tmp sizeof(current_buffer) unpack current_buffer
+setto pos($left_border,tmp) pos_1
+setto pos($right_border,tmp) pos_2break_loop if ($pos_2 == 0) && ($pos_1 == 0)
+;empty if $pos_2 <= $pos_1 + 1
+tmp $pos_1 prefix $pos_2-$pos_1-1 unpack current_buffer
+goto append
+;empty:
+;0 pack prefix
+;goto append
+
+append:
+if sized_append $current_syntax == 1
+prefix pack sizeof(prefix)+sizeof(TERMINAL) $prefix sizeof(prefix) $TERMINAL sizeof(TERMINAL)
+output pack sizeof(output)+sizeof(prefix) $output sizeof(output) $prefix sizeof(prefix)
+goto loop
+
+sized_append:
+output pack sizeof(prefix)+1+sizeof(output) $output sizeof(output) sizeof(prefix) 1 $prefix sizeof(prefix)
+goto loop
+
+break_loop:
+if send $current_syntax == 1
+output pack sizeof(output)+1 sizeof(output) 1 output sizeof(output)
+
+send:
+current_buffer pack sizeof(code_pac)+sizeof(output) $CODE_EXPEDITED_DATA sizeof(code_pac) $output sizeof(output)
+generatedown S_EXPEDITED_DATA.REQ userdata $current_buffer
+```
+
+## P_GIVE_TOKENS.REQ
+```
+;параметры:  token (число)
+generatedown S_GIVE_TOKENS.REQ token $token
+```
+
+## P_P_ABORT.IND
+```
+;параметры:  нет
+up P_P_ABORT.IND
+```
+
+## P_PLEASE_TOKENS.REQ
+```
+;параметры:  token (число)
+generatedown S_PLEASE_TOKENS.REQ token $token
+```
+
+## P_RELEASE.REQ
+```
+;параметры:  нет
+generatedown S_RELEASE.REQ
+```
+
+## P_RELEASE.RESP
+```
+;параметры:  нет
+generatedown S_RELEASE.RESP
+```
+
+## P_RESYNCHRONIZE.REQ
+```
+;параметры:  token (число)
+generatedown S_RESYNCHRONIZE.REQ token $token
+```
+
+## P_RESYNCHRONIZE.RESP
+```
+;параметры:  token (число)
+generatedown S_RESYNCHRONIZE.RESP token $token
+```
+
+## P_SYNC_MAJOR.REQ
+```
+;параметры:  нет
+generatedown S_SYNC_MAJOR.REQ
+```
+
+## P_SYNC_MAJOR.RESP
+```
+;параметры:  нет
+generatedown S_SYNC_MAJOR.RESP
+```
+
+## P_U_ABORT.REQ
+```
+;параметры:  нет
+generatedown S_U_ABORT.REQ
+```
+
+## S_CONNECT.CONF
+После получении подтверждения S соединения происходит обмен допустимыми синтаксисами
+```
+;параметры:  quality (буфер)
+setto $quality current_quality
+current_buffer pack sizeof(code_pac)+sizeof(allowed_syntaxes) $CODE_SYNTAX_REQ sizeof(code_pac) $allowed_syntaxes sizeof(allowed_syntaxes)
+generatedown S_EXPEDITED_DATA.REQ userdata $current_buffer
+```
+
+## S_CONNECT.IND
+```
+;параметры:  address (число), quality (буфер), demand (буфер)
+address $address quality $quality demand $demand up P_CONNECT.IND
+```
+
+## S_DATA.IND
+```
+;параметры:  userdata (буфер)
+code_pac sizeof(code_pac) current_buffer sizeof(userdata)-1 unpack userdata
+if struct $code_pac == 1
+no_struct:
+if sized_no_struct $current_syntax == 1
+tmp sizeof(current_buffer) unpack current_buffer
+setto pos($TERMINAL, tmp) pos_1
+output $pos_1-1 unpack current_buffer
+goto send
+
+sized_no_struct:
+curr_len 1 current_buffer sizeof(current_buffer)-1 unpack current_buffer
+output $curr_len unpack current_buffer
+goto send
+
+struct:
+if sized_struct $current_syntax == 1
+output pack sizeof(left_border)+1 $code_pac 1 $left_border sizeof(left_border)
+terminated_loop:
+tmp sizeof(current_buffer) unpack current_buffer
+setto pos($TERMINAL,tmp) pos_1
+if terminated_loop_break $pos_1 == 0
+prefix $pos_1-1 tmp 2 current_buffer sizeof(current_buffer)-$pos_1-1 unpack current_buffer
+output pack sizeof(output)+sizeof(left_border)+sizeof(prefix)+sizeof(right_border) $output sizeof(output) $left_border sizeof(left_border) $prefix sizeof(prefix) $right_border sizeof(right_border)
+goto terminated_loop
+
+terminated_loop_break:
+output pack sizeof(output)+sizeof(right_border) $output sizeof(output) $right_border sizeof(right_border)
+goto send
+
+sized_struct:
+tmp 1 current_buffer sizeof(current_buffer)-1 unpack current_buffer
+output pack sizeof(left_border) $left_border sizeof(left_border)
+sized_loop:
+if sized_loop_break sizeof(current_buffer) == 0
+count_len 1 current_buffer sizeof(current_buffer)-1 unpack current_buffer
+if sized_loop_break sizeof(current_buffer) < $count_len
+prefix $count_len current_buffer sizeof(current_buffer)-$count_len unpack current_buffer
+output pack sizeof(output)+sizeof(left_border)+sizeof(prefix)+sizeof(right_border) $output sizeof(output) $left_border sizeof(left_border) $prefix sizeof(prefix) $right_border sizeof(right_border)
+goto sized_loop
+
+sized_loop_break:
+output pack sizeof(output)+sizeof(right_border) $output sizeof(output) $right_border sizeof(right_border)
+goto send
+
+send:
+output pack sizeof(output)+1 $code_pac 1 $output sizeof(output)
+userdata $output up P_DATA.IND
+return
+```
+
+## S_EXPEDITED_DATA.IND
+TODO: тут нужно сделать switch по типу пакета
+```
+;параметры:  userdata (буфер)
+code_pac sizeof(code_pac) current_buffer sizeof(userdata)-sizeof(code_pac) unpack userdata
+if syntax_req $code_pac == $CODE_SYNTAX_REQ
+if syntax_res $code_pac == $CODE_SYNTAX_RESP
+if abort_ind $code_pac == $CODE_P_P_ABORT
+if expedited_data $code_pac == $CODE_EXPEDITED_DATA
+return
+
+syntax_req:
+syntax_pac sizeof(syntax_pac) current_buffer sizeof(current_buffer)-sizeof(syntax_pac) unpack current_buffer
+current_syntax sizeof(current_syntax) allowed_syntaxes sizeof(allowed_syntaxes)-sizeof(current_syntax) unpack allowed_syntaxes
+if send_syntax $current_syntax == $syntax_pac
+if skip_second_syntax_pac sizeof(current_buffer) == 0
+syntax_pac2 sizeof(syntax_pac2) unpack current_buffer
+if send_syntax $current_syntax == $syntax_pac2
+skip_second_syntax_pac:
+if abort sizeof(allowed_syntaxes) == 0
+current_syntax sizeof(current_syntax) unpack allowed_syntaxes
+if send_syntax $current_syntax == $syntax_pac
+if abort sizeof(current_buffer) == 0
+if send_syntax $current_syntax == $syntax_pac2
+abort:
+setto 1 wait_s_u_abort
+up P_P_ABORT.IND
+current_buffer pack sizeof(code_pac) $CODE_P_P_ABORT sizeof(code_pac)
+generatedown S_EXPEDITED_DATA.REQ userdata $current_buffer
+return
+send_syntax:
+current_buffer pack sizeof(code_pac)+sizeof(current_syntax) $CODE_SYNTAX_RESP sizeof(code_pac) $current_syntax sizeof(current_syntax)
+generatedown S_EXPEDITED_DATA.REQ userdata $current_buffer
+return
+
+syntax_res:
+current_syntax sizeof(current_syntax) unpack current_buffer
+current_buffer pack 3 $left_border 1 $right_border 1 $current_syntax sizeof(current_syntax)
+quality $current_quality context $current_buffer up P_CONNECT.CONF
+setto 0 wait_s_u_abort
+return
+
+abort_ind:
+up P_P_ABORT.IND
+return
+
+expedited_data:
+code_pac sizeof(code_pac) current_buffer sizeof(current_buffer)-1 unpack current_buffer
+if struct $code_pac == 1
+no_struct:
+if sized_no_struct $current_syntax == 1
+;unbuffer current_buffer code_pac 1 current_buffer sizeof(current_buffer)-1
+tmp sizeof(current_buffer) unpack current_buffer
+setto pos($TERMINAL,tmp) pos_1
+output $pos_1-1 unpack current_buffer
+goto send
+
+sized_no_struct:
+curr_len 1 current_buffer sizeof(current_buffer)-1 unpack current_buffer
+output $curr_len unpack current_buffer
+goto send
+
+struct:
+if sized_struct $current_syntax == 1
+output pack sizeof(left_border)+1 $code_pac 1 $left_border sizeof(left_border)
+terminated_loop:
+tmp sizeof(current_buffer) unpack current_buffer
+setto pos($TERMINAL,tmp) pos_1
+if terminated_loop_break $pos_1 == 0
+prefix $pos_1-1 tmp 2 current_buffer sizeof(current_buffer)-$pos_1-1 unpack current_buffer
+output pack sizeof(output)+sizeof(left_border)+sizeof(prefix)+sizeof(right_border) $output sizeof(output) $left_border sizeof(left_border) $prefix sizeof(prefix) $right_border sizeof(right_border)
+goto terminated_loop
+
+terminated_loop_break:
+output pack sizeof(output)+sizeof(right_border) $output sizeof(output) $right_border sizeof(right_border)
+goto send
+
+sized_struct:
+tmp 1 current_buffer sizeof(current_buffer)-1 unpack current_buffer
+output pack sizeof(left_border) $left_border sizeof(left_border)
+sized_loop:
+if sized_loop_break sizeof(current_buffer) == 0
+count_len 1 current_buffer sizeof(current_buffer)-1 unpack current_buffer
+if sized_loop_break sizeof(current_buffer) < $count_len
+prefix $count_len current_buffer sizeof(current_buffer)-$count_len unpack current_buffer
+output pack sizeof(output)+sizeof(left_border)+sizeof(prefix)+sizeof(right_border) $output sizeof(output) $left_border sizeof(left_border) $prefix sizeof(prefix) $right_border sizeof(right_border)
+goto sized_loop
+
+sized_loop_break:
+output pack sizeof(output)+sizeof(right_border) $output sizeof(output) $right_border sizeof(right_border)
+goto send
+
+send:
+output pack sizeof(output)+1 $code_pac 1 $output sizeof(output)
+userdata $output up P_EXPEDITED_DATA.IND
+return
+```
+
+## S_GIVE_TOKENS.IND
+```
+;параметры:  token (число)
+token $token up P_GIVE_TOKENS.IND
+```
+
+## S_P_EXCEPTION.IND
+```
+;параметры:  error (число)
+error $error up P_P_EXCEPTION.IND
+```
+
+## S_PLEASE_TOKENS.IND
+```
+;параметры:  token (число)
+token $token up P_PLEASE_TOKENS.IND
+```
+
+## S_RELEASE.CONF
+```
+;параметры:  нет
+up P_RELEASE.CONF
+```
+
+## S_RELEASE.IND
+```
+;параметры:  нет
+up P_RELEASE.IND
+```
+
+## S_RESYNCHRONIZE.CONF
+```
+;параметры:  token (число)
+token $token up P_RESYNCHRONIZE.CONF
+```
+
+## S_RESYNCHRONIZE.IND
+```
+;параметры:  token (число)
+token $token up P_RESYNCHRONIZE.IND
+```
+
+## S_SYNC_MAJOR.CONF
+```
+;параметры:  нет
+up P_SYNC_MAJOR.CONF
+```
+
+## S_SYNC_MAJOR.IND
+```
+;параметры:  нет
+up P_SYNC_MAJOR.IND
+```
+
+## S_U_ABORT.IND
+```
+;параметры:  нет
+if skip $wait_s_u_abort == 1
+up P_U_ABORT.IND
+skip:
+```
+
 # Сеансовый уровень
 
 Скопировано из asvaselyuk
@@ -104,8 +556,8 @@ generatedown T_DATA.REQ userdata $data
 
 ```
 ;параметры:  token (число)
-if error_3 (!!$has_data_marker) && ($token == 1)
-if error_3 (!!$has_sync_marker) && ($token == 2)
+if error_1 (!!$has_data_marker) && ($token == 1)
+if error_2 (!!$has_sync_marker) && ($token == 2)
 
 data pack sizeof(msg_kind)+sizeof(token) 4 sizeof(msg_kind) $token sizeof(token)
 generatedown T_DATA.REQ userdata $data
@@ -114,8 +566,12 @@ setto $has_data_marker && ($token != 1) has_data_marker
 setto $has_sync_marker && ($token != 2) has_sync_marker
 return
 
-error_3:
-error 3 up S_P_EXCEPTION.IND
+error_1:
+error 1 up S_P_EXCEPTION.IND
+return
+
+error_2:
+error 2 up S_P_EXCEPTION.IND
 return
 ```
 
@@ -124,14 +580,19 @@ return
 
 ```
 ;параметры:  token (число)
-if error_3 $has_data_marker && ($token == 1)
-if error_3 $has_sync_marker && ($token == 2)
+if error_1 $has_data_marker && ($token == 1)
+if error_2 $has_sync_marker && ($token == 2)
 data pack sizeof(token)+sizeof(msg_kind) 3 sizeof(msg_kind) $token sizeof(token)
 generatedown T_DATA.REQ userdata $data
 return
 
-error_3:
-error 3 up S_P_EXCEPTION.IND
+error_1:
+error 1 up S_P_EXCEPTION.IND
+return
+
+error_2:
+error 2 up S_P_EXCEPTION.IND
+return
 ```
 
 ## S_RELEASE.REQ
