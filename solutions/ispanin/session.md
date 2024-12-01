@@ -17,19 +17,21 @@ markers_value указывает, как изначально распредел
 
 и в зависимости от типа <данные> это
 
-1:<quality_length| 1 слово><demand_length| 1 слово><quality| quality_length слов><demand | demand_length слов> - параметры запроса на соединение, причём quality_length = 2 и demand_length = 1
-2:<quality_length| 1 слово><quality| quality_length слов> - параметры ответа на запрос на соединение, причём quality_length = 2
-3:пустой буфер - запрос о разъединении
-4:[<crc| 1 слово>]<userdata> - запрос на передачу данных, crc присутствует для соединений с защитой, вроде бы такой совет даёт преподаватель
-5:[<crc| 1 слово>]<userdata> - запрос на передачу срочных данных, crc присутствует для соединений с защитой, вроде бы такой совет даёт преподаватель
-6:пустой буфер - запрос на упорядоченное разъединение
-7:пустой буфер - ответ на запрос на упорядоченное разъединение
-8:пустой буфер - запрос на основную синхронизацию
-9:пустой буфер - ответ на запрос об основной синхронизации
-10:<token| 1 слово> - запрос на ресинхронизацию
-12:<token| 1 слово> - ответ на запрос на ресинхронизацию
-12:<token| 1 слово> - запрос на маркер
-13:<token| 1 слово> - передача маркера
+```
+c1:<quality_length| 1 слово><demand_length| 1 слово><quality| quality_length слов><demand | demand_length слов> - параметры запроса на соединение, причём quality_length = 2 и demand_length = 1
+c2:<quality_length| 1 слово><quality| quality_length слов> - параметры ответа на запрос на соединение, причём quality_length = 2
+a1:пустой буфер - запрос о разъединении
+d1:[<crc| 1 слово>]<userdata> - запрос на передачу данных, crc присутствует для соединений с защитой, вроде бы такой совет даёт преподаватель
+e1:[<crc| 1 слово>]<userdata> - запрос на передачу срочных данных, crc присутствует для соединений с защитой, вроде бы такой совет даёт преподаватель
+r1:пустой буфер - запрос на упорядоченное разъединение
+r2:пустой буфер - ответ на запрос на упорядоченное разъединение
+m1:пустой буфер - запрос на основную синхронизацию
+m2:пустой буфер - ответ на запрос об основной синхронизации
+s1:<token| 1 слово> - запрос на ресинхронизацию
+s2:<token| 1 слово> - ответ на запрос на ресинхронизацию
+p1:<token| 1 слово> - запрос на маркер
+g1:<token| 1 слово> - передача маркера
+```
 
 буфер quality имеет формат <need_protection| 1 слово><major_sync_number| 1 слово>
 
@@ -111,7 +113,7 @@ crc data_crc $data_buffer
 $data_crc sizeof(data_crc) $data_buffer sizeof(data_buffer) sizeof(data_buffer)+sizeof(data_crc) buffer data_buffer
 
 send:
-"d1" 2 $userdata sizeof(userdata) sizeof(userdata)+2 buffer data_buffer
+"d1" 2 $userdata sizeof(data_buffer) sizeof(data_buffer)+2 buffer data_buffer
 
 T_DATA.REQ eventdown userdata $data_buffer
 return
@@ -146,7 +148,8 @@ T_DATA.REQ eventdown userdata $data_buffer
 ;параметры:  token (число)
 if ($markers_state & $token) give_tokens
 
-S_P_EXCEPTION.IND eventup error 3
+if $token == 1 error_1
+if $token == 2 error_2
 return
 
 give_tokens:
@@ -157,8 +160,11 @@ T_DATA.REQ eventdown userdata $data_buffer
 set $markers_state-$token markers_state
 return
 
-error_3:
-S_P_EXCEPTION.IND eventup error 3
+error_1:
+S_P_EXCEPTION.IND eventup error 1
+return
+error_2:
+S_P_EXCEPTION.IND eventup error 2
 return
 ```
 
@@ -167,15 +173,20 @@ return
 
 ```
 ;параметры:  token (число)
-if ($markers_state & $token) error_3
+if ($token == 1) && ($markers_state & 1) error_1
+if ($token == 2) && ($markers_state & 2) error_2
 
 "p1" 2 $token sizeof(token) sizeof(token)+2 buffer data_buffer
 
 T_DATA.REQ eventdown userdata $data_buffer
 return
 
-error_3:
-S_P_EXCEPTION.IND eventup error 3
+error_1:
+S_P_EXCEPTION.IND eventup error 1
+return
+error_2:
+S_P_EXCEPTION.IND eventup error 2
+return
 ```
 
 ## S_RELEASE.REQ
@@ -552,8 +563,9 @@ $packet_index sizeof(packet_index) 1 sizeof(code_pac) sizeof(read_index)+sizeof(
 N_DATA.REQ eventdown userdata $pac
 ; too old
 if $read_index > $packet_index skip
-set $packet_index+1 read_index
 if ($status == "CLIENT") && ($code_pac == 2) stop
+if $code_pac == 2 skip
+set $packet_index+1 read_index
 T_DATA.IND eventup userdata $data
 return
 confirm:
@@ -571,12 +583,14 @@ skip:
 ## N_DISCONNECT.IND
 ```
 ;параметры:  нет
+if $status == "IDLE" skip
+if $status == "WAIT_CONF" skip
+if $status == "WAIT_RESP" reconnect
 if $status == "CLIENT" reconnect
 if $status == "SERVER" server_disconnect
 if $status == "ASK_TO_DISCONNECT" stop_repeat_stop
 if $status == "TRY_RECONNECT" skip
-set "IDLE" status
-T_DISCONNECT.IND eventup
+if $status == "WAIT_FOR_RECONNECT" skip
 return
 stop_repeat_stop:
 set "IDLE" status
@@ -656,7 +670,7 @@ repeat_stop:
 $write_index sizeof(write_index) 2 sizeof(code_pac) sizeof(write_index)+sizeof(code_pac) buffer pac
 set "ASK_TO_DISCONNECT" status
 repeat_timer timer 0 cur_pac $pac cur_num $write_index max_retry 15 SEND_PACKAGE
-set $write_index+1 write_index
+;set $write_index+1 write_index
 return
 skip:
 set "IDLE" status
