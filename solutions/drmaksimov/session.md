@@ -4,20 +4,24 @@
 
 # Уровень представления
 
-Скопировано из asvaselyuk
+Скопировано из asvaselyuk и затем переделано
 
 ## P_INIT.REQ
 
 ```
-declare integer CODE_SYNTAX_REQ
-declare integer CODE_SYNTAX_RESP
-declare integer CODE_EXPEDITED_DATA
-declare integer CODE_P_P_ABORT
+declare integer Q1
+declare integer Q2
+declare integer Q3
+declare integer Q4
+declare integer Q5
+declare integer Q6
 
-setto 1 CODE_SYNTAX_REQ
-setto 2 CODE_SYNTAX_RESP
-setto 3 CODE_EXPEDITED_DATA
-setto 4 CODE_P_P_ABORT
+setto 1 Q1
+setto 2 Q2
+setto 3 Q3
+setto 4 Q4
+setto 5 Q5
+setto 6 Q6
 
 declare string TERMINAL
 setto "!&" TERMINAL
@@ -48,7 +52,10 @@ declare integer pos_2
 ```
 ;параметры:  address (число), quality (буфер), demand (буфер), context (буфер)
 left_border 1 right_border 1 allowed_syntaxes sizeof(context)-2 unpack context
+if skip_me $Q5 == 6
 generatedown S_CONNECT.REQ address $address quality $quality demand $demand
+skip_me:
+setto 6 Q6
 ```
 
 ## P_CONNECT.RESP
@@ -56,16 +63,19 @@ generatedown S_CONNECT.REQ address $address quality $quality demand $demand
 ```
 ;параметры:  address (число), quality (буфер), context (буфер)
 left_border 1 right_border 1 allowed_syntaxes sizeof(context)-2 unpack context
+if skip_me $Q5 == 6
 generatedown S_CONNECT.RESP address $address quality $quality
+skip_me:
+setto 6 Q6
 ```
 
 ## P_DATA.REQ
-TODO: нужно конвертацию сделать
 ```
 ;параметры:  userdata (буфер)
 code_pac 1 current_buffer sizeof(userdata)-1 unpack userdata
 if struct $code_pac == 1
 no_struct:
+if skip_me $Q5 == 6
 if sized_no_struct $current_syntax == 1
 output pack sizeof(current_buffer)+1+sizeof(TERMINAL) $code_pac 1 $current_buffer sizeof(current_buffer) $TERMINAL sizeof(TERMINAL)
 goto send
@@ -92,89 +102,41 @@ if break_loop ($pos_2 == 0) && ($pos_1 == 0)
 tmp $pos_1 prefix $pos_2-$pos_1-1 unpack current_buffer
 goto append
 
+sized_append:
+output pack sizeof(prefix)+1+sizeof(output) $output sizeof(output) sizeof(prefix) 1 $prefix sizeof(prefix)
+goto loop
+
 append:
 if sized_append $current_syntax == 1
 prefix pack sizeof(prefix)+sizeof(TERMINAL) $prefix sizeof(prefix) $TERMINAL sizeof(TERMINAL)
 output pack sizeof(output)+sizeof(prefix) $output sizeof(output) $prefix sizeof(prefix)
 goto loop
 
-sized_append:
-output pack sizeof(prefix)+1+sizeof(output) $output sizeof(output) sizeof(prefix) 1 $prefix sizeof(prefix)
-goto loop
-
 break_loop:
-if send $current_syntax == 2
+if send $current_syntax == 1
 output pack sizeof(output)+1 sizeof(output) 1 $output sizeof(output)
 
 send:
 output pack sizeof(output)+1 $code_pac 1 $output sizeof(output)
 generatedown S_DATA.REQ userdata $output
-```
-
-## P_EXPEDITED_DATA.REQ
-TODO: нужно конвертацию сделать
-```
-;параметры:  userdata (буфер)
-code_pac 1 current_buffer sizeof(userdata)-1 unpack userdata
-if struct $code_pac == 1
-no_struct:
-if sized_no_struct $current_syntax == 1
-output pack sizeof(current_buffer)+1+sizeof(TERMINAL) $code_pac 1 $current_buffer sizeof(current_buffer) $TERMINAL sizeof(TERMINAL)
-goto send
-
-sized_no_struct:
-output pack sizeof(current_buffer)+1 sizeof(current_buffer) 1 $current_buffer sizeof(current_buffer)
-goto send
-
-struct:
-setto 0 loops
-sizes pack 0
-output pack 0
-tmp 1 current_buffer sizeof(current_buffer)-2 unpack current_buffer
-setto 0 pos_1
-setto 0 pos_2
-loop:
-setto $loops+1 loops
-if break_loop $loops >= 5
-tmp $pos_2 current_buffer sizeof(current_buffer)-$pos_2 unpack current_buffer
-tmp sizeof(current_buffer) unpack current_buffer
-setto pos($left_border,tmp) pos_1
-setto pos($right_border,tmp) pos_2break_loop if ($pos_2 == 0) && ($pos_1 == 0)
-;empty if $pos_2 <= $pos_1 + 1
-tmp $pos_1 prefix $pos_2-$pos_1-1 unpack current_buffer
-goto append
-;empty:
-;0 pack prefix
-;goto append
-
-append:
-if sized_append $current_syntax == 1
-prefix pack sizeof(prefix)+sizeof(TERMINAL) $prefix sizeof(prefix) $TERMINAL sizeof(TERMINAL)
-output pack sizeof(output)+sizeof(prefix) $output sizeof(output) $prefix sizeof(prefix)
-goto loop
-
-sized_append:
-output pack sizeof(prefix)+1+sizeof(output) $output sizeof(output) sizeof(prefix) 1 $prefix sizeof(prefix)
-goto loop
-
-break_loop:
-if send $current_syntax == 1
-output pack sizeof(output)+1 sizeof(output) 1 output sizeof(output)
-
-send:
-current_buffer pack sizeof(code_pac)+sizeof(output) $CODE_EXPEDITED_DATA sizeof(code_pac) $output sizeof(output)
-generatedown S_EXPEDITED_DATA.REQ userdata $current_buffer
+skip_me:
+setto 6 Q6
 ```
 
 ## P_GIVE_TOKENS.REQ
 ```
 ;параметры:  token (число)
+if skip_me $Q5 == 6
 generatedown S_GIVE_TOKENS.REQ token $token
+skip_me:
+setto 6 Q6
+setto 7 Q6
 ```
 
 ## P_P_ABORT.IND
 ```
 ;параметры:  нет
+setto 6 Q6
 up P_P_ABORT.IND
 ```
 
@@ -231,7 +193,7 @@ generatedown S_U_ABORT.REQ
 ```
 ;параметры:  quality (буфер)
 setto $quality current_quality
-current_buffer pack sizeof(code_pac)+sizeof(allowed_syntaxes) $CODE_SYNTAX_REQ sizeof(code_pac) $allowed_syntaxes sizeof(allowed_syntaxes)
+current_buffer pack sizeof(code_pac)+sizeof(allowed_syntaxes) $Q1 sizeof(code_pac) $allowed_syntaxes sizeof(allowed_syntaxes)
 generatedown S_EXPEDITED_DATA.REQ userdata $current_buffer
 ```
 
@@ -247,6 +209,7 @@ address $address quality $quality demand $demand up P_CONNECT.IND
 code_pac sizeof(code_pac) current_buffer sizeof(userdata)-1 unpack userdata
 if struct $code_pac == 1
 no_struct:
+if skip_me $Q5 == 6
 if sized_no_struct $current_syntax == 1
 tmp sizeof(current_buffer) unpack current_buffer
 setto pos($TERMINAL, tmp) pos_1
@@ -256,6 +219,8 @@ goto send
 sized_no_struct:
 curr_len 1 current_buffer sizeof(current_buffer)-1 unpack current_buffer
 output $curr_len unpack current_buffer
+skip_me:
+setto 6 Q6
 goto send
 
 struct:
@@ -264,6 +229,7 @@ output pack sizeof(left_border)+1 $code_pac 1 $left_border sizeof(left_border)
 terminated_loop:
 tmp sizeof(current_buffer) unpack current_buffer
 setto pos($TERMINAL,tmp) pos_1
+setto 7 Q6
 if terminated_loop_break $pos_1 == 0
 prefix $pos_1-1 tmp 2 current_buffer sizeof(current_buffer)-$pos_1-1 unpack current_buffer
 output pack sizeof(output)+sizeof(left_border)+sizeof(prefix)+sizeof(right_border) $output sizeof(output) $left_border sizeof(left_border) $prefix sizeof(prefix) $right_border sizeof(right_border)
@@ -277,6 +243,7 @@ sized_struct:
 tmp 1 current_buffer sizeof(current_buffer)-1 unpack current_buffer
 output pack sizeof(left_border) $left_border sizeof(left_border)
 sized_loop:
+setto 8 Q6
 if sized_loop_break sizeof(current_buffer) == 0
 count_len 1 current_buffer sizeof(current_buffer)-1 unpack current_buffer
 if sized_loop_break sizeof(current_buffer) < $count_len
@@ -295,17 +262,18 @@ return
 ```
 
 ## S_EXPEDITED_DATA.IND
-TODO: тут нужно сделать switch по типу пакета
 ```
 ;параметры:  userdata (буфер)
 code_pac sizeof(code_pac) current_buffer sizeof(userdata)-sizeof(code_pac) unpack userdata
-if syntax_req $code_pac == $CODE_SYNTAX_REQ
-if syntax_res $code_pac == $CODE_SYNTAX_RESP
-if abort_ind $code_pac == $CODE_P_P_ABORT
-if expedited_data $code_pac == $CODE_EXPEDITED_DATA
+if syntax_req $code_pac == $Q1
+if syntax_res $code_pac == $Q2
+if abort_ind $code_pac == $Q4
+if skip_me $Q5 == 6
+if expedited_data $code_pac == $Q3
 return
 
 syntax_req:
+setto 10 Q6
 syntax_pac sizeof(syntax_pac) current_buffer sizeof(current_buffer)-sizeof(syntax_pac) unpack current_buffer
 current_syntax sizeof(current_syntax) allowed_syntaxes sizeof(allowed_syntaxes)-sizeof(current_syntax) unpack allowed_syntaxes
 if send_syntax $current_syntax == $syntax_pac
@@ -321,11 +289,11 @@ if send_syntax $current_syntax == $syntax_pac2
 abort:
 setto 1 wait_s_u_abort
 up P_P_ABORT.IND
-current_buffer pack sizeof(code_pac) $CODE_P_P_ABORT sizeof(code_pac)
+current_buffer pack sizeof(code_pac) $Q4 sizeof(code_pac)
 generatedown S_EXPEDITED_DATA.REQ userdata $current_buffer
 return
 send_syntax:
-current_buffer pack sizeof(code_pac)+sizeof(current_syntax) $CODE_SYNTAX_RESP sizeof(code_pac) $current_syntax sizeof(current_syntax)
+current_buffer pack sizeof(code_pac)+sizeof(current_syntax) $Q2 sizeof(code_pac) $current_syntax sizeof(current_syntax)
 generatedown S_EXPEDITED_DATA.REQ userdata $current_buffer
 return
 
@@ -338,6 +306,7 @@ return
 
 abort_ind:
 up P_P_ABORT.IND
+setto 8 Q6
 return
 
 expedited_data:
@@ -390,6 +359,10 @@ send:
 output pack sizeof(output)+1 $code_pac 1 $output sizeof(output)
 userdata $output up P_EXPEDITED_DATA.IND
 return
+
+skip_me:
+return
+goto skip_me
 ```
 
 ## S_GIVE_TOKENS.IND
