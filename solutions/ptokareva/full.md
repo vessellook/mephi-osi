@@ -188,7 +188,7 @@ if $GC_id==4 GC_4
 
 GC_0:
 	
-	0 1 $address_resolve sizeof(address_resolve) 1+sizeof(address_resolve buffer resolve_ind_buffer
+	0 1 $address_resolve sizeof(address_resolve) 1+sizeof(address_resolve) buffer resolve_ind_buffer
 	resolve_timer timer 0 address $resolve_ind_buffer A_RESOLVE.IND
 	return
 GC_1:
@@ -675,7 +675,7 @@ return
 
 decoding_struct:
 	;TODO сделать перевод структуры
-	0 1 $userdata sizeof(userdata) sizeof(userdata)+1 expedited_send_buffer
+	buffer 0 1 $userdata sizeof(userdata) sizeof(userdata)+1 expedited_send_buffer
 	S_EXPEDITED_DATA.REQ eventdown userdata $expedited_send_buffer
 ```
 

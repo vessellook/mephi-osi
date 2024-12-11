@@ -124,8 +124,6 @@ goto loop
 break_loop:
 out "P_DATA.REQ break_loop code_pac " $code_pac
 send if $current_syntax == 2
-sizeof(output)+1 sizeof(output) 1 $output sizeof(output) pack output
-send if $current_syntax == 1
 sizeof(output)+1+sizeof(sizes) sizeof(sizes) 1 $sizes sizeof(sizes) $output sizeof(output) pack output
 
 send:
@@ -193,7 +191,7 @@ set $prefix output
 goto loop
 
 break_loop:
-send if $current_syntax == 1
+send if $current_syntax == 2
 sizeof(output)+1+sizeof(sizes) sizeof(sizes) 1 $sizes sizeof(sizes) $output sizeof(output) pack output
 
 send:
@@ -297,7 +295,7 @@ goto send
 
 sized_no_struct:
 out "S_DATA.IND sized_no_struct"
-unbuffer current_buffer curr_len 1 code_pac 1 current_buffer sizeof(current_buffer)-2
+unbuffer current_buffer curr_len 1 current_buffer sizeof(current_buffer)-1
 unbuffer current_buffer current_buffer $curr_len
 sizeof(current_buffer)+1 $code_pac 1 $current_buffer sizeof(current_buffer) pack output
 goto send
@@ -347,7 +345,6 @@ return
 ```
 
 ## S_EXPEDITED_DATA.IND
-TODO: тут нужно сделать switch по типу пакета
 ```
 ;параметры:  userdata (буфер)
 unbuffer userdata code_pac sizeof(code_pac) current_buffer sizeof(userdata)-sizeof(code_pac)
