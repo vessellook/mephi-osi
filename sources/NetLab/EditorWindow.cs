@@ -136,8 +136,8 @@ public class EditorWindow : Form
       "declare",
       "random"
     };
-    for (int index = 0; index < global::MainWindow.ab.Count; ++index)
-      array[Array.IndexOf<object>((object[]) array, global::MainWindow.ab[index])] = (string) global::MainWindow.ac[index];
+    for (int index = 0; index < global::MainWindow.baseKeywords.Count; ++index)
+      array[Array.IndexOf<object>((object[]) array, global::MainWindow.baseKeywords[index])] = (string) global::MainWindow.keywords[index];
     try
     {
       using (XmlReader xmlReader = XmlReader.Create(Application.StartupPath + "\\highlightrules.xml"))
@@ -146,7 +146,7 @@ public class EditorWindow : Form
         TypeConverter converter2 = TypeDescriptor.GetConverter(typeof (Color));
         xmlReader.ReadStartElement("rules");
         xmlReader.ReadStartElement("forbiddenoperators");
-        string pattern1 = xmlReader.ReadElementString("Regex").Replace("operators", string.Join("|", (string[]) global::MainWindow.ab.ToArray(typeof (string))) + "|" + string.Join("|", (string[]) global::MainWindow.ae.ToArray(typeof (string))));
+        string pattern1 = xmlReader.ReadElementString("Regex").Replace("operators", string.Join("|", (string[]) global::MainWindow.baseKeywords.ToArray(typeof (string))) + "|" + string.Join("|", (string[]) global::MainWindow.ae.ToArray(typeof (string))));
         string text1 = xmlReader.ReadElementString("font");
         Font A_1_1 = (Font) converter1.ConvertFromString(text1);
         string text2 = xmlReader.ReadElementString("color");
@@ -228,21 +228,21 @@ public class EditorWindow : Form
       for (int index2 = 0; index2 < this.codeEditor.Lines.Length; ++index2)
       {
         this.a[index1].k().Add((object) this.codeEditor.Lines[index2]);
-        global::MainWindow.z = 0;
-        global::MainWindow.y = 0;
-        global::MainWindow.aa = 0;
-        this.a[index1].l().Add((object) global::ad.a(this.codeEditor.Lines[index2], (int) this.a[0].b()));
-        if (global::MainWindow.y > 0)
+        global::MainWindow.syntaxErrorFlag = 0;
+        global::MainWindow.baseSyntaxErrorFlag = 0;
+        global::MainWindow.forbiddenWordFlag = 0;
+        this.a[index1].l().Add((object) global::SyntaxUtils.ConvertToBaseSyntax(this.codeEditor.Lines[index2], (int) this.a[0].b()));
+        if (global::MainWindow.baseSyntaxErrorFlag > 0)
         {
           int num = (int) MessageBox.Show(Resources.ErrorBaseSyntax + (index2 + 1).ToString(), "", MessageBoxButtons.OK, MessageBoxIcon.Hand);
           return;
         }
-        if (global::MainWindow.aa > 0)
+        if (global::MainWindow.forbiddenWordFlag > 0)
         {
           int num = (int) MessageBox.Show(Resources.ErrorForbiddenWord + (index2 + 1).ToString(), "", MessageBoxButtons.OK, MessageBoxIcon.Hand);
           return;
         }
-        if (global::MainWindow.z > 0 && MessageBox.Show(Resources.ErrorPossibleSyntaxError + (index2 + 1).ToString() + Resources.MsgIgnore, "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+        if (global::MainWindow.syntaxErrorFlag > 0 && MessageBox.Show(Resources.ErrorPossibleSyntaxError + (index2 + 1).ToString() + Resources.MsgIgnore, "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
           return;
       }
       global::aj aj = this.a[index1];
@@ -262,23 +262,23 @@ public class EditorWindow : Form
       for (int index2 = 0; index2 < this.codeEditor.Lines.Length; ++index2)
       {
         this.a[index1].k().Add((object) this.codeEditor.Lines[index2]);
-        global::MainWindow.z = 0;
-        global::MainWindow.y = 0;
-        global::MainWindow.aa = 0;
-        this.a[index1].l().Add((object) global::ad.a(this.codeEditor.Lines[index2], (int) this.a[0].b()));
-        if (global::MainWindow.y > 0)
+        global::MainWindow.syntaxErrorFlag = 0;
+        global::MainWindow.baseSyntaxErrorFlag = 0;
+        global::MainWindow.forbiddenWordFlag = 0;
+        this.a[index1].l().Add((object) global::SyntaxUtils.ConvertToBaseSyntax(this.codeEditor.Lines[index2], (int) this.a[0].b()));
+        if (global::MainWindow.baseSyntaxErrorFlag > 0)
         {
           int num = (int) MessageBox.Show(Resources.ErrorBaseSyntax + (index2 + 1).ToString(), "", MessageBoxButtons.OK, MessageBoxIcon.Hand);
           A_1.Cancel = true;
           return;
         }
-        if (global::MainWindow.aa > 0)
+        if (global::MainWindow.forbiddenWordFlag > 0)
         {
           int num = (int) MessageBox.Show(Resources.ErrorForbiddenWord + (index2 + 1).ToString(), "", MessageBoxButtons.OK, MessageBoxIcon.Hand);
           A_1.Cancel = true;
           return;
         }
-        if (global::MainWindow.z > 0 && MessageBox.Show(Resources.ErrorPossibleSyntaxError + (index2 + 1).ToString() + Resources.MsgIgnore, "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+        if (global::MainWindow.syntaxErrorFlag > 0 && MessageBox.Show(Resources.ErrorPossibleSyntaxError + (index2 + 1).ToString() + Resources.MsgIgnore, "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
         {
           A_1.Cancel = true;
           return;
@@ -293,10 +293,10 @@ public class EditorWindow : Form
       for (int index3 = 0; index3 < this.a[index1].l().Count; ++index3)
       {
         string A_0_2 = (string) this.a[index1].l()[index3];
-        global::ad.e(ref A_0_2);
-        string str = global::ad.d(ref A_0_2);
+        global::SyntaxUtils.TrimLeftSpaces(ref A_0_2);
+        string str = global::SyntaxUtils.SeparateNextNonSpecialSequence(ref A_0_2);
         if (str.Length > 0 && str[str.Length - 1] == ':')
-          str = global::ad.d(ref A_0_2);
+          str = global::SyntaxUtils.SeparateNextNonSpecialSequence(ref A_0_2);
         A_0_1 += str;
       }
       this.a[index1].m = global::l.a(A_0_1);

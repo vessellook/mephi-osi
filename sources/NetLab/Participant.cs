@@ -127,7 +127,7 @@ public class Participant
 
   public void c(MemoryStream A_0)
   {
-    if (ad.a(A_0) != "sysdef +levels +events +code +fullcodeset +loadall +wantreturns")
+    if (SyntaxUtils.ReadLine(A_0) != "sysdef +levels +events +code +fullcodeset +loadall +wantreturns")
       throw new InvalidOperationException("Неверный формат файла");
     this.GetProcessLayer().c(A_0);
     this.GetUELayer().c(A_0);
@@ -136,7 +136,7 @@ public class Participant
     this.GetSessionLayer().c(A_0);
     this.GetTransportLayer().c(A_0);
     this.GetNetworkLayer().c(A_0);
-    if (ad.a(A_0) != "sysdef end")
+    if (SyntaxUtils.ReadLine(A_0) != "sysdef end")
       throw new InvalidOperationException("Неверный формат файла");
   }
 
@@ -156,7 +156,7 @@ public class Participant
 
   public void a(MemoryStream A_0)
   {
-    if (ad.a(A_0) != "sysdef +CRC +Date +Time +staff")
+    if (SyntaxUtils.ReadLine(A_0) != "sysdef +CRC +Date +Time +staff")
       throw new InvalidOperationException("Неверный формат файла");
     this.GetProcessLayer().a(A_0);
     this.GetUELayer().a(A_0);
@@ -165,7 +165,7 @@ public class Participant
     this.GetSessionLayer().a(A_0);
     this.GetTransportLayer().a(A_0);
     this.GetNetworkLayer().a(A_0);
-    if (ad.a(A_0) != "sysdef end")
+    if (SyntaxUtils.ReadLine(A_0) != "sysdef end")
       throw new InvalidOperationException("Неверный формат файла");
   }
 

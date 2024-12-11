@@ -49,12 +49,12 @@ public class MainWindow : Form
   public global::DebuggerWindow debuggerWindow;
   public static string teacherEmail;
   public static byte syntaxNumber;
-  public static int y;
-  public static int z;
-  public static int aa;
-  public static ArrayList ab;
-  public static ArrayList ac;
-  public static ArrayList ad;
+  public static int baseSyntaxErrorFlag;
+  public static int syntaxErrorFlag;
+  public static int forbiddenWordFlag;
+  public static ArrayList baseKeywords;
+  public static ArrayList keywords;
+  public static ArrayList operandOrders;
   public static ArrayList ae;
   public static string realPassword;
   public static int ag;
@@ -212,11 +212,11 @@ public class MainWindow : Form
     global::MainWindow.helpPath = Application.StartupPath + "\\help\\0.chm";
     global::MainWindow.teacherEmail = "netlab@somewhere.ru";
     global::MainWindow.syntaxNumber = (byte) 0;
-    global::MainWindow.z = 0;
-    global::MainWindow.y = 0;
-    global::MainWindow.ab = new ArrayList();
-    global::MainWindow.ac = new ArrayList();
-    global::MainWindow.ad = new ArrayList();
+    global::MainWindow.syntaxErrorFlag = 0;
+    global::MainWindow.baseSyntaxErrorFlag = 0;
+    global::MainWindow.baseKeywords = new ArrayList();
+    global::MainWindow.keywords = new ArrayList();
+    global::MainWindow.operandOrders = new ArrayList();
     global::MainWindow.ae = new ArrayList();
     global::MainWindow.ae.Add((object) "transmit");
     global::MainWindow.ae.Add((object) "getaddress");
@@ -555,52 +555,52 @@ label_52:
   {
     using (MemoryStream memoryStream = new MemoryStream())
     {
-      global::ad.a(memoryStream, "User info");
-      global::ad.a(memoryStream, global::MainWindow.userInfo.a);
-      global::ad.a(memoryStream, global::MainWindow.userInfo.b);
-      global::ad.a(memoryStream, global::MainWindow.userInfo.variantNumber.ToString());
-      global::ad.a(memoryStream, global::MainWindow.userInfo.e.ToString());
-      global::ad.a(memoryStream, global::MainWindow.userInfo.d.ToString());
-      global::ad.a(memoryStream, global::MainWindow.userInfo.g.ToString());
-      global::ad.a(memoryStream, global::MainWindow.userInfo.f.ToString());
-      global::ad.a(memoryStream, global::MainWindow.userInfo.i.ToString());
-      global::ad.a(memoryStream, global::MainWindow.userInfo.h.ToString());
-      global::ad.a(memoryStream, global::MainWindow.userInfo.k.ToString());
-      global::ad.a(memoryStream, global::MainWindow.userInfo.j.ToString());
-      global::ad.a(memoryStream, global::MainWindow.userInfo.m.ToString());
-      global::ad.a(memoryStream, global::MainWindow.userInfo.l.ToString());
-      global::ad.a(memoryStream, global::MainWindow.userInfo.o.ToString());
-      global::ad.a(memoryStream, global::MainWindow.userInfo.n.ToString());
-      global::ad.a(memoryStream, global::MainWindow.userInfo.q.ToString());
-      global::ad.a(memoryStream, global::MainWindow.userInfo.p.ToString());
-      global::ad.a(memoryStream, "end User info");
-      global::ad.a(memoryStream, "Level access");
-      global::ad.a(memoryStream, this.networkMenuItem.Checked.ToString());
-      global::ad.a(memoryStream, this.transportMenuItem.Checked.ToString());
-      global::ad.a(memoryStream, this.sessionMenuItem.Checked.ToString());
-      global::ad.a(memoryStream, this.presentationMenuItem.Checked.ToString());
-      global::ad.a(memoryStream, this.applicationMenuItem.Checked.ToString());
-      global::ad.a(memoryStream, this.ueMenuItem.Checked.ToString());
-      global::ad.a(memoryStream, this.apMenuItem.Checked.ToString());
-      global::ad.a(memoryStream, "end Level access");
+      global::SyntaxUtils.WriteLine(memoryStream, "User info");
+      global::SyntaxUtils.WriteLine(memoryStream, global::MainWindow.userInfo.a);
+      global::SyntaxUtils.WriteLine(memoryStream, global::MainWindow.userInfo.b);
+      global::SyntaxUtils.WriteLine(memoryStream, global::MainWindow.userInfo.variantNumber.ToString());
+      global::SyntaxUtils.WriteLine(memoryStream, global::MainWindow.userInfo.e.ToString());
+      global::SyntaxUtils.WriteLine(memoryStream, global::MainWindow.userInfo.d.ToString());
+      global::SyntaxUtils.WriteLine(memoryStream, global::MainWindow.userInfo.g.ToString());
+      global::SyntaxUtils.WriteLine(memoryStream, global::MainWindow.userInfo.f.ToString());
+      global::SyntaxUtils.WriteLine(memoryStream, global::MainWindow.userInfo.i.ToString());
+      global::SyntaxUtils.WriteLine(memoryStream, global::MainWindow.userInfo.h.ToString());
+      global::SyntaxUtils.WriteLine(memoryStream, global::MainWindow.userInfo.k.ToString());
+      global::SyntaxUtils.WriteLine(memoryStream, global::MainWindow.userInfo.j.ToString());
+      global::SyntaxUtils.WriteLine(memoryStream, global::MainWindow.userInfo.m.ToString());
+      global::SyntaxUtils.WriteLine(memoryStream, global::MainWindow.userInfo.l.ToString());
+      global::SyntaxUtils.WriteLine(memoryStream, global::MainWindow.userInfo.o.ToString());
+      global::SyntaxUtils.WriteLine(memoryStream, global::MainWindow.userInfo.n.ToString());
+      global::SyntaxUtils.WriteLine(memoryStream, global::MainWindow.userInfo.q.ToString());
+      global::SyntaxUtils.WriteLine(memoryStream, global::MainWindow.userInfo.p.ToString());
+      global::SyntaxUtils.WriteLine(memoryStream, "end User info");
+      global::SyntaxUtils.WriteLine(memoryStream, "Level access");
+      global::SyntaxUtils.WriteLine(memoryStream, this.networkMenuItem.Checked.ToString());
+      global::SyntaxUtils.WriteLine(memoryStream, this.transportMenuItem.Checked.ToString());
+      global::SyntaxUtils.WriteLine(memoryStream, this.sessionMenuItem.Checked.ToString());
+      global::SyntaxUtils.WriteLine(memoryStream, this.presentationMenuItem.Checked.ToString());
+      global::SyntaxUtils.WriteLine(memoryStream, this.applicationMenuItem.Checked.ToString());
+      global::SyntaxUtils.WriteLine(memoryStream, this.ueMenuItem.Checked.ToString());
+      global::SyntaxUtils.WriteLine(memoryStream, this.apMenuItem.Checked.ToString());
+      global::SyntaxUtils.WriteLine(memoryStream, "end Level access");
       this.GetEmulationRuntime ().GetSystemA().d(memoryStream);
       this.GetEmulationRuntime ().GetGuide().d(memoryStream);
       this.GetEmulationRuntime ().GetSystemB().d(memoryStream);
-      global::ad.a(memoryStream, "All netparams");
-      global::ad.a(memoryStream, this.GetEmulationRuntime ().GetSystemA().d().j().ToString());
-      global::ad.a(memoryStream, this.GetEmulationRuntime ().GetSystemA().d().i().c().ToString());
-      global::ad.a(memoryStream, this.GetEmulationRuntime ().GetSystemA().d().i().b().ToString());
-      global::ad.a(memoryStream, this.GetEmulationRuntime ().GetSystemA().d().g().c().ToString());
-      global::ad.a(memoryStream, this.GetEmulationRuntime ().GetSystemA().d().g().b().ToString());
-      global::ad.a(memoryStream, this.GetEmulationRuntime ().GetSystemA().d().f().c().ToString());
-      global::ad.a(memoryStream, this.GetEmulationRuntime ().GetSystemA().d().f().b().ToString());
-      global::ad.a(memoryStream, this.GetEmulationRuntime ().GetSystemA().d().h().ToString());
-      global::ad.a(memoryStream, this.GetEmulationRuntime ().GetSystemA().d().e().ToString());
-      global::ad.a(memoryStream, this.GetEmulationRuntime ().GetSystemA().d().d().ToString());
-      global::ad.a(memoryStream, this.GetEmulationRuntime ().GetSystemA().d().c().ToString());
-      global::ad.a(memoryStream, this.GetEmulationRuntime ().GetSystemA().d().b().c().ToString());
-      global::ad.a(memoryStream, this.GetEmulationRuntime ().GetSystemA().d().b().b().ToString());
-      global::ad.a(memoryStream, this.GetEmulationRuntime ().GetSystemA().d().a().ToString());
+      global::SyntaxUtils.WriteLine(memoryStream, "All netparams");
+      global::SyntaxUtils.a(memoryStream, this.GetEmulationRuntime ().GetSystemA().d().j().ToString());
+      global::SyntaxUtils.a(memoryStream, this.GetEmulationRuntime ().GetSystemA().d().i().c().ToString());
+      global::SyntaxUtils.a(memoryStream, this.GetEmulationRuntime ().GetSystemA().d().i().b().ToString());
+      global::SyntaxUtils.a(memoryStream, this.GetEmulationRuntime ().GetSystemA().d().g().c().ToString());
+      global::SyntaxUtils.a(memoryStream, this.GetEmulationRuntime ().GetSystemA().d().g().b().ToString());
+      global::SyntaxUtils.a(memoryStream, this.GetEmulationRuntime ().GetSystemA().d().f().c().ToString());
+      global::SyntaxUtils.a(memoryStream, this.GetEmulationRuntime ().GetSystemA().d().f().b().ToString());
+      global::SyntaxUtils.a(memoryStream, this.GetEmulationRuntime ().GetSystemA().d().h().ToString());
+      global::SyntaxUtils.a(memoryStream, this.GetEmulationRuntime ().GetSystemA().d().e().ToString());
+      global::SyntaxUtils.a(memoryStream, this.GetEmulationRuntime ().GetSystemA().d().d().ToString());
+      global::SyntaxUtils.a(memoryStream, this.GetEmulationRuntime ().GetSystemA().d().c().ToString());
+      global::SyntaxUtils.a(memoryStream, this.GetEmulationRuntime ().GetSystemA().d().b().c().ToString());
+      global::SyntaxUtils.a(memoryStream, this.GetEmulationRuntime ().GetSystemA().d().b().b().ToString());
+      global::SyntaxUtils.a(memoryStream, this.GetEmulationRuntime ().GetSystemA().d().a().ToString());
       this.GetEmulationRuntime ().GetSystemA().b(memoryStream);
       this.GetEmulationRuntime ().GetGuide().b(memoryStream);
       this.GetEmulationRuntime ().GetSystemB().b(memoryStream);
@@ -632,7 +632,7 @@ label_52:
     }
   }
 
-  private void loadSyntax()
+  private void LoadSyntax()
   {
     try
     {
@@ -650,19 +650,19 @@ label_52:
         memoryStream.Position = 0L;
         using (StreamReader streamReader = new StreamReader((Stream) memoryStream))
         {
-          global::MainWindow.ab.Clear();
-          global::MainWindow.ac.Clear();
-          global::MainWindow.ad.Clear();
-          string str1;
-          while ((str1 = streamReader.ReadLine()) != null)
+          global::MainWindow.baseKeywords.Clear();
+          global::MainWindow.keywords.Clear();
+          global::MainWindow.operandOrders.Clear();
+          string syntaxLine;
+          while ((syntaxLine = streamReader.ReadLine()) != null)
           {
-            string str2 = str1.Substring(0, str1.IndexOf(":"));
-            string str3 = str1.Substring(str1.IndexOf(":") + 1);
-            string str4 = str3.Substring(0, str3.IndexOf(";"));
-            string str5 = str3.Substring(str3.IndexOf(";") + 1);
-            global::MainWindow.ab.Add((object) str4);
-            global::MainWindow.ac.Add((object) str2);
-            global::MainWindow.ad.Add((object) str5.Remove(str5.Length - 1));
+            string keyword = syntaxLine.Substring(0, syntaxLine.IndexOf(":"));
+            string lineSuffix = syntaxLine.Substring(syntaxLine.IndexOf(":") + 1);
+            string baseKeyword = lineSuffix.Substring(0, lineSuffix.IndexOf(";"));
+            string operandsOrder = lineSuffix.Substring(lineSuffix.IndexOf(";") + 1);
+            global::MainWindow.baseKeywords.Add((object) baseKeyword);
+            global::MainWindow.keywords.Add((object) keyword);
+            global::MainWindow.operandOrders.Add((object) operandsOrder.Remove(operandsOrder.Length - 1));
           }
           streamReader.Close();
         }
@@ -690,32 +690,32 @@ label_52:
           zipFile.Dispose();
         }
         memoryStream.Position = 0L;
-        global::MainWindow.userInfo.a = !(global::ad.a(memoryStream) != "User info") ? global::ad.a(memoryStream) : throw new InvalidOperationException(Resources.ErrorWrongFormat);
-        global::MainWindow.userInfo.b = global::ad.a(memoryStream);
-        global::MainWindow.userInfo.variantNumber = Convert.ToInt32(global::ad.a(memoryStream));
-        global::MainWindow.userInfo.e = Convert.ToInt32(global::ad.a(memoryStream));
-        global::MainWindow.userInfo.d = Convert.ToDateTime(global::ad.a(memoryStream));
-        global::MainWindow.userInfo.g = Convert.ToInt32(global::ad.a(memoryStream));
-        global::MainWindow.userInfo.f = Convert.ToDateTime(global::ad.a(memoryStream));
-        global::MainWindow.userInfo.i = Convert.ToInt32(global::ad.a(memoryStream));
-        global::MainWindow.userInfo.h = Convert.ToDateTime(global::ad.a(memoryStream));
-        global::MainWindow.userInfo.k = Convert.ToInt32(global::ad.a(memoryStream));
-        global::MainWindow.userInfo.j = Convert.ToDateTime(global::ad.a(memoryStream));
-        global::MainWindow.userInfo.m = Convert.ToInt32(global::ad.a(memoryStream));
-        global::MainWindow.userInfo.l = Convert.ToDateTime(global::ad.a(memoryStream));
-        global::MainWindow.userInfo.o = Convert.ToInt32(global::ad.a(memoryStream));
-        global::MainWindow.userInfo.n = Convert.ToDateTime(global::ad.a(memoryStream));
-        global::MainWindow.userInfo.q = Convert.ToInt32(global::ad.a(memoryStream));
-        global::MainWindow.userInfo.p = Convert.ToInt32(global::ad.a(memoryStream));
+        global::MainWindow.userInfo.a = !(global::SyntaxUtils.ReadLine(memoryStream) != "User info") ? global::SyntaxUtils.ReadLine(memoryStream) : throw new InvalidOperationException(Resources.ErrorWrongFormat);
+        global::MainWindow.userInfo.b = global::SyntaxUtils.ReadLine(memoryStream);
+        global::MainWindow.userInfo.variantNumber = Convert.ToInt32(global::SyntaxUtils.ReadLine(memoryStream));
+        global::MainWindow.userInfo.e = Convert.ToInt32(global::SyntaxUtils.ReadLine(memoryStream));
+        global::MainWindow.userInfo.d = Convert.ToDateTime(global::SyntaxUtils.ReadLine(memoryStream));
+        global::MainWindow.userInfo.g = Convert.ToInt32(global::SyntaxUtils.ReadLine(memoryStream));
+        global::MainWindow.userInfo.f = Convert.ToDateTime(global::SyntaxUtils.ReadLine(memoryStream));
+        global::MainWindow.userInfo.i = Convert.ToInt32(global::SyntaxUtils.ReadLine(memoryStream));
+        global::MainWindow.userInfo.h = Convert.ToDateTime(global::SyntaxUtils.ReadLine(memoryStream));
+        global::MainWindow.userInfo.k = Convert.ToInt32(global::SyntaxUtils.ReadLine(memoryStream));
+        global::MainWindow.userInfo.j = Convert.ToDateTime(global::SyntaxUtils.ReadLine(memoryStream));
+        global::MainWindow.userInfo.m = Convert.ToInt32(global::SyntaxUtils.ReadLine(memoryStream));
+        global::MainWindow.userInfo.l = Convert.ToDateTime(global::SyntaxUtils.ReadLine(memoryStream));
+        global::MainWindow.userInfo.o = Convert.ToInt32(global::SyntaxUtils.ReadLine(memoryStream));
+        global::MainWindow.userInfo.n = Convert.ToDateTime(global::SyntaxUtils.ReadLine(memoryStream));
+        global::MainWindow.userInfo.q = Convert.ToInt32(global::SyntaxUtils.ReadLine(memoryStream));
+        global::MainWindow.userInfo.p = Convert.ToInt32(global::SyntaxUtils.ReadLine(memoryStream));
         global::MainWindow.syntaxNumber = (byte) (global::MainWindow.userInfo.variantNumber % 10 + 1);
-        global::MainWindow.z = 0;
-        global::MainWindow.y = 0;
-        global::MainWindow.aa = 0;
-        this.loadSyntax();
+        global::MainWindow.syntaxErrorFlag = 0;
+        global::MainWindow.baseSyntaxErrorFlag = 0;
+        global::MainWindow.forbiddenWordFlag = 0;
+        this.LoadSyntax();
         global::MainWindow.helpPath = Application.StartupPath + "\\help\\" + global::MainWindow.syntaxNumber.ToString() + ".chm";
-        if (global::ad.a(memoryStream) != "end User info")
+        if (global::SyntaxUtils.ReadLine(memoryStream) != "end User info")
           throw new InvalidOperationException(Resources.ErrorWrongFormat);
-        this.networkMenuItem.Checked = !(global::ad.a(memoryStream) != "Level access") ? Convert.ToBoolean(global::ad.a(memoryStream)) : throw new InvalidOperationException(Resources.ErrorWrongFormat);
+        this.networkMenuItem.Checked = !(global::SyntaxUtils.ReadLine(memoryStream) != "Level access") ? Convert.ToBoolean(global::SyntaxUtils.ReadLine(memoryStream)) : throw new InvalidOperationException(Resources.ErrorWrongFormat);
         if (this.networkMenuItem.Checked)
         {
           this.GetEmulationRuntime ().GetSystemA().GetNetworkLayer().b(global::MainWindow.syntaxNumber);
@@ -728,7 +728,7 @@ label_52:
           this.GetEmulationRuntime ().GetSystemB().GetNetworkLayer().b((byte) 0);
           this.GetEmulationRuntime ().GetGuide().GetNetworkLayer().b((byte) 0);
         }
-        this.transportMenuItem.Checked = Convert.ToBoolean(global::ad.a(memoryStream));
+        this.transportMenuItem.Checked = Convert.ToBoolean(global::SyntaxUtils.ReadLine(memoryStream));
         if (this.transportMenuItem.Checked)
         {
           this.GetEmulationRuntime ().GetSystemA().GetTransportLayer().b(global::MainWindow.syntaxNumber);
@@ -741,7 +741,7 @@ label_52:
           this.GetEmulationRuntime ().GetSystemB().GetTransportLayer().b((byte) 0);
           this.GetEmulationRuntime ().GetGuide().GetTransportLayer().b((byte) 0);
         }
-        this.sessionMenuItem.Checked = Convert.ToBoolean(global::ad.a(memoryStream));
+        this.sessionMenuItem.Checked = Convert.ToBoolean(global::SyntaxUtils.ReadLine(memoryStream));
         if (this.sessionMenuItem.Checked)
         {
           this.GetEmulationRuntime ().GetSystemA().GetSessionLayer().b(global::MainWindow.syntaxNumber);
@@ -754,7 +754,7 @@ label_52:
           this.GetEmulationRuntime ().GetSystemB().GetSessionLayer().b((byte) 0);
           this.GetEmulationRuntime ().GetGuide().GetSessionLayer().b((byte) 0);
         }
-        this.presentationMenuItem.Checked = Convert.ToBoolean(global::ad.a(memoryStream));
+        this.presentationMenuItem.Checked = Convert.ToBoolean(global::SyntaxUtils.ReadLine(memoryStream));
         if (this.presentationMenuItem.Checked)
         {
           this.GetEmulationRuntime ().GetSystemA().GetPresentationLayer().b(global::MainWindow.syntaxNumber);
@@ -767,7 +767,7 @@ label_52:
           this.GetEmulationRuntime ().GetSystemB().GetPresentationLayer().b((byte) 0);
           this.GetEmulationRuntime ().GetGuide().GetPresentationLayer().b((byte) 0);
         }
-        this.applicationMenuItem.Checked = Convert.ToBoolean(global::ad.a(memoryStream));
+        this.applicationMenuItem.Checked = Convert.ToBoolean(global::SyntaxUtils.ReadLine(memoryStream));
         if (this.applicationMenuItem.Checked)
         {
           this.GetEmulationRuntime ().GetSystemA().GetApplicationLayer().b(global::MainWindow.syntaxNumber);
@@ -780,7 +780,7 @@ label_52:
           this.GetEmulationRuntime ().GetSystemB().GetApplicationLayer().b((byte) 0);
           this.GetEmulationRuntime ().GetGuide().GetApplicationLayer().b((byte) 0);
         }
-        this.ueMenuItem.Checked = Convert.ToBoolean(global::ad.a(memoryStream));
+        this.ueMenuItem.Checked = Convert.ToBoolean(global::SyntaxUtils.ReadLine(memoryStream));
         if (this.ueMenuItem.Checked)
         {
           this.GetEmulationRuntime ().GetSystemA().GetUELayer().b(global::MainWindow.syntaxNumber);
@@ -793,7 +793,7 @@ label_52:
           this.GetEmulationRuntime ().GetSystemB().GetUELayer().b((byte) 0);
           this.GetEmulationRuntime ().GetGuide().GetUELayer().b((byte) 0);
         }
-        this.apMenuItem.Checked = Convert.ToBoolean(global::ad.a(memoryStream));
+        this.apMenuItem.Checked = Convert.ToBoolean(global::SyntaxUtils.ReadLine(memoryStream));
         if (this.apMenuItem.Checked)
         {
           this.GetEmulationRuntime ().GetSystemA().GetProcessLayer().b(global::MainWindow.syntaxNumber);
@@ -806,27 +806,27 @@ label_52:
           this.GetEmulationRuntime ().GetSystemB().GetProcessLayer().b((byte) 0);
           this.GetEmulationRuntime ().GetGuide().GetProcessLayer().b((byte) 0);
         }
-        if (global::ad.a(memoryStream) != "end Level access")
+        if (global::SyntaxUtils.ReadLine(memoryStream) != "end Level access")
           throw new InvalidOperationException(Resources.ErrorWrongFormat);
         this.GetEmulationRuntime ().GetSystemA().c(memoryStream);
         this.GetEmulationRuntime ().GetGuide().c(memoryStream);
         this.GetEmulationRuntime ().GetSystemB().c(memoryStream);
-        if (global::ad.a(memoryStream) != "All netparams")
+        if (global::SyntaxUtils.ReadLine(memoryStream) != "All netparams")
           throw new InvalidOperationException(Resources.ErrorWrongFormat);
-        this.GetEmulationRuntime ().GetSystemA().d().a(Convert.ToInt32(global::ad.a(memoryStream)));
-        this.GetEmulationRuntime ().GetSystemA().d().i().b(Convert.ToInt32(global::ad.a(memoryStream)));
-        this.GetEmulationRuntime ().GetSystemA().d().i().a(Convert.ToInt32(global::ad.a(memoryStream)));
-        this.GetEmulationRuntime ().GetSystemA().d().g().b(Convert.ToInt32(global::ad.a(memoryStream)));
-        this.GetEmulationRuntime ().GetSystemA().d().g().a(Convert.ToInt32(global::ad.a(memoryStream)));
-        this.GetEmulationRuntime ().GetSystemA().d().f().b(Convert.ToInt32(global::ad.a(memoryStream)));
-        this.GetEmulationRuntime ().GetSystemA().d().f().a(Convert.ToInt32(global::ad.a(memoryStream)));
-        this.GetEmulationRuntime ().GetSystemA().d().e(Convert.ToDouble(global::ad.a(memoryStream)));
-        this.GetEmulationRuntime ().GetSystemA().d().d(Convert.ToDouble(global::ad.a(memoryStream)));
-        this.GetEmulationRuntime ().GetSystemA().d().c(Convert.ToDouble(global::ad.a(memoryStream)));
-        this.GetEmulationRuntime ().GetSystemA().d().b(Convert.ToDouble(global::ad.a(memoryStream)));
-        this.GetEmulationRuntime ().GetSystemA().d().b().b(Convert.ToInt32(global::ad.a(memoryStream)));
-        this.GetEmulationRuntime ().GetSystemA().d().b().a(Convert.ToInt32(global::ad.a(memoryStream)));
-        this.GetEmulationRuntime ().GetSystemA().d().a(Convert.ToDouble(global::ad.a(memoryStream)));
+        this.GetEmulationRuntime ().GetSystemA().d().a(Convert.ToInt32(global::SyntaxUtils.ReadLine(memoryStream)));
+        this.GetEmulationRuntime ().GetSystemA().d().i().b(Convert.ToInt32(global::SyntaxUtils.ReadLine(memoryStream)));
+        this.GetEmulationRuntime ().GetSystemA().d().i().a(Convert.ToInt32(global::SyntaxUtils.ReadLine(memoryStream)));
+        this.GetEmulationRuntime ().GetSystemA().d().g().b(Convert.ToInt32(global::SyntaxUtils.ReadLine(memoryStream)));
+        this.GetEmulationRuntime ().GetSystemA().d().g().a(Convert.ToInt32(global::SyntaxUtils.ReadLine(memoryStream)));
+        this.GetEmulationRuntime ().GetSystemA().d().f().b(Convert.ToInt32(global::SyntaxUtils.ReadLine(memoryStream)));
+        this.GetEmulationRuntime ().GetSystemA().d().f().a(Convert.ToInt32(global::SyntaxUtils.ReadLine(memoryStream)));
+        this.GetEmulationRuntime ().GetSystemA().d().e(Convert.ToDouble(global::SyntaxUtils.ReadLine(memoryStream)));
+        this.GetEmulationRuntime ().GetSystemA().d().d(Convert.ToDouble(global::SyntaxUtils.ReadLine(memoryStream)));
+        this.GetEmulationRuntime ().GetSystemA().d().c(Convert.ToDouble(global::SyntaxUtils.ReadLine(memoryStream)));
+        this.GetEmulationRuntime ().GetSystemA().d().b(Convert.ToDouble(global::SyntaxUtils.ReadLine(memoryStream)));
+        this.GetEmulationRuntime ().GetSystemA().d().b().b(Convert.ToInt32(global::SyntaxUtils.ReadLine(memoryStream)));
+        this.GetEmulationRuntime ().GetSystemA().d().b().a(Convert.ToInt32(global::SyntaxUtils.ReadLine(memoryStream)));
+        this.GetEmulationRuntime ().GetSystemA().d().a(Convert.ToDouble(global::SyntaxUtils.ReadLine(memoryStream)));
         this.GetEmulationRuntime ().GetGuide().d().a(this.GetEmulationRuntime ().GetSystemA().d().j());
         this.GetEmulationRuntime ().GetGuide().d().i().b(this.GetEmulationRuntime ().GetSystemA().d().i().c());
         this.GetEmulationRuntime ().GetGuide().d().i().a(this.GetEmulationRuntime ().GetSystemA().d().i().b());
@@ -1241,7 +1241,7 @@ label_52:
     {
       int num = (int) MessageBox.Show(ex.Message, Resources.ErrorLoadNetParams + " 2", MessageBoxButtons.OK, MessageBoxIcon.Hand);
     }
-    this.logField.Text = global::MainWindow.z.ToString() + " " + global::MainWindow.y.ToString() + " " + global::MainWindow.aa.ToString();
+    this.logField.Text = global::MainWindow.syntaxErrorFlag.ToString() + " " + global::MainWindow.baseSyntaxErrorFlag.ToString() + " " + global::MainWindow.forbiddenWordFlag.ToString();
   }
 
   private void OnSaveMenuItemClick(object A_0, EventArgs A_1)
@@ -1863,10 +1863,10 @@ label_52:
     this.GetEmulationRuntime ().GetSystemB().Clear();
     this.GetEmulationRuntime ().GetGuide().Clear();
     global::MainWindow.syntaxNumber = (byte) (global::MainWindow.userInfo.variantNumber % 10 + 1);
-    global::MainWindow.z = 0;
-    global::MainWindow.y = 0;
-    global::MainWindow.aa = 0;
-    this.loadSyntax();
+    global::MainWindow.syntaxErrorFlag = 0;
+    global::MainWindow.baseSyntaxErrorFlag = 0;
+    global::MainWindow.forbiddenWordFlag = 0;
+    this.LoadSyntax();
     global::MainWindow.helpPath = Application.StartupPath + "\\help\\" + global::MainWindow.syntaxNumber.ToString() + ".chm";
     this.networkMenuItem.Checked = false;
     this.GetEmulationRuntime ().GetSystemA().GetNetworkLayer().b((byte) 0);

@@ -44,12 +44,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DebuggerWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="DotfuscatorAttribute.cs" />
     <Compile Include="c.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="a.cs" />
     <Compile Include="b.cs" />
+    <Compile Include="EmulationRuntime.cs" />
     <Compile Include="EventsParams.cs" />
     <Compile Include="e.cs">
       <SubType>Form</SubType>
@@ -63,12 +67,15 @@
     <Compile Include="h.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="i.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="EditorWindow.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="LayerParticipant.cs" />
+    <Compile Include="LayersTraceSettings.cs" />
+    <Compile Include="OptionsWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Participant.cs" />
     <Compile Include="SyntaxHighlighter.cs" />
     <Compile Include="l.cs" />
     <Compile Include="m.cs" />
@@ -90,33 +97,26 @@
     <Compile Include="LayerWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="t.cs" />
     <Compile Include="u.cs" />
     <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="UserInfo.cs" />
     <Compile Include="w.cs" />
     <Compile Include="x.cs" />
     <Compile Include="y.cs" />
     <Compile Include="z.cs" />
     <Compile Include="aa.cs" />
-    <Compile Include="ab.cs" />
     <Compile Include="ac.cs" />
-    <Compile Include="ad.cs" />
+    <Compile Include="SyntaxUtils.cs" />
     <Compile Include="ae.cs" />
     <Compile Include="af.cs" />
     <Compile Include="ag.cs" />
     <Compile Include="ah.cs" />
     <Compile Include="ai.cs" />
     <Compile Include="aj.cs" />
-    <Compile Include="ak.cs" />
     <Compile Include="al.cs" />
-    <Compile Include="am.cs" />
-    <Compile Include="an.cs" />
     <Compile Include="ao.cs" />
-    <Compile Include="ap.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="aq.cs" />
     <Compile Include="ar.cs" />
     <Compile Include="as.cs" />

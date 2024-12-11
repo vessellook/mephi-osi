@@ -10,7 +10,6 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-#nullable disable
 public class DebuggerWindow : Form
 {
   private global::EmulationRuntime a;
@@ -148,8 +147,8 @@ public class DebuggerWindow : Form
 
   public void a(string A_0, int A_1)
   {
-    if (global::MainWindow.ab.Contains((object) A_0))
-      this.ak.Text = (string) global::MainWindow.ac[global::MainWindow.ab.IndexOf((object) A_0)];
+    if (global::MainWindow.baseKeywords.Contains((object) A_0))
+      this.ak.Text = (string) global::MainWindow.keywords[global::MainWindow.baseKeywords.IndexOf((object) A_0)];
     else
       this.ak.Text = "Something";
     this.aj.Text = A_1.ToString();

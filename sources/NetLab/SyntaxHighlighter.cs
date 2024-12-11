@@ -11,7 +11,6 @@ using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
-#nullable disable
 public class SyntaxHighlighter
 {
   private const int a = 1024;

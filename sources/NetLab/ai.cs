@@ -33,22 +33,22 @@ public class ai
     this.g = new Stack();
   }
 
-  private af p(ref string A_0)
+  private af p(ref string textToParse)
   {
-    ad.e(ref A_0);
-    if (A_0.Length == 0 || A_0[0] != '(')
+    SyntaxUtils.TrimLeftSpaces(ref textToParse);
+    if (textToParse.Length == 0 || textToParse[0] != '(')
       throw new InvalidOperationException(this.b.b() + " " + this.c.k() + " " + this.d.o() + Resources.String + (this.f + 1).ToString() + Resources.ErrorOpenBracketExpected);
-    A_0 = A_0.Remove(0, 1);
-    af af1 = this.a(ref A_0);
-    ad.e(ref A_0);
-    if (A_0.Length == 0 || A_0[0] != ',')
+    textToParse = textToParse.Remove(0, 1);
+    af af1 = this.a(ref textToParse);
+    SyntaxUtils.TrimLeftSpaces(ref textToParse);
+    if (textToParse.Length == 0 || textToParse[0] != ',')
       throw new InvalidOperationException(this.b.b() + " " + this.c.k() + " " + this.d.o() + Resources.String + (this.f + 1).ToString() + Resources.ErrorCommaExpected);
-    A_0 = A_0.Remove(0, 1);
-    string str = ad.d(ref A_0);
-    ad.e(ref A_0);
-    if (A_0.Length == 0 || A_0[0] != ')')
+    textToParse = textToParse.Remove(0, 1);
+    string str = SyntaxUtils.SeparateNextNonSpecialSequence(ref textToParse);
+    SyntaxUtils.TrimLeftSpaces(ref textToParse);
+    if (textToParse.Length == 0 || textToParse[0] != ')')
       throw new InvalidOperationException(this.b.b() + " " + this.c.k() + " " + this.d.o() + Resources.String + (this.f + 1).ToString() + Resources.ErrorNoClosingBracket);
-    A_0 = A_0.Remove(0, 1);
+    textToParse = textToParse.Remove(0, 1);
     af af2;
     if (this.c.e.ContainsKey((object) str))
       af2 = (af) this.c.e[(object) str];
@@ -57,53 +57,53 @@ public class ai
     return af1.h() != ac.b ? new af("Internal", (object) 0, ac.a) : (af2.h() != ac.b ? new af("Internal", (object) 0, ac.a) : new af("Internal", (object) (af2.c().IndexOf(af1.c()) + 1), ac.a));
   }
 
-  private af o(ref string A_0)
+  private af o(ref string textToParse)
   {
-    ad.e(ref A_0);
-    if (A_0.Length == 0 || A_0[0] != '(')
+    SyntaxUtils.TrimLeftSpaces(ref textToParse);
+    if (textToParse.Length == 0 || textToParse[0] != '(')
       throw new InvalidOperationException(this.b.b() + " " + this.c.k() + " " + this.d.o() + (this.f + 1).ToString() + Resources.ErrorOpenBracketExpected);
-    A_0 = A_0.Remove(0, 1);
-    string key = ad.d(ref A_0);
+    textToParse = textToParse.Remove(0, 1);
+    string key = SyntaxUtils.SeparateNextNonSpecialSequence(ref textToParse);
     if (this.c.e.ContainsKey((object) key))
     {
       if ((this.c.e[(object) key] as af).h() == ac.b)
       {
-        ad.e(ref A_0);
-        if (A_0.Length == 0 || A_0[0] != ',')
+        SyntaxUtils.TrimLeftSpaces(ref textToParse);
+        if (textToParse.Length == 0 || textToParse[0] != ',')
           throw new InvalidOperationException(this.b.b() + " " + this.c.k() + " " + this.d.o() + (this.f + 1).ToString() + Resources.ErrorCommaExpected);
-        A_0 = A_0.Remove(0, 1);
-        af af1 = this.a(ref A_0);
-        ad.e(ref A_0);
-        if (A_0.Length == 0 || A_0[0] != ',')
+        textToParse = textToParse.Remove(0, 1);
+        af af1 = this.a(ref textToParse);
+        SyntaxUtils.TrimLeftSpaces(ref textToParse);
+        if (textToParse.Length == 0 || textToParse[0] != ',')
           throw new InvalidOperationException(this.b.b() + " " + this.c.k() + " " + this.d.o() + (this.f + 1).ToString() + Resources.ErrorCommaExpected);
-        A_0 = A_0.Remove(0, 1);
-        af af2 = this.a(ref A_0);
-        ad.e(ref A_0);
-        if (A_0.Length == 0 || A_0[0] != ')')
+        textToParse = textToParse.Remove(0, 1);
+        af af2 = this.a(ref textToParse);
+        SyntaxUtils.TrimLeftSpaces(ref textToParse);
+        if (textToParse.Length == 0 || textToParse[0] != ')')
           throw new InvalidOperationException(this.b.b() + " " + this.c.k() + " " + this.d.o() + (this.f + 1).ToString() + Resources.ErrorNoClosingBracket);
-        A_0 = A_0.Remove(0, 1);
+        textToParse = textToParse.Remove(0, 1);
         if (af1.h() != ac.a || af2.h() != ac.a)
           throw new InvalidOperationException(this.b.b() + " " + this.c.k() + " " + this.d.o() + Resources.String + (this.f + 1).ToString() + Resources.ErrorOpCopyArgNotInt);
         if (af1.e() + af2.e() - 1 > (this.c.e[(object) key] as af).c().Length)
           throw new InvalidOperationException(this.b.b() + " " + this.c.k() + " " + this.d.o() + Resources.String + (this.f + 1).ToString() + Resources.ErrorOpCopyStringTooShort);
         return new af("Internal", (object) (this.c.e[(object) key] as af).c().Substring(af1.e() - 1, af2.e()), ac.b);
       }
-      throw new InvalidOperationException(this.b.b() + " " + this.c.k() + " " + this.d.o() + Resources.String + (this.f + 1).ToString() + Resources.ErrorOpDeleteNotString.Replace("%s", A_0));
+      throw new InvalidOperationException(this.b.b() + " " + this.c.k() + " " + this.d.o() + Resources.String + (this.f + 1).ToString() + Resources.ErrorOpDeleteNotString.Replace("%s", textToParse));
     }
-    throw new InvalidOperationException(this.b.b() + " " + this.c.k() + " " + this.d.o() + Resources.String + (this.f + 1).ToString() + Resources.ErrorVarNotDeclared.Replace("%s", A_0));
+    throw new InvalidOperationException(this.b.b() + " " + this.c.k() + " " + this.d.o() + Resources.String + (this.f + 1).ToString() + Resources.ErrorVarNotDeclared.Replace("%s", textToParse));
   }
 
-  private af n(ref string A_0)
+  private af n(ref string textToParse)
   {
-    ad.e(ref A_0);
-    if (A_0.Length == 0 || A_0[0] != '(')
+    SyntaxUtils.TrimLeftSpaces(ref textToParse);
+    if (textToParse.Length == 0 || textToParse[0] != '(')
       throw new InvalidOperationException(this.b.b() + " " + this.c.k() + " " + this.d.o() + (this.f + 1).ToString() + Resources.ErrorOpenBracketExpected);
-    A_0 = A_0.Remove(0, 1);
-    af af = this.a(ref A_0);
-    ad.e(ref A_0);
-    if (A_0.Length == 0 || A_0[0] != ')')
+    textToParse = textToParse.Remove(0, 1);
+    af af = this.a(ref textToParse);
+    SyntaxUtils.TrimLeftSpaces(ref textToParse);
+    if (textToParse.Length == 0 || textToParse[0] != ')')
       throw new InvalidOperationException(this.b.b() + " " + this.c.k() + " " + this.d.o() + (this.f + 1).ToString() + Resources.ErrorNoClosingBracket);
-    A_0 = A_0.Remove(0, 1);
+    textToParse = textToParse.Remove(0, 1);
     if (af.h() == ac.b)
     {
       switch (af.c())
@@ -154,17 +154,17 @@ public class ai
     }
   }
 
-  private af m(ref string A_0)
+  private af m(ref string textToParse)
   {
-    ad.e(ref A_0);
-    if (A_0.Length == 0 || A_0[0] != '(')
+    SyntaxUtils.TrimLeftSpaces(ref textToParse);
+    if (textToParse.Length == 0 || textToParse[0] != '(')
       throw new InvalidOperationException(this.b.b() + " " + this.c.k() + " " + this.d.o() + (this.f + 1).ToString() + Resources.ErrorOpenBracketExpected);
-    A_0 = A_0.Remove(0, 1);
-    string str = ad.d(ref A_0);
-    ad.e(ref A_0);
-    if (A_0.Length == 0 || A_0[0] != ')')
+    textToParse = textToParse.Remove(0, 1);
+    string str = SyntaxUtils.SeparateNextNonSpecialSequence(ref textToParse);
+    SyntaxUtils.TrimLeftSpaces(ref textToParse);
+    if (textToParse.Length == 0 || textToParse[0] != ')')
       throw new InvalidOperationException(this.b.b() + " " + this.c.k() + " " + this.d.o() + (this.f + 1).ToString() + Resources.ErrorNoClosingBracket);
-    A_0 = A_0.Remove(0, 1);
+    textToParse = textToParse.Remove(0, 1);
     af af;
     if (this.c.e.ContainsKey((object) str))
       af = (af) this.c.e[(object) str];
@@ -173,29 +173,29 @@ public class ai
     return !af.g() ? new af("Internal", (object) 0, ac.a) : (af.h() != ac.a ? new af("Internal", (object) (af.h() == ac.b ? af.c().Length : af.b().Length), ac.a) : new af("Internal", (object) 1, ac.a));
   }
 
-  private af l(ref string A_0)
+  private af l(ref string textToParse)
   {
-    ad.e(ref A_0);
-    if (A_0.Length == 0 || A_0[0] != '(')
+    SyntaxUtils.TrimLeftSpaces(ref textToParse);
+    if (textToParse.Length == 0 || textToParse[0] != '(')
       throw new InvalidOperationException(this.b.b() + " " + this.c.k() + " " + this.d.o() + (this.f + 1).ToString() + Resources.ErrorOpenBracketExpected);
-    A_0 = A_0.Remove(0, 1);
-    ad.e(ref A_0);
-    if (A_0.Length == 0 || A_0[0] != ')')
+    textToParse = textToParse.Remove(0, 1);
+    SyntaxUtils.TrimLeftSpaces(ref textToParse);
+    if (textToParse.Length == 0 || textToParse[0] != ')')
       throw new InvalidOperationException(this.b.b() + " " + this.c.k() + " " + this.d.o() + (this.f + 1).ToString() + Resources.ErrorNoClosingBracket);
-    A_0 = A_0.Remove(0, 1);
+    textToParse = textToParse.Remove(0, 1);
     return new af("Internal", (object) this.b.b(), ac.b);
   }
 
-  private af k(ref string A_0)
+  private af k(ref string textToParse)
   {
-    ad.e(ref A_0);
-    if (A_0.Length == 0 || A_0[0] != '(')
+    SyntaxUtils.TrimLeftSpaces(ref textToParse);
+    if (textToParse.Length == 0 || textToParse[0] != '(')
       throw new InvalidOperationException(this.b.b() + " " + this.c.k() + " " + this.d.o() + (this.f + 1).ToString() + Resources.ErrorOpenBracketExpected);
-    A_0 = A_0.Remove(0, 1);
-    ad.e(ref A_0);
-    if (A_0.Length == 0 || A_0[0] != ')')
+    textToParse = textToParse.Remove(0, 1);
+    SyntaxUtils.TrimLeftSpaces(ref textToParse);
+    if (textToParse.Length == 0 || textToParse[0] != ')')
       throw new InvalidOperationException(this.b.b() + " " + this.c.k() + " " + this.d.o() + (this.f + 1).ToString() + Resources.ErrorNoClosingBracket);
-    A_0 = A_0.Remove(0, 1);
+    textToParse = textToParse.Remove(0, 1);
     return new af("Internal", (object) this.h.h, ac.a);
   }
 
@@ -216,84 +216,84 @@ public class ai
     return (int) ((long) uint32 % (long) A_0);
   }
 
-  private af j(ref string A_0)
+  private af j(ref string textToParse)
   {
-    ad.e(ref A_0);
-    if (A_0.Length == 0 || A_0[0] != '(')
+    SyntaxUtils.TrimLeftSpaces(ref textToParse);
+    if (textToParse.Length == 0 || textToParse[0] != '(')
       throw new InvalidOperationException(this.b.b() + " " + this.c.k() + " " + this.d.o() + (this.f + 1).ToString() + Resources.ErrorOpenBracketExpected);
-    A_0 = A_0.Remove(0, 1);
-    af af = this.a(ref A_0);
-    ad.e(ref A_0);
-    if (A_0.Length == 0 || A_0[0] != ')')
+    textToParse = textToParse.Remove(0, 1);
+    af af = this.a(ref textToParse);
+    SyntaxUtils.TrimLeftSpaces(ref textToParse);
+    if (textToParse.Length == 0 || textToParse[0] != ')')
       throw new InvalidOperationException(this.b.b() + " " + this.c.k() + " " + this.d.o() + (this.f + 1).ToString() + Resources.ErrorNoClosingBracket);
-    A_0 = A_0.Remove(0, 1);
+    textToParse = textToParse.Remove(0, 1);
     return new af("Internal", (object) EmulationRuntime.rand.Next(af.e()), ac.a);
   }
 
-  private af i(ref string A_0)
+  private af i(ref string textToParse)
   {
-    ad.e(ref A_0);
-    if (A_0.Length == 0 || A_0[0] != '(')
+    SyntaxUtils.TrimLeftSpaces(ref textToParse);
+    if (textToParse.Length == 0 || textToParse[0] != '(')
       throw new InvalidOperationException(this.b.b() + " " + this.c.k() + " " + this.d.o() + (this.f + 1).ToString() + Resources.ErrorOpenBracketExpected);
-    A_0 = A_0.Remove(0, 1);
-    string str = ad.d(ref A_0);
-    ad.e(ref A_0);
-    if (A_0.Length == 0 || A_0[0] != ')')
+    textToParse = textToParse.Remove(0, 1);
+    string str = SyntaxUtils.SeparateNextNonSpecialSequence(ref textToParse);
+    SyntaxUtils.TrimLeftSpaces(ref textToParse);
+    if (textToParse.Length == 0 || textToParse[0] != ')')
       throw new InvalidOperationException(this.b.b() + " " + this.c.k() + " " + this.d.o() + (this.f + 1).ToString() + Resources.ErrorNoClosingBracket);
-    A_0 = A_0.Remove(0, 1);
+    textToParse = textToParse.Remove(0, 1);
     if (this.c.f.ContainsKey((object) str))
       return (this.c.f[(object) str] as ag).c();
     throw new InvalidOperationException(this.b.b() + " " + this.c.k() + " " + this.d.o() + Resources.String + (this.f + 1).ToString() + Resources.ErrorVarNotDeclared.Replace("%s", str));
   }
 
-  private af h(ref string A_0)
+  private af h(ref string textToParse)
   {
-    ad.e(ref A_0);
-    if (A_0.Length == 0 || A_0[0] != '(')
+    SyntaxUtils.TrimLeftSpaces(ref textToParse);
+    if (textToParse.Length == 0 || textToParse[0] != '(')
       throw new InvalidOperationException(this.b.b() + " " + this.c.k() + " " + this.d.o() + (this.f + 1).ToString() + Resources.ErrorOpenBracketExpected);
-    A_0 = A_0.Remove(0, 1);
-    string str = ad.d(ref A_0);
-    ad.e(ref A_0);
-    if (A_0.Length == 0 || A_0[0] != ')')
+    textToParse = textToParse.Remove(0, 1);
+    string str = SyntaxUtils.SeparateNextNonSpecialSequence(ref textToParse);
+    SyntaxUtils.TrimLeftSpaces(ref textToParse);
+    if (textToParse.Length == 0 || textToParse[0] != ')')
       throw new InvalidOperationException(this.b.b() + " " + this.c.k() + " " + this.d.o() + (this.f + 1).ToString() + Resources.ErrorNoClosingBracket);
-    A_0 = A_0.Remove(0, 1);
+    textToParse = textToParse.Remove(0, 1);
     if (this.c.f.ContainsKey((object) str))
       return (this.c.f[(object) str] as ag).b();
     throw new InvalidOperationException(this.b.b() + " " + this.c.k() + " " + this.d.o() + Resources.String + (this.f + 1).ToString() + Resources.ErrorVarNotDeclared.Replace("%s", str));
   }
 
-  private af g(ref string A_0)
+  private af g(ref string textToParse)
   {
-    ad.e(ref A_0);
-    if (A_0.Length == 0 || A_0[0] != '(')
+    SyntaxUtils.TrimLeftSpaces(ref textToParse);
+    if (textToParse.Length == 0 || textToParse[0] != '(')
       throw new InvalidOperationException(this.b.b() + " " + this.c.k() + " " + this.d.o() + (this.f + 1).ToString() + Resources.ErrorOpenBracketExpected);
-    A_0 = A_0.Remove(0, 1);
-    string str = ad.d(ref A_0);
-    ad.e(ref A_0);
-    if (A_0.Length == 0 || A_0[0] != ')')
+    textToParse = textToParse.Remove(0, 1);
+    string str = SyntaxUtils.SeparateNextNonSpecialSequence(ref textToParse);
+    SyntaxUtils.TrimLeftSpaces(ref textToParse);
+    if (textToParse.Length == 0 || textToParse[0] != ')')
       throw new InvalidOperationException(this.b.b() + " " + this.c.k() + " " + this.d.o() + (this.f + 1).ToString() + Resources.ErrorNoClosingBracket);
-    A_0 = A_0.Remove(0, 1);
+    textToParse = textToParse.Remove(0, 1);
     if (this.c.f.ContainsKey((object) str))
       return new af("Internal", (object) (this.c.f[(object) str] as ag).a(), ac.a);
     throw new InvalidOperationException(this.b.b() + " " + this.c.k() + " " + this.d.o() + Resources.String + (this.f + 1).ToString() + Resources.ErrorVarNotDeclared.Replace("%s", str));
   }
 
-  private af f(ref string A_0)
+  private af f(ref string textToParse)
   {
-    ad.e(ref A_0);
-    if (A_0.Length == 0)
+    SyntaxUtils.TrimLeftSpaces(ref textToParse);
+    if (textToParse.Length == 0)
       throw new InvalidOperationException(this.b.b() + " " + this.c.k() + " " + this.d.o() + Resources.String + (this.f + 1).ToString() + Resources.ErrorNoValue);
     af af;
-    switch (A_0[0])
+    switch (textToParse[0])
     {
       case '"':
-        A_0 = A_0.Remove(0, 1);
-        af = A_0.IndexOf('"') >= 0 ? new af("Internal", (object) A_0.Substring(0, A_0.IndexOf('"')), ac.b) : throw new InvalidOperationException(this.b.b() + " " + this.c.k() + " " + this.d.o() + Resources.String + (this.f + 1).ToString() + Resources.ErrorEndOfStringNotFound);
-        A_0 = A_0.Remove(0, A_0.IndexOf('"') + 1);
+        textToParse = textToParse.Remove(0, 1);
+        af = textToParse.IndexOf('"') >= 0 ? new af("Internal", (object) textToParse.Substring(0, textToParse.IndexOf('"')), ac.b) : throw new InvalidOperationException(this.b.b() + " " + this.c.k() + " " + this.d.o() + Resources.String + (this.f + 1).ToString() + Resources.ErrorEndOfStringNotFound);
+        textToParse = textToParse.Remove(0, textToParse.IndexOf('"') + 1);
         break;
       case '#':
-        A_0 = A_0.Remove(0, 1);
-        string s1 = ad.d(ref A_0);
+        textToParse = textToParse.Remove(0, 1);
+        string s1 = SyntaxUtils.SeparateNextNonSpecialSequence(ref textToParse);
         int result1;
         if (int.TryParse(s1, out result1))
         {
@@ -302,8 +302,8 @@ public class ai
         }
         throw new InvalidOperationException(this.b.b() + " " + this.c.k() + " " + this.d.o() + Resources.String + (this.f + 1).ToString() + s1 + Resources.ErrorNotNumber);
       case '$':
-        A_0 = A_0.Remove(0, 1);
-        string str = ad.d(ref A_0);
+        textToParse = textToParse.Remove(0, 1);
+        string str = SyntaxUtils.SeparateNextNonSpecialSequence(ref textToParse);
         if (this.c.e.ContainsKey((object) str))
         {
           af = ((af) this.c.e[(object) str]).a();
@@ -312,14 +312,14 @@ public class ai
         af = this.e.ContainsKey((object) str) ? ((af) this.e[(object) str]).a() : throw new InvalidOperationException(this.b.b() + " " + this.c.k() + " " + this.d.o() + Resources.String + (this.f + 1).ToString() + Resources.ErrorVarNotDeclared.Replace("%s", str));
         break;
       case '(':
-        A_0 = A_0.Remove(0, 1);
-        af = this.a(ref A_0);
-        if (A_0[0] != ')')
+        textToParse = textToParse.Remove(0, 1);
+        af = this.a(ref textToParse);
+        if (textToParse[0] != ')')
           throw new InvalidOperationException(this.b.b() + " " + this.c.k() + " " + this.d.o() + Resources.String + (this.f + 1).ToString() + Resources.ErrorNoClosingBracket);
-        A_0 = A_0.Remove(0, 1);
+        textToParse = textToParse.Remove(0, 1);
         break;
       default:
-        string s2 = ad.d(ref A_0);
+        string s2 = SyntaxUtils.SeparateNextNonSpecialSequence(ref textToParse);
         if (s2 != null)
         {
           switch (s2.Length)
@@ -327,7 +327,7 @@ public class ai
             case 3:
               if (s2 == "pos")
               {
-                af = this.p(ref A_0);
+                af = this.p(ref textToParse);
                 goto label_44;
               }
               else
@@ -338,7 +338,7 @@ public class ai
                 case 'c':
                   if (s2 == "copy")
                   {
-                    af = this.o(ref A_0);
+                    af = this.o(ref textToParse);
                     goto label_44;
                   }
                   else
@@ -346,7 +346,7 @@ public class ai
                 case 'p':
                   if (s2 == "peek")
                   {
-                    af = this.h(ref A_0);
+                    af = this.h(ref textToParse);
                     goto label_44;
                   }
                   else
@@ -359,7 +359,7 @@ public class ai
                 case 'q':
                   if (s2 == "qcount")
                   {
-                    af = this.g(ref A_0);
+                    af = this.g(ref textToParse);
                     goto label_44;
                   }
                   else
@@ -367,7 +367,7 @@ public class ai
                 case 'r':
                   if (s2 == "random")
                   {
-                    af = this.j(ref A_0);
+                    af = this.j(ref textToParse);
                     goto label_44;
                   }
                   else
@@ -375,7 +375,7 @@ public class ai
                 case 's':
                   if (s2 == "sizeof")
                   {
-                    af = this.m(ref A_0);
+                    af = this.m(ref textToParse);
                     goto label_44;
                   }
                   else
@@ -385,7 +385,7 @@ public class ai
             case 7:
               if (s2 == "dequeue")
               {
-                af = this.i(ref A_0);
+                af = this.i(ref textToParse);
                 goto label_44;
               }
               else
@@ -393,7 +393,7 @@ public class ai
             case 8:
               if (s2 == "locguide")
               {
-                af = this.n(ref A_0);
+                af = this.n(ref textToParse);
                 goto label_44;
               }
               else
@@ -401,7 +401,7 @@ public class ai
             case 10:
               if (s2 == "SystemTime")
               {
-                af = this.k(ref A_0);
+                af = this.k(ref textToParse);
                 goto label_44;
               }
               else
@@ -409,7 +409,7 @@ public class ai
             case 17:
               if (s2 == "CurrentSystemName")
               {
-                af = this.l(ref A_0);
+                af = this.l(ref textToParse);
                 goto label_44;
               }
               else
@@ -428,58 +428,58 @@ label_44:
     return af;
   }
 
-  private af e(ref string A_0)
+  private af e(ref string textToParse)
   {
-    ad.e(ref A_0);
+    SyntaxUtils.TrimLeftSpaces(ref textToParse);
     af af;
-    switch (ad.d(A_0))
+    switch (SyntaxUtils.FindNextOperator(textToParse))
     {
       case "!!":
-        A_0 = A_0.Remove(0, 2);
-        af = this.f(ref A_0);
+        textToParse = textToParse.Remove(0, 2);
+        af = this.f(ref textToParse);
         af.a(!af.d());
         break;
       case "!":
-        A_0 = A_0.Remove(0, 1);
-        af = this.f(ref A_0);
+        textToParse = textToParse.Remove(0, 1);
+        af = this.f(ref textToParse);
         af.a(-af.e() - 1);
         break;
       case "-":
-        A_0 = A_0.Remove(0, 1);
-        af = this.f(ref A_0);
+        textToParse = textToParse.Remove(0, 1);
+        af = this.f(ref textToParse);
         af.a(-af.e());
         break;
       default:
-        af = this.f(ref A_0);
+        af = this.f(ref textToParse);
         break;
     }
     return af;
   }
 
-  private af d(ref string A_0)
+  private af d(ref string textToParse)
   {
-    ad.e(ref A_0);
-    af af1 = this.e(ref A_0).a();
+    SyntaxUtils.TrimLeftSpaces(ref textToParse);
+    af af1 = this.e(ref textToParse).a();
     af1.b("Internal");
     while (true)
     {
-      ad.e(ref A_0);
-      if (ad.d(A_0) == "*")
+      SyntaxUtils.TrimLeftSpaces(ref textToParse);
+      if (SyntaxUtils.FindNextOperator(textToParse) == "*")
       {
-        A_0 = A_0.Remove(0, 1);
-        af af2 = this.f(ref A_0);
+        textToParse = textToParse.Remove(0, 1);
+        af af2 = this.f(ref textToParse);
         af1.a(af1.e() * af2.e());
       }
-      else if (ad.d(A_0) == "/")
+      else if (SyntaxUtils.FindNextOperator(textToParse) == "/")
       {
-        A_0 = A_0.Remove(0, 1);
-        af af3 = this.f(ref A_0);
+        textToParse = textToParse.Remove(0, 1);
+        af af3 = this.f(ref textToParse);
         af1.a(af1.e() / af3.e());
       }
-      else if (ad.d(A_0) == "%")
+      else if (SyntaxUtils.FindNextOperator(textToParse) == "%")
       {
-        A_0 = A_0.Remove(0, 1);
-        af af4 = this.f(ref A_0);
+        textToParse = textToParse.Remove(0, 1);
+        af af4 = this.f(ref textToParse);
         af1.a(af1.e() % af4.e());
       }
       else
@@ -488,38 +488,38 @@ label_44:
     return af1;
   }
 
-  private af c(ref string A_0)
+  private af c(ref string textToParse)
   {
-    ad.e(ref A_0);
-    af af1 = this.d(ref A_0);
+    SyntaxUtils.TrimLeftSpaces(ref textToParse);
+    af af1 = this.d(ref textToParse);
     while (true)
     {
-      ad.e(ref A_0);
-      if (ad.d(A_0) == "+")
+      SyntaxUtils.TrimLeftSpaces(ref textToParse);
+      if (SyntaxUtils.FindNextOperator(textToParse) == "+")
       {
-        A_0 = A_0.Remove(0, 1);
-        af af2 = this.d(ref A_0);
+        textToParse = textToParse.Remove(0, 1);
+        af af2 = this.d(ref textToParse);
         if (af1.h() == ac.b && af2.h() == ac.b)
           af1.a(af1.c() + af2.c());
         else
           af1.a(af1.e() + af2.e());
       }
-      else if (ad.d(A_0) == "-")
+      else if (SyntaxUtils.FindNextOperator(textToParse) == "-")
       {
-        A_0 = A_0.Remove(0, 1);
-        af af3 = this.d(ref A_0);
+        textToParse = textToParse.Remove(0, 1);
+        af af3 = this.d(ref textToParse);
         af1.a(af1.e() - af3.e());
       }
-      else if (ad.d(A_0) == "&")
+      else if (SyntaxUtils.FindNextOperator(textToParse) == "&")
       {
-        A_0 = A_0.Remove(0, 1);
-        af af4 = this.d(ref A_0);
+        textToParse = textToParse.Remove(0, 1);
+        af af4 = this.d(ref textToParse);
         af1.a(af1.e() & af4.e());
       }
-      else if (ad.d(A_0) == "|")
+      else if (SyntaxUtils.FindNextOperator(textToParse) == "|")
       {
-        A_0 = A_0.Remove(0, 1);
-        af af5 = this.d(ref A_0);
+        textToParse = textToParse.Remove(0, 1);
+        af af5 = this.d(ref textToParse);
         af1.a(af1.e() | af5.e());
       }
       else
@@ -528,23 +528,23 @@ label_44:
     return af1;
   }
 
-  private af b(ref string A_0)
+  private af b(ref string textToParse)
   {
-    ad.e(ref A_0);
-    af af1 = this.c(ref A_0);
+    SyntaxUtils.TrimLeftSpaces(ref textToParse);
+    af af1 = this.c(ref textToParse);
     while (true)
     {
-      ad.e(ref A_0);
-      if (ad.d(A_0) == "&&")
+      SyntaxUtils.TrimLeftSpaces(ref textToParse);
+      if (SyntaxUtils.FindNextOperator(textToParse) == "&&")
       {
-        A_0 = A_0.Remove(0, 2);
-        af af2 = this.c(ref A_0);
+        textToParse = textToParse.Remove(0, 2);
+        af af2 = this.c(ref textToParse);
         af1.a(af1.d() && af2.d());
       }
-      else if (ad.d(A_0) == "||")
+      else if (SyntaxUtils.FindNextOperator(textToParse) == "||")
       {
-        A_0 = A_0.Remove(0, 2);
-        af af3 = this.c(ref A_0);
+        textToParse = textToParse.Remove(0, 2);
+        af af3 = this.c(ref textToParse);
         af1.a(af1.d() || af3.d());
       }
       else
@@ -553,17 +553,17 @@ label_44:
     return af1;
   }
 
-  private af a(ref string A_0)
+  private af a(ref string textToParse)
   {
-    ad.e(ref A_0);
-    af af1 = this.b(ref A_0);
+    SyntaxUtils.TrimLeftSpaces(ref textToParse);
+    af af1 = this.b(ref textToParse);
     while (true)
     {
-      ad.e(ref A_0);
-      if (ad.d(A_0) == ">")
+      SyntaxUtils.TrimLeftSpaces(ref textToParse);
+      if (SyntaxUtils.FindNextOperator(textToParse) == ">")
       {
-        A_0 = A_0.Remove(0, 1);
-        af af2 = this.b(ref A_0);
+        textToParse = textToParse.Remove(0, 1);
+        af af2 = this.b(ref textToParse);
         if (af1.h() == ac.b && af2.h() == ac.b)
         {
           af af3 = new af();
@@ -575,10 +575,10 @@ label_44:
       }
       else
       {
-        if (ad.d(A_0) == "<")
+        if (SyntaxUtils.FindNextOperator(textToParse) == "<")
         {
-          A_0 = A_0.Remove(0, 1);
-          af af4 = this.b(ref A_0);
+          textToParse = textToParse.Remove(0, 1);
+          af af4 = this.b(ref textToParse);
           if (af1.h() == ac.b && af4.h() == ac.b)
           {
             af af5 = new af();
@@ -588,10 +588,10 @@ label_44:
           else
             af1.a(af1.e() < af4.e());
         }
-        if (ad.d(A_0) == "<=")
+        if (SyntaxUtils.FindNextOperator(textToParse) == "<=")
         {
-          A_0 = A_0.Remove(0, 2);
-          af af6 = this.b(ref A_0);
+          textToParse = textToParse.Remove(0, 2);
+          af af6 = this.b(ref textToParse);
           if (af1.h() == ac.b && af6.h() == ac.b)
           {
             af af7 = new af();
@@ -601,10 +601,10 @@ label_44:
           else
             af1.a(af1.e() <= af6.e());
         }
-        else if (ad.d(A_0) == ">=")
+        else if (SyntaxUtils.FindNextOperator(textToParse) == ">=")
         {
-          A_0 = A_0.Remove(0, 2);
-          af af8 = this.b(ref A_0);
+          textToParse = textToParse.Remove(0, 2);
+          af af8 = this.b(ref textToParse);
           if (af1.h() == ac.b && af8.h() == ac.b)
           {
             af af9 = new af();
@@ -614,10 +614,10 @@ label_44:
           else
             af1.a(af1.e() >= af8.e());
         }
-        else if (ad.d(A_0) == "==")
+        else if (SyntaxUtils.FindNextOperator(textToParse) == "==")
         {
-          A_0 = A_0.Remove(0, 2);
-          af af10 = this.b(ref A_0);
+          textToParse = textToParse.Remove(0, 2);
+          af af10 = this.b(ref textToParse);
           if (af1.h() == ac.b && af10.h() == ac.b)
           {
             af af11 = new af();
@@ -627,10 +627,10 @@ label_44:
           else
             af1.a(af1.e() == af10.e());
         }
-        else if (ad.d(A_0) == "!=")
+        else if (SyntaxUtils.FindNextOperator(textToParse) == "!=")
         {
-          A_0 = A_0.Remove(0, 2);
-          af af12 = this.b(ref A_0);
+          textToParse = textToParse.Remove(0, 2);
+          af af12 = this.b(ref textToParse);
           if (af1.h() == ac.b && af12.h() == ac.b)
           {
             af af13 = new af();
@@ -647,17 +647,17 @@ label_44:
     return af1;
   }
 
-  private void a(string A_0, string A_1, string A_2)
+  private void a(string A_0, string A_1, string textToParse)
   {
     SortedList A_2_1 = new SortedList();
-    ad.e(ref A_2);
-    while (A_2.Length > 0)
+    SyntaxUtils.TrimLeftSpaces(ref textToParse);
+    while (textToParse.Length > 0)
     {
-      string key = ad.d(ref A_2);
-      ad.e(ref A_2);
-      af af = this.a(ref A_2);
+      string key = SyntaxUtils.SeparateNextNonSpecialSequence(ref textToParse);
+      SyntaxUtils.TrimLeftSpaces(ref textToParse);
+      af af = this.a(ref textToParse);
       A_2_1.Add((object) key, (object) af);
-      ad.e(ref A_2);
+      SyntaxUtils.TrimLeftSpaces(ref textToParse);
     }
     this.b.a(A_0, A_1, A_2_1);
   }
@@ -666,9 +666,9 @@ label_44:
   {
     for (int index = 0; index < this.d.l().Count; ++index)
     {
-      string A_0_1 = (string) this.d.l()[index];
-      ad.e(ref A_0_1);
-      string str = ad.c(A_0_1);
+      string textToParse = (string) this.d.l()[index];
+      SyntaxUtils.TrimLeftSpaces(ref textToParse);
+      string str = SyntaxUtils.FindNextNonSpecialSequence(textToParse);
       if (str.Length > 0 && str[str.Length - 1] == ':' && str.Substring(0, str.Length - 1) == A_0)
         return index;
     }
@@ -679,13 +679,13 @@ label_44:
   {
     for (int index = 0; index < this.d.l().Count; ++index)
     {
-      string A_0_1 = (string) this.d.l()[index];
-      ad.e(ref A_0_1);
-      string str = ad.d(ref A_0_1);
+      string textToParse = (string) this.d.l()[index];
+      SyntaxUtils.TrimLeftSpaces(ref textToParse);
+      string str = SyntaxUtils.SeparateNextNonSpecialSequence(ref textToParse);
       if (str.Length > 0 && str == "substart")
       {
-        ad.e(ref A_0_1);
-        if (ad.c(A_0_1) == A_0)
+        SyntaxUtils.TrimLeftSpaces(ref textToParse);
+        if (SyntaxUtils.FindNextNonSpecialSequence(textToParse) == A_0)
           return index;
       }
     }
@@ -694,8 +694,8 @@ label_44:
 
   private void u(string A_0)
   {
-    string str1 = ad.d(ref A_0);
-    string str2 = ad.d(ref A_0);
+    string str1 = SyntaxUtils.SeparateNextNonSpecialSequence(ref A_0);
+    string str2 = SyntaxUtils.SeparateNextNonSpecialSequence(ref A_0);
     if (str1.Length == 0)
       throw new InvalidOperationException(this.b.b() + " " + this.c.k() + " " + this.d.o() + Resources.ErrorOpDeclareNoVar);
     if (str2 == "queue")
@@ -731,12 +731,12 @@ label_44:
       throw new InvalidOperationException(this.b.b() + " " + this.c.k() + " " + this.d.o() + Resources.ErrorOpDeclareVarExists.Replace("%s", str1));
   }
 
-  private void t(string A_0)
+  private void t(string textToParse)
   {
-    string str1 = ad.d(ref A_0);
+    string str1 = SyntaxUtils.SeparateNextNonSpecialSequence(ref textToParse);
     if (this.c.e.ContainsKey((object) str1))
     {
-      af af = this.a(ref A_0);
+      af af = this.a(ref textToParse);
       if (af.h() != (this.c.e[(object) str1] as af).h())
         throw new InvalidOperationException(this.b.b() + " " + this.c.k() + " " + this.d.o() + Resources.String + (this.f + 1).ToString() + Resources.ErrorWrongType.Replace("%s", str1));
       switch (af.h())
@@ -754,9 +754,9 @@ label_44:
     }
     else if (this.c.f.ContainsKey((object) str1))
     {
-      ad.e(ref A_0);
-      A_0 = A_0[0] == '$' ? A_0.Remove(0, 1) : throw new InvalidOperationException(this.b.b() + " " + this.c.k() + " " + this.d.o() + Resources.String + (this.f + 1).ToString() + Resources.ErrorSetQueueNotS);
-      string str2 = ad.d(ref A_0);
+      SyntaxUtils.TrimLeftSpaces(ref textToParse);
+      textToParse = textToParse[0] == '$' ? textToParse.Remove(0, 1) : throw new InvalidOperationException(this.b.b() + " " + this.c.k() + " " + this.d.o() + Resources.String + (this.f + 1).ToString() + Resources.ErrorSetQueueNotS);
+      string str2 = SyntaxUtils.SeparateNextNonSpecialSequence(ref textToParse);
       if (!this.c.f.ContainsKey((object) str2))
         throw new InvalidOperationException(this.b.b() + " " + this.c.k() + " " + this.d.o() + Resources.String + (this.f + 1).ToString() + Resources.ErrorVarNotDeclared.Replace("%s", str2));
       this.c.f[(object) str1] = (object) (this.c.f[(object) str2] as ag).a(str1);
@@ -765,12 +765,12 @@ label_44:
       throw new InvalidOperationException(this.b.b() + " " + this.c.k() + " " + this.d.o() + Resources.String + (this.f + 1).ToString() + Resources.ErrorVarNotDeclared.Replace("%s", str1));
   }
 
-  private void s(string A_0)
+  private void s(string textToParse)
   {
-    string str = ad.d(ref A_0);
+    string str = SyntaxUtils.SeparateNextNonSpecialSequence(ref textToParse);
     if (this.c.e.ContainsKey((object) str))
     {
-      af af = this.a(ref A_0);
+      af af = this.a(ref textToParse);
       if (af.h() == ac.b)
       {
         switch (af.c())
@@ -795,15 +795,15 @@ label_44:
       throw new InvalidOperationException(this.b.b() + " " + this.c.k() + " " + this.d.o() + Resources.String + (this.f + 1).ToString() + Resources.ErrorVarNotDeclared.Replace("%s", str));
   }
 
-  private void r(string A_0)
+  private void r(string textToParse)
   {
-    string str = ad.d(ref A_0);
+    string str = SyntaxUtils.SeparateNextNonSpecialSequence(ref textToParse);
     if (this.c.e.ContainsKey((object) str))
     {
       if ((this.c.e[(object) str] as af).h() == ac.b)
       {
-        af af1 = this.a(ref A_0);
-        af af2 = this.a(ref A_0);
+        af af1 = this.a(ref textToParse);
+        af af2 = this.a(ref textToParse);
         if (af1.h() != ac.a || af2.h() != ac.a)
           throw new InvalidOperationException(this.b.b() + " " + this.c.k() + " " + this.d.o() + Resources.String + (this.f + 1).ToString() + Resources.ErrorOpDeleteArgNotInt);
         if (af1.e() + af2.e() - 1 > (this.c.e[(object) str] as af).c().Length)
@@ -817,15 +817,15 @@ label_44:
       throw new InvalidOperationException(this.b.b() + " " + this.c.k() + " " + this.d.o() + Resources.String + (this.f + 1).ToString() + Resources.ErrorVarNotDeclared.Replace("%s", str));
   }
 
-  private void q(string A_0)
+  private void q(string textToParse)
   {
     if (EmulationRuntime.f || this.a.dm.Checked && this.c.k() == "Transport" || this.a.dn.Checked && this.c.k() == "Session" || this.a.dp.Checked && this.c.k() == "Presentation" || this.a.dq.Checked && this.c.k() == "Application" || this.a.dr.Checked && this.c.k() == "UE" || this.a.ds.Checked && this.c.k() == "Process" || this.a.dl.Checked && this.c.k() == "Network")
       return;
     StringBuilder stringBuilder = new StringBuilder();
-    ad.e(ref A_0);
-    while (A_0.Length > 0)
+    SyntaxUtils.TrimLeftSpaces(ref textToParse);
+    while (textToParse.Length > 0)
     {
-      af af = this.a(ref A_0);
+      af af = this.a(ref textToParse);
       switch (af.h())
       {
         case ac.a:
@@ -838,18 +838,18 @@ label_44:
           stringBuilder.Append(af.b().Length);
           break;
       }
-      ad.e(ref A_0);
+      SyntaxUtils.TrimLeftSpaces(ref textToParse);
     }
     this.h.b(stringBuilder.ToString());
   }
 
-  private void p(string A_0)
+  private void p(string textToParse)
   {
     StringBuilder stringBuilder = new StringBuilder();
-    ad.e(ref A_0);
-    while (A_0.Length > 0)
+    SyntaxUtils.TrimLeftSpaces(ref textToParse);
+    while (textToParse.Length > 0)
     {
-      af af = this.a(ref A_0);
+      af af = this.a(ref textToParse);
       switch (af.h())
       {
         case ac.a:
@@ -862,15 +862,15 @@ label_44:
           stringBuilder.Append(af.b().Length);
           break;
       }
-      ad.e(ref A_0);
+      SyntaxUtils.TrimLeftSpaces(ref textToParse);
     }
     this.h.b(stringBuilder.ToString());
     throw new InvalidOperationException(this.b.b() + " " + this.c.k() + " " + this.d.o() + " " + stringBuilder.ToString());
   }
 
-  private void o(string A_0)
+  private void o(string textToParse)
   {
-    string A_1 = ad.d(ref A_0);
+    string A_1 = SyntaxUtils.SeparateNextNonSpecialSequence(ref textToParse);
     string A_0_1;
     switch (this.c.k())
     {
@@ -896,14 +896,14 @@ label_44:
         throw new InvalidOperationException(this.b.b() + " " + this.c.k() + " " + this.d.o() + Resources.ErrorUnknownLevel + this.c.k());
     }
     if (A_1.Length > 4 && A_1.Substring(A_1.Length - 4) == ".IND" || A_1.Length > 5 && A_1.Substring(A_1.Length - 5) == ".CONF")
-      this.a(A_0_1, A_1, A_0);
+      this.a(A_0_1, A_1, textToParse);
     else
       throw new InvalidOperationException(this.b.b() + " " + this.c.k() + " " + this.d.o() + Resources.ErrorOpUp);
   }
 
-  private void n(string A_0)
+  private void n(string textToParse)
   {
-    string A_1 = ad.d(ref A_0);
+    string A_1 = SyntaxUtils.SeparateNextNonSpecialSequence(ref textToParse);
     string A_0_1;
     switch (this.c.k())
     {
@@ -929,25 +929,25 @@ label_44:
         throw new InvalidOperationException(this.b.b() + " " + this.c.k() + " " + this.d.o() + Resources.ErrorUnknownLevel + this.c.k());
     }
     if (A_1.Length > 4 && A_1.Substring(A_1.Length - 4) == ".REQ" || A_1.Length > 5 && A_1.Substring(A_1.Length - 5) == ".RESP")
-      this.a(A_0_1, A_1, A_0);
+      this.a(A_0_1, A_1, textToParse);
     else
       throw new InvalidOperationException(this.b.b() + " " + this.c.k() + " " + this.d.o() + Resources.ErrorOpDown);
   }
 
-  private void m(string A_0)
+  private void m(string textToParse)
   {
-    string A_0_1 = ad.d(ref A_0);
-    string str = ad.d(ref A_0);
-    af af1 = this.a(ref A_0);
+    string A_0_1 = SyntaxUtils.SeparateNextNonSpecialSequence(ref textToParse);
+    string str = SyntaxUtils.SeparateNextNonSpecialSequence(ref textToParse);
+    af af1 = this.a(ref textToParse);
     SortedList A_1 = new SortedList();
-    ad.e(ref A_0);
-    while (A_0.Length > 0)
+    SyntaxUtils.TrimLeftSpaces(ref textToParse);
+    while (textToParse.Length > 0)
     {
-      string key = ad.d(ref A_0);
-      ad.e(ref A_0);
-      af af2 = this.a(ref A_0);
+      string key = SyntaxUtils.SeparateNextNonSpecialSequence(ref textToParse);
+      SyntaxUtils.TrimLeftSpaces(ref textToParse);
+      af af2 = this.a(ref textToParse);
       A_1.Add((object) key, (object) af2);
-      ad.e(ref A_0);
+      SyntaxUtils.TrimLeftSpaces(ref textToParse);
     }
     if (this.c.e.ContainsKey((object) str))
       (this.c.e[(object) str] as af).a(this.h.a(A_0_1, A_1, this.c.k(), this.b, this.h.h + af1.e(), ((af) this.c.e[(object) str]).e()));
@@ -955,19 +955,19 @@ label_44:
       throw new InvalidOperationException(this.b.b() + " " + this.c.k() + " " + this.d.o() + Resources.String + (this.f + 1).ToString() + Resources.ErrorVarNotDeclared.Replace("%s", str));
   }
 
-  private void l(string A_0)
+  private void l(string textToParse)
   {
-    string A_1 = ad.d(ref A_0);
-    af af1 = this.a(ref A_0);
+    string A_1 = SyntaxUtils.SeparateNextNonSpecialSequence(ref textToParse);
+    af af1 = this.a(ref textToParse);
     SortedList A_2 = new SortedList();
-    ad.e(ref A_0);
-    while (A_0.Length > 0)
+    SyntaxUtils.TrimLeftSpaces(ref textToParse);
+    while (textToParse.Length > 0)
     {
-      string key = ad.d(ref A_0);
-      ad.e(ref A_0);
-      af af2 = this.a(ref A_0);
+      string key = SyntaxUtils.SeparateNextNonSpecialSequence(ref textToParse);
+      SyntaxUtils.TrimLeftSpaces(ref textToParse);
+      af af2 = this.a(ref textToParse);
       A_2.Add((object) key, (object) af2);
-      ad.e(ref A_0);
+      SyntaxUtils.TrimLeftSpaces(ref textToParse);
     }
     if (A_2.ContainsKey((object) "userdata"))
     {
@@ -991,14 +991,14 @@ label_44:
     }
   }
 
-  private void k(string A_0) => this.h.a(this.a(ref A_0).e());
+  private void k(string textToParse) => this.h.a(this.a(ref textToParse).e());
 
-  private void j(string A_0)
+  private void j(string textToParse)
   {
-    string str = ad.d(ref A_0);
+    string str = SyntaxUtils.SeparateNextNonSpecialSequence(ref textToParse);
     if (this.c.e.ContainsKey((object) str) && (this.c.e[(object) str] as af).h() == ac.a)
     {
-      af af = this.a(ref A_0);
+      af af = this.a(ref textToParse);
       byte[] numArray = af.h() == ac.c ? new byte[af.b().Length * 4] : throw new InvalidOperationException(this.b.b() + " " + this.c.k() + " " + this.d.o() + " " + (this.f + 1).ToString() + Resources.ErrorOpCrcWrongType);
       Buffer.BlockCopy((Array) af.b(), 0, (Array) numArray, 0, numArray.Length);
       (this.c.e[(object) str] as af).a((int) global::l.a(numArray));
@@ -1007,39 +1007,39 @@ label_44:
       throw new InvalidOperationException(this.b.b() + " " + this.c.k() + " " + this.d.o() + " " + (this.f + 1).ToString() + Resources.ErrorOpCrcNotDeclared.Replace("%s", str));
   }
 
-  private void i(string A_0)
+  private void i(string textToParse)
   {
-    string str = ad.d(ref A_0);
+    string str = SyntaxUtils.SeparateNextNonSpecialSequence(ref textToParse);
     if (this.c.f.ContainsKey((object) str))
-      (this.c.f[(object) str] as ag).a(this.a(ref A_0));
+      (this.c.f[(object) str] as ag).a(this.a(ref textToParse));
     else
       throw new InvalidOperationException(this.b.b() + " " + this.c.k() + " " + this.d.o() + Resources.ErrorOpQueueNotDeclared.Replace("%s", str));
   }
 
-  private void h(string A_0)
+  private void h(string textToParse)
   {
-    string str = ad.d(ref A_0);
+    string str = SyntaxUtils.SeparateNextNonSpecialSequence(ref textToParse);
     if (this.c.f.ContainsKey((object) str))
       (this.c.f[(object) str] as ag).d();
     else
       throw new InvalidOperationException(this.b.b() + " " + this.c.k() + " " + this.d.o() + Resources.ErrorOpQueueNotDeclared.Replace("%s", str));
   }
 
-  private void g(string A_0)
+  private void g(string textToParse)
   {
-    string str = ad.d(ref A_0);
+    string str = SyntaxUtils.SeparateNextNonSpecialSequence(ref textToParse);
     if (this.c.e.ContainsKey((object) str))
     {
-      af af1 = this.a(ref A_0);
+      af af1 = this.a(ref textToParse);
       int[] A_0_1 = new int[af1.e()];
-      ad.e(ref A_0);
+      SyntaxUtils.TrimLeftSpaces(ref textToParse);
       int index1 = 0;
-      while (A_0.Length > 0)
+      while (textToParse.Length > 0)
       {
-        af af2 = this.a(ref A_0);
-        ad.e(ref A_0);
-        af af3 = this.a(ref A_0);
-        ad.e(ref A_0);
+        af af2 = this.a(ref textToParse);
+        SyntaxUtils.TrimLeftSpaces(ref textToParse);
+        af af3 = this.a(ref textToParse);
+        SyntaxUtils.TrimLeftSpaces(ref textToParse);
         if (index1 + af3.e() > af1.e())
           throw new InvalidOperationException(this.b.b() + " " + this.c.k() + " " + this.d.o() + Resources.String + (this.f + 1).ToString() + Resources.ErrorBufferTooShort);
         switch (af2.h())
@@ -1070,19 +1070,19 @@ label_44:
       throw new InvalidOperationException(this.b.b() + " " + this.c.k() + " " + this.d.o() + " " + (this.f + 1).ToString() + Resources.ErrorVarNotDeclared.Replace("%s", str));
   }
 
-  private void f(string A_0)
+  private void f(string textToParse)
   {
-    string str1 = ad.d(ref A_0);
+    string str1 = SyntaxUtils.SeparateNextNonSpecialSequence(ref textToParse);
     if (this.c.e.ContainsKey((object) str1))
     {
-      ad.e(ref A_0);
+      SyntaxUtils.TrimLeftSpaces(ref textToParse);
       int sourceIndex = 0;
-      while (A_0.Length > 0)
+      while (textToParse.Length > 0)
       {
-        string str2 = ad.d(ref A_0);
-        ad.e(ref A_0);
-        af af = this.a(ref A_0);
-        ad.e(ref A_0);
+        string str2 = SyntaxUtils.SeparateNextNonSpecialSequence(ref textToParse);
+        SyntaxUtils.TrimLeftSpaces(ref textToParse);
+        af af = this.a(ref textToParse);
+        SyntaxUtils.TrimLeftSpaces(ref textToParse);
         if (sourceIndex + af.e() > (this.c.e[(object) str1] as af).b().Length)
           throw new InvalidOperationException(this.b.b() + " " + this.c.k() + " " + this.d.o() + Resources.String + (this.f + 1).ToString() + Resources.ErrorBufferTooShort);
         if (!this.c.e.Contains((object) str2))
@@ -1115,14 +1115,14 @@ label_44:
     }
     else if (this.e.ContainsKey((object) str1))
     {
-      ad.e(ref A_0);
+      SyntaxUtils.TrimLeftSpaces(ref textToParse);
       int sourceIndex = 0;
-      while (A_0.Length > 0)
+      while (textToParse.Length > 0)
       {
-        string str4 = ad.d(ref A_0);
-        ad.e(ref A_0);
-        af af = this.a(ref A_0);
-        ad.e(ref A_0);
+        string str4 = SyntaxUtils.SeparateNextNonSpecialSequence(ref textToParse);
+        SyntaxUtils.TrimLeftSpaces(ref textToParse);
+        af af = this.a(ref textToParse);
+        SyntaxUtils.TrimLeftSpaces(ref textToParse);
         if (sourceIndex + af.e() > (this.e[(object) str1] as af).b().Length)
           throw new InvalidOperationException(this.b.b() + " " + this.c.k() + " " + this.d.o() + Resources.String + (this.f + 1).ToString() + Resources.ErrorBufferTooShort);
         if (!this.c.e.Contains((object) str4))
@@ -1157,21 +1157,21 @@ label_44:
       throw new InvalidOperationException(this.b.b() + " " + this.c.k() + " " + this.d.o() + " " + (this.f + 1).ToString() + Resources.ErrorVarNotDeclared.Replace("%s", str1));
   }
 
-  private void e(string A_0) => this.f = this.w(ad.d(ref A_0));
+  private void e(string textToParse) => this.f = this.w(SyntaxUtils.SeparateNextNonSpecialSequence(ref textToParse));
 
-  private void d(string A_0)
+  private void d(string textToParse)
   {
-    if (!this.a(ref A_0).d())
+    if (!this.a(ref textToParse).d())
       return;
-    this.f = this.w(ad.d(ref A_0));
+    this.f = this.w(SyntaxUtils.SeparateNextNonSpecialSequence(ref textToParse));
   }
 
-  private void c(string A_0)
+  private void c(string textToParse)
   {
     if (this.g.Count > 20)
       throw new InvalidOperationException(this.b.b() + " " + this.c.k() + " " + this.d.o() + Resources.ErrorTooMuchSub);
     this.g.Push((object) this.f);
-    this.f = this.v(ad.d(ref A_0));
+    this.f = this.v(SyntaxUtils.SeparateNextNonSpecialSequence(ref textToParse));
   }
 
   private void b(string A_0)
@@ -1219,15 +1219,15 @@ label_44:
         string A_0 = string.Concat(strArray).Replace("SystemA", "Система А").Replace("SystemB", "Система B").Replace("Guide", "Справочник");
         h.AddToLog(A_0);
       }
-      string A_0_1 = (string) this.d.l()[this.f];
-      ad.e(ref A_0_1);
-      if (A_0_1.Length != 0)
+      string textToParse = (string) this.d.l()[this.f];
+      SyntaxUtils.TrimLeftSpaces(ref textToParse);
+      if (textToParse.Length != 0)
       {
-        string A_0_2 = ad.d(ref A_0_1);
+        string A_0_2 = SyntaxUtils.SeparateNextNonSpecialSequence(ref textToParse);
         if (A_0_2.Length > 0 && A_0_2[A_0_2.Length - 1] == ':')
         {
-          A_0_2 = ad.d(ref A_0_1);
-          if (A_0_1.Length == 0)
+          A_0_2 = SyntaxUtils.SeparateNextNonSpecialSequence(ref textToParse);
+          if (textToParse.Length == 0)
             continue;
         }
         if (EmulationRuntime.e > 0 & flag1)
@@ -1243,7 +1243,7 @@ label_44:
                 case 'i':
                   if (A_0_2 == "if")
                   {
-                    this.d(A_0_1);
+                    this.d(textToParse);
                     ++this.c.d.h;
                     break;
                   }
@@ -1251,7 +1251,7 @@ label_44:
                 case 'u':
                   if (A_0_2 == "up")
                   {
-                    this.o(A_0_1);
+                    this.o(textToParse);
                     ++this.c.d.b;
                     break;
                   }
@@ -1266,7 +1266,7 @@ label_44:
                 case 'c':
                   if (A_0_2 == "crc")
                   {
-                    this.j(A_0_1);
+                    this.j(textToParse);
                     ++this.c.d.k;
                     break;
                   }
@@ -1274,7 +1274,7 @@ label_44:
                 case 'o':
                   if (A_0_2 == "out")
                   {
-                    this.q(A_0_1);
+                    this.q(textToParse);
                     ++this.c.d.l;
                     break;
                   }
@@ -1282,7 +1282,7 @@ label_44:
                 case 's':
                   if (A_0_2 == "set")
                   {
-                    this.t(A_0_1);
+                    this.t(textToParse);
                     ++this.c.d.c;
                     break;
                   }
@@ -1297,7 +1297,7 @@ label_44:
                 case 'd':
                   if (A_0_2 == "down")
                   {
-                    this.n(A_0_1);
+                    this.n(textToParse);
                     ++this.c.d.a;
                     break;
                   }
@@ -1305,7 +1305,7 @@ label_44:
                 case 'g':
                   if (A_0_2 == "goto")
                   {
-                    this.e(A_0_1);
+                    this.e(textToParse);
                     ++this.c.d.g;
                     break;
                   }
@@ -1337,7 +1337,7 @@ label_44:
                 case 'q':
                   if (A_0_2 == "queue")
                   {
-                    this.i(A_0_1);
+                    this.i(textToParse);
                     ++this.c.d.f;
                     break;
                   }
@@ -1345,7 +1345,7 @@ label_44:
                 case 't':
                   if (A_0_2 == "timer")
                   {
-                    this.m(A_0_1);
+                    this.m(textToParse);
                     ++this.c.d.i;
                     break;
                   }
@@ -1360,7 +1360,7 @@ label_44:
                 case 'b':
                   if (A_0_2 == "buffer")
                   {
-                    this.g(A_0_1);
+                    this.g(textToParse);
                     ++this.c.d.d;
                     break;
                   }
@@ -1368,7 +1368,7 @@ label_44:
                 case 'd':
                   if (A_0_2 == "delete")
                   {
-                    this.r(A_0_1);
+                    this.r(textToParse);
                     break;
                   }
                   goto label_79;
@@ -1389,7 +1389,7 @@ label_44:
                 case 's':
                   if (A_0_2 == "subend")
                   {
-                    this.a(A_0_1);
+                    this.a(textToParse);
                     break;
                   }
                   goto label_79;
@@ -1403,21 +1403,21 @@ label_44:
                 case 'd':
                   if (A_0_2 == "declare")
                   {
-                    this.u(A_0_1);
+                    this.u(textToParse);
                     break;
                   }
                   goto label_79;
                 case 's':
                   if (A_0_2 == "subprog")
                   {
-                    this.c(A_0_1);
+                    this.c(textToParse);
                     break;
                   }
                   goto label_79;
                 case 'u':
                   if (A_0_2 == "untimer")
                   {
-                    this.k(A_0_1);
+                    this.k(textToParse);
                     ++this.c.d.j;
                     break;
                   }
@@ -1432,21 +1432,21 @@ label_44:
                 case 's':
                   if (A_0_2 == "substart")
                   {
-                    this.b(A_0_1);
+                    this.b(textToParse);
                     break;
                   }
                   goto label_79;
                 case 't':
                   if (A_0_2 == "transmit")
                   {
-                    this.l(A_0_1);
+                    this.l(textToParse);
                     break;
                   }
                   goto label_79;
                 case 'u':
                   if (A_0_2 == "unbuffer")
                   {
-                    this.f(A_0_1);
+                    this.f(textToParse);
                     ++this.c.d.e;
                     break;
                   }
@@ -1458,7 +1458,7 @@ label_44:
             case 9:
               if (A_0_2 == "exception")
               {
-                this.p(A_0_1);
+                this.p(textToParse);
                 ++this.c.d.l;
                 break;
               }
@@ -1469,7 +1469,7 @@ label_44:
                 case 'c':
                   if (A_0_2 == "clearqueue")
                   {
-                    this.h(A_0_1);
+                    this.h(textToParse);
                     ++this.c.d.n;
                     break;
                   }
@@ -1477,7 +1477,7 @@ label_44:
                 case 'g':
                   if (A_0_2 == "getaddress")
                   {
-                    this.s(A_0_1);
+                    this.s(textToParse);
                     ++this.c.d.c;
                     break;
                   }

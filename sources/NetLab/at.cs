@@ -47,9 +47,9 @@ public class at : Form
       string A_0_1 = (string) A_0.l()[index];
       if (A_0_1.Length != 0 && A_0_1[0] != ';')
       {
-        string str = ad.d(ref A_0_1);
+        string str = SyntaxUtils.SeparateNextNonSpecialSequence(ref A_0_1);
         if (str[str.Length - 1] == ':')
-          str = ad.d(ref A_0_1);
+          str = SyntaxUtils.SeparateNextNonSpecialSequence(ref A_0_1);
         if (str != null)
         {
           switch (str.Length)

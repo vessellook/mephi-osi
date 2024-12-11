@@ -133,12 +133,12 @@ public class LayerParticipant
 
   public void c(MemoryStream A_0)
   {
-    string str1 = ad.a(A_0);
+    string str1 = SyntaxUtils.ReadLine(A_0);
     if (str1.Substring(0, 7) != "levdef ")
       throw new InvalidOperationException("Неверный формат файла");
     if (this.k() != str1.Substring(7))
       throw new InvalidOperationException("Неверный уровень");
-    string str2 = ad.a(A_0);
+    string str2 = SyntaxUtils.ReadLine(A_0);
     int num1 = !(str2.Substring(0, 13) != "events bank0 ") ? Convert.ToInt32(str2.Substring(13)) : throw new InvalidOperationException("Неверный формат файла");
     this.g().Clear();
     for (int index = 0; index < num1; ++index)
@@ -147,7 +147,7 @@ public class LayerParticipant
       aj.c(A_0);
       this.g().Add((object) aj.o(), (object) aj);
     }
-    string str3 = ad.a(A_0);
+    string str3 = SyntaxUtils.ReadLine(A_0);
     int num2 = !(str3.Substring(0, 13) != "events bank1 ") ? Convert.ToInt32(str3.Substring(13)) : throw new InvalidOperationException("Неверный формат файла");
     this.c().Clear();
     for (int index = 0; index < num2; ++index)
@@ -156,7 +156,7 @@ public class LayerParticipant
       aj.c(A_0);
       this.c().Add((object) aj.o(), (object) aj);
     }
-    if (ad.a(A_0) != "levdef end")
+    if (SyntaxUtils.ReadLine(A_0) != "levdef end")
       throw new InvalidOperationException("Неверный формат файла");
   }
 
@@ -175,15 +175,15 @@ public class LayerParticipant
 
   public void a(MemoryStream A_0)
   {
-    string str1 = !(ad.a(A_0) != "levdef " + this.k()) ? ad.a(A_0) : throw new InvalidOperationException("Неверный формат файла");
+    string str1 = !(SyntaxUtils.ReadLine(A_0) != "levdef " + this.k()) ? SyntaxUtils.ReadLine(A_0) : throw new InvalidOperationException("Неверный формат файла");
     int num1 = !(str1.Substring(0, 13) != "events bank0 ") ? Convert.ToInt32(str1.Substring(13)) : throw new InvalidOperationException("Неверный формат файла");
     for (int index = 0; index < num1; ++index)
       ((aj) this.g().GetByIndex(index)).a(A_0);
-    string str2 = ad.a(A_0);
+    string str2 = SyntaxUtils.ReadLine(A_0);
     int num2 = !(str2.Substring(0, 13) != "events bank1 ") ? Convert.ToInt32(str2.Substring(13)) : throw new InvalidOperationException("Неверный формат файла");
     for (int index = 0; index < num2; ++index)
       ((aj) this.c().GetByIndex(index)).a(A_0);
-    if (ad.a(A_0) != "levdef end")
+    if (SyntaxUtils.ReadLine(A_0) != "levdef end")
       throw new InvalidOperationException("Неверный формат файла");
   }
 }

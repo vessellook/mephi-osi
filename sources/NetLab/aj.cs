@@ -166,19 +166,19 @@ public class aj
   public void c(MemoryStream A_0)
   {
     this.k().Clear();
-    string str1 = ad.a(A_0);
+    string str1 = SyntaxUtils.ReadLine(A_0);
     if (str1.Substring(0, 8) != "ev name ")
       throw new InvalidOperationException("Неверный формат файла");
     this.a(str1.Substring(8));
-    string str2 = ad.a(A_0);
+    string str2 = SyntaxUtils.ReadLine(A_0);
     int num = !(str2.Substring(0, 10) != "ev clines ") ? Convert.ToInt32(str2.Substring(10)) : throw new InvalidOperationException("Неверный формат файла");
     for (int index = 0; index < num; ++index)
     {
-      string str3 = ad.a(A_0);
+      string str3 = SyntaxUtils.ReadLine(A_0);
       if (str3.Substring(0, 7) != "evcode ")
         throw new InvalidOperationException("Неверный формат файла");
       this.k().Add((object) str3.Substring(7));
-      this.l().Add((object) ad.a(str3.Substring(7), (int) this.b()));
+      this.l().Add((object) SyntaxUtils.ConvertToBaseSyntax(str3.Substring(7), (int) this.b()));
     }
   }
 
@@ -194,17 +194,17 @@ public class aj
 
   public void a(MemoryStream A_0)
   {
-    string str1 = !(ad.a(A_0) != "ev name " + this.o()) ? ad.a(A_0) : throw new InvalidOperationException("Неверный формат файла");
+    string str1 = !(SyntaxUtils.ReadLine(A_0) != "ev name " + this.o()) ? SyntaxUtils.ReadLine(A_0) : throw new InvalidOperationException("Неверный формат файла");
     this.m = !(str1.Substring(0, 7) != "ev CRC ") ? Convert.ToUInt32(str1.Substring(7)) : throw new InvalidOperationException("Неверный формат файла");
-    string str2 = ad.a(A_0);
+    string str2 = SyntaxUtils.ReadLine(A_0);
     if (str2.Substring(0, 16) != "ev LastEditDate ")
       throw new InvalidOperationException("Неверный формат файла");
     this.a(Convert.ToDateTime(str2.Substring(16)));
-    string str3 = ad.a(A_0);
+    string str3 = SyntaxUtils.ReadLine(A_0);
     if (str3.Substring(0, 14) != "ev EditNumber ")
       throw new InvalidOperationException("Неверный формат файла");
     this.b(Convert.ToInt32(str3.Substring(14)));
-    string str4 = ad.a(A_0);
+    string str4 = SyntaxUtils.ReadLine(A_0);
     if (str4.Substring(0, 12) != "ev EditTime ")
       throw new InvalidOperationException("Неверный формат файла");
     this.a(Convert.ToInt32(str4.Substring(12)));
