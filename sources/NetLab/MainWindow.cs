@@ -957,10 +957,10 @@ label_52:
                               if ((int) Convert.ToInt16(str5) == global::MainWindow.userInfo.variantNumber)
                               {
                                 string str6 = str4.Substring(str4.IndexOf(";") + 3);
-                                string str7 = !(str6.Substring(0, str6.IndexOf(";")) == "есть") ? "2" : "1";
+                                string pTestSuffix = !(str6.Substring(0, str6.IndexOf(";")) == "есть") ? "2" : "1";
                                 try
                                 {
-                                  using (MemoryStream A_0_4 = new MemoryStream())
+                                  using (MemoryStream basetestPStream = new MemoryStream())
                                   {
                                     using (ZipFile zipFile = new ZipFile(Application.StartupPath + "\\basetest.dsc"))
                                     {
@@ -968,14 +968,14 @@ label_52:
                                       zipFile.CompressionLevel = (CompressionLevel) 6;
                                       zipFile.Encryption = (EncryptionAlgorithm) 3;
                                       zipFile.Password = global::MainWindow.realPassword;
-                                      zipFile["presentation" + str7 + ".lev"].Extract((Stream) A_0_4);
+                                      zipFile["presentation" + pTestSuffix + ".lev"].Extract((Stream) basetestPStream);
                                       zipFile.Dispose();
                                     }
-                                    A_0_4.Position = 0L;
-                                    this.GetEmulationRuntime ().GetSystemA().GetPresentationLayer().c(A_0_4);
-                                    this.GetEmulationRuntime ().GetGuide().GetPresentationLayer().c(A_0_4);
-                                    this.GetEmulationRuntime ().GetSystemB().GetPresentationLayer().c(A_0_4);
-                                    A_0_4.Close();
+                                    basetestPStream.Position = 0L;
+                                    this.GetEmulationRuntime ().GetSystemA().GetPresentationLayer().c(basetestPStream);
+                                    this.GetEmulationRuntime ().GetGuide().GetPresentationLayer().c(basetestPStream);
+                                    this.GetEmulationRuntime ().GetSystemB().GetPresentationLayer().c(basetestPStream);
+                                    basetestPStream.Close();
                                     break;
                                   }
                                 }
@@ -1004,7 +1004,7 @@ label_52:
                   {
                     try
                     {
-                      using (MemoryStream memoryStream3 = new MemoryStream())
+                      using (MemoryStream pMemoryStream = new MemoryStream())
                       {
                         using (ZipFile zipFile = new ZipFile(Application.StartupPath + "\\levels.dsc"))
                         {
@@ -1012,14 +1012,14 @@ label_52:
                           zipFile.CompressionLevel = (CompressionLevel) 6;
                           zipFile.Encryption = (EncryptionAlgorithm) 3;
                           zipFile.Password = global::MainWindow.realPassword;
-                          zipFile["Presentation.csv"].Extract((Stream) memoryStream3);
+                          zipFile["Presentation.csv"].Extract((Stream) pMemoryStream);
                           zipFile.Dispose();
                         }
-                        memoryStream3.Position = 0L;
-                        using (StreamReader streamReader3 = new StreamReader((Stream) memoryStream3))
+                        pMemoryStream.Position = 0L;
+                        using (StreamReader pStreamReader = new StreamReader((Stream) pMemoryStream))
                         {
                           string str8;
-                          while ((str8 = streamReader3.ReadLine()) != null)
+                          while ((str8 = pStreamReader.ReadLine()) != null)
                           {
                             string str9 = str8.Substring(0, str8.IndexOf(";"));
                             try
@@ -1027,10 +1027,10 @@ label_52:
                               if ((int) Convert.ToInt16(str9) == global::MainWindow.userInfo.variantNumber)
                               {
                                 string str10 = str8.Substring(str8.IndexOf(";") + 3);
-                                string str11 = str10.Substring(0, str10.IndexOf(";"));
+                                string aTestSuffix = str10.Substring(0, str10.IndexOf(";"));
                                 try
                                 {
-                                  using (MemoryStream memoryStream = new MemoryStream())
+                                  using (MemoryStream basetestMemoryStream = new MemoryStream())
                                   {
                                     using (ZipFile zipFile = new ZipFile(Application.StartupPath + "\\basetest.dsc"))
                                     {
@@ -1038,14 +1038,14 @@ label_52:
                                       zipFile.CompressionLevel = (CompressionLevel) 6;
                                       zipFile.Encryption = (EncryptionAlgorithm) 3;
                                       zipFile.Password = global::MainWindow.realPassword;
-                                      zipFile["application" + str11 + ".lev"].Extract((Stream) memoryStream);
+                                      zipFile["application" + aTestSuffix + ".lev"].Extract((Stream) basetestMemoryStream);
                                       zipFile.Dispose();
                                     }
-                                    memoryStream.Position = 0L;
-                                    this.GetEmulationRuntime ().GetSystemA().GetApplicationLayer().c(memoryStream);
-                                    this.GetEmulationRuntime ().GetGuide().GetApplicationLayer().c(memoryStream);
-                                    this.GetEmulationRuntime ().GetSystemB().GetApplicationLayer().c(memoryStream);
-                                    memoryStream.Close();
+                                    basetestMemoryStream.Position = 0L;
+                                    this.GetEmulationRuntime ().GetSystemA().GetApplicationLayer().c(basetestMemoryStream);
+                                    this.GetEmulationRuntime ().GetGuide().GetApplicationLayer().c(basetestMemoryStream);
+                                    this.GetEmulationRuntime ().GetSystemB().GetApplicationLayer().c(basetestMemoryStream);
+                                    basetestMemoryStream.Close();
                                     break;
                                   }
                                 }
@@ -1061,7 +1061,7 @@ label_52:
                               int num = (int) MessageBox.Show(ex.Message, Resources.ErrorLoadNetParams + " 1", MessageBoxButtons.OK, MessageBoxIcon.Hand);
                             }
                           }
-                          streamReader3.Close();
+                          pStreamReader.Close();
                         }
                       }
                     }
@@ -1074,7 +1074,7 @@ label_52:
                   {
                     try
                     {
-                      using (MemoryStream memoryStream4 = new MemoryStream())
+                      using (MemoryStream aMemoryStream = new MemoryStream())
                       {
                         using (ZipFile zipFile = new ZipFile(Application.StartupPath + "\\levels.dsc"))
                         {
@@ -1082,27 +1082,27 @@ label_52:
                           zipFile.CompressionLevel = (CompressionLevel) 6;
                           zipFile.Encryption = (EncryptionAlgorithm) 3;
                           zipFile.Password = global::MainWindow.realPassword;
-                          zipFile["Application.csv"].Extract((Stream) memoryStream4);
+                          zipFile["Application.csv"].Extract((Stream) aMemoryStream);
                           zipFile.Dispose();
                         }
-                        memoryStream4.Position = 0L;
-                        using (StreamReader streamReader4 = new StreamReader((Stream) memoryStream4))
+                        aMemoryStream.Position = 0L;
+                        using (StreamReader aStreamReader = new StreamReader((Stream) aMemoryStream))
                         {
-                          string str12;
-                          while ((str12 = streamReader4.ReadLine()) != null)
+                          string aLevelLine;
+                          while ((aLevelLine = aStreamReader.ReadLine()) != null)
                           {
-                            string str13 = str12.Substring(0, str12.IndexOf(";"));
+                            string levelLineNumber = aLevelLine.Substring(0, aLevelLine.IndexOf(";"));
                             try
                             {
-                              if ((int) Convert.ToInt16(str13) == global::MainWindow.userInfo.variantNumber)
+                              if ((int) Convert.ToInt16(levelLineNumber) == global::MainWindow.userInfo.variantNumber)
                               {
-                                string str14 = str12.Substring(str12.IndexOf(";") + 3);
-                                string str15 = str14.Substring(0, str14.IndexOf(";"));
+                                string str14 = aLevelLine.Substring(aLevelLine.IndexOf(";") + 3);
+                                string gTestSuffix = str14.Substring(0, str14.IndexOf(";"));
                                 string str16 = str14.Substring(str14.IndexOf(";") + 1);
-                                string str17 = str16.Substring(0, str16.IndexOf(";"));
+                                string ueTestSuffix = str16.Substring(0, str16.IndexOf(";"));
                                 try
                                 {
-                                  using (MemoryStream A_0_6 = new MemoryStream())
+                                  using (MemoryStream basetestUeStream = new MemoryStream())
                                   {
                                     using (ZipFile zipFile = new ZipFile(Application.StartupPath + "\\basetest.dsc"))
                                     {
@@ -1110,14 +1110,14 @@ label_52:
                                       zipFile.CompressionLevel = (CompressionLevel) 6;
                                       zipFile.Encryption = (EncryptionAlgorithm) 3;
                                       zipFile.Password = global::MainWindow.realPassword;
-                                      zipFile["ue" + str17 + ".lev"].Extract((Stream) A_0_6);
+                                      zipFile["ue" + ueTestSuffix + ".lev"].Extract((Stream) basetestUeStream);
                                       zipFile.Dispose();
                                     }
-                                    A_0_6.Position = 0L;
-                                    this.GetEmulationRuntime ().GetSystemA().GetUELayer().c(A_0_6);
-                                    this.GetEmulationRuntime ().GetGuide().GetUELayer().c(A_0_6);
-                                    this.GetEmulationRuntime ().GetSystemB().GetUELayer().c(A_0_6);
-                                    A_0_6.Close();
+                                    basetestUeStream.Position = 0L;
+                                    this.GetEmulationRuntime ().GetSystemA().GetUELayer().c(basetestUeStream);
+                                    this.GetEmulationRuntime ().GetGuide().GetUELayer().c(basetestUeStream);
+                                    this.GetEmulationRuntime ().GetSystemB().GetUELayer().c(basetestUeStream);
+                                    basetestUeStream.Close();
                                   }
                                 }
                                 catch (Exception ex)
@@ -1126,7 +1126,7 @@ label_52:
                                 }
                                 try
                                 {
-                                  using (MemoryStream memoryStream = new MemoryStream())
+                                  using (MemoryStream basetestStreamReader = new MemoryStream())
                                   {
                                     using (ZipFile zipFile = new ZipFile(Application.StartupPath + "\\basetest.dsc"))
                                     {
@@ -1134,12 +1134,12 @@ label_52:
                                       zipFile.CompressionLevel = (CompressionLevel) 6;
                                       zipFile.Encryption = (EncryptionAlgorithm) 3;
                                       zipFile.Password = global::MainWindow.realPassword;
-                                      zipFile["g" + str15 + ".lev"].Extract((Stream) memoryStream);
+                                      zipFile["g" + gTestSuffix + ".lev"].Extract((Stream) basetestStreamReader);
                                       zipFile.Dispose();
                                     }
-                                    memoryStream.Position = 0L;
-                                    this.GetEmulationRuntime ().GetGuide().GetApplicationLayer().c(memoryStream);
-                                    memoryStream.Close();
+                                    basetestStreamReader.Position = 0L;
+                                    this.GetEmulationRuntime ().GetGuide().GetApplicationLayer().c(basetestStreamReader);
+                                    basetestStreamReader.Close();
                                     break;
                                   }
                                 }
@@ -1155,7 +1155,7 @@ label_52:
                               int num = (int) MessageBox.Show(ex.Message, Resources.ErrorLoadNetParams + " 1", MessageBoxButtons.OK, MessageBoxIcon.Hand);
                             }
                           }
-                          streamReader4.Close();
+                          aStreamReader.Close();
                         }
                       }
                     }
@@ -2160,7 +2160,7 @@ label_52:
                 if ((int) Convert.ToInt16(str2) == global::MainWindow.userInfo.variantNumber)
                 {
                   string str3 = str1.Substring(str1.IndexOf(";") + 3);
-                  string str4 = !(str3.Substring(0, str3.IndexOf(";")) == "есть") ? "2" : "1";
+                  string pTestSuffix = !(str3.Substring(0, str3.IndexOf(";")) == "есть") ? "2" : "1";
                   try
                   {
                     using (MemoryStream A_0_1 = new MemoryStream())
@@ -2171,7 +2171,7 @@ label_52:
                         zipFile.CompressionLevel = (CompressionLevel) 6;
                         zipFile.Encryption = (EncryptionAlgorithm) 3;
                         zipFile.Password = global::MainWindow.realPassword;
-                        zipFile["presentation" + str4 + ".lev"].Extract((Stream) A_0_1);
+                        zipFile["presentation" + pTestSuffix + ".lev"].Extract((Stream) A_0_1);
                         zipFile.Dispose();
                       }
                       A_0_1.Position = 0L;
@@ -2237,7 +2237,7 @@ label_52:
                 if ((int) Convert.ToInt16(str6) == global::MainWindow.userInfo.variantNumber)
                 {
                   string str7 = str5.Substring(str5.IndexOf(";") + 3);
-                  string str8 = str7.Substring(0, str7.IndexOf(";"));
+                  string aTestSuffix = str7.Substring(0, str7.IndexOf(";"));
                   try
                   {
                     using (MemoryStream A_0_2 = new MemoryStream())
@@ -2248,7 +2248,7 @@ label_52:
                         zipFile.CompressionLevel = (CompressionLevel) 6;
                         zipFile.Encryption = (EncryptionAlgorithm) 3;
                         zipFile.Password = global::MainWindow.realPassword;
-                        zipFile["application" + str8 + ".lev"].Extract((Stream) A_0_2);
+                        zipFile["application" + aTestSuffix + ".lev"].Extract((Stream) A_0_2);
                         zipFile.Dispose();
                       }
                       A_0_2.Position = 0L;
@@ -2315,9 +2315,9 @@ label_52:
                 if ((int) Convert.ToInt16(str10) == global::MainWindow.userInfo.variantNumber)
                 {
                   string str11 = str9.Substring(str9.IndexOf(";") + 3);
-                  string str12 = str11.Substring(0, str11.IndexOf(";"));
+                  string gTestSuffix = str11.Substring(0, str11.IndexOf(";"));
                   string str13 = str11.Substring(str11.IndexOf(";") + 1);
-                  string str14 = str13.Substring(0, str13.IndexOf(";"));
+                  string ueTestSuffix = str13.Substring(0, str13.IndexOf(";"));
                   try
                   {
                     using (MemoryStream A_0_3 = new MemoryStream())
@@ -2328,7 +2328,7 @@ label_52:
                         zipFile.CompressionLevel = (CompressionLevel) 6;
                         zipFile.Encryption = (EncryptionAlgorithm) 3;
                         zipFile.Password = global::MainWindow.realPassword;
-                        zipFile["ue" + str14 + ".lev"].Extract((Stream) A_0_3);
+                        zipFile["ue" + ueTestSuffix + ".lev"].Extract((Stream) A_0_3);
                         zipFile.Dispose();
                       }
                       A_0_3.Position = 0L;
@@ -2352,7 +2352,7 @@ label_52:
                         zipFile.CompressionLevel = (CompressionLevel) 6;
                         zipFile.Encryption = (EncryptionAlgorithm) 3;
                         zipFile.Password = global::MainWindow.realPassword;
-                        zipFile["g" + str12 + ".lev"].Extract((Stream) memoryStream);
+                        zipFile["g" + gTestSuffix + ".lev"].Extract((Stream) memoryStream);
                         zipFile.Dispose();
                       }
                       memoryStream.Position = 0L;
