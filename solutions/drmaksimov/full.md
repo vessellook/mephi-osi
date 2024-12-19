@@ -4,6 +4,418 @@
 
 Год создания 2024.
 
+# Прикладной уровень
+
+Скопировано из asvaselyuk и затем переделано
+
+Прикладной уровень предоставляет услуги прикладному процессу и использует услуги уровня представления.
+
+Термином "ассоциация" называется логическая связь между объектами разных уровней. То есть A_ASSOCIATE следует воспринимать аналогом T_CONNECT, S_CONNECT и P_CONNECT.
+
+На прикладном уровне вводится третья система - справочник ("Guide"), которая является аналогом DNS сервера.
+
+Предполагается, что прикладной уровень разделён на 3 части: основную часть (ЭСУА), справочная служба (СС, Guide System, GS), служба передачи данных (Data Transfer, DT). ЭСУА отвечает за услуги A_ASSOCIATE, A_RELEASE, A_U_ABORT, A_P_ABORT, а GS и DT являются пользователями этих услуг, как и прикладной процесс, поэтому у них всех есть параметр apcon, принимающий значения "GS", "DT" и "AP" (прикладной процесс).
+
+Прикладной процесс нигде не передаёт прикладному уровню адрес второй системы, только имя системы, так что нужно реализовать аналог DNS. В справке по уровню описывается функция locguide, которая позволяет по имени получить адрес или по адресу имя, это аналог файла hosts. Кроме него известно имя "Guide" справочной службы, которая является аналогом DNS сервера.
+
+Сначала прикладной процесс посылает событие A_TRANSFER_INIT.REQ и указывает своё имя и имя второй стороны. Нужно попытаться узнать адрес второй стороны сначала от locguide(), а при неудаче от "Guide" (то есть узнать адрес от locguide, установить с ним P-соединение, передать строку с именем, получить буфер с ответом, закрыть P-соединение, обработать ответ). После этого надо установить P-соединение со второй стороной.
+
+## A_INIT.REQ
+
+```
+declare integer namer_addr
+declare string namer_name
+declare integer namei_addr
+declare string namei_name
+
+declare integer dummy_timer
+declare buffer tmp_data
+declare buffer tmp_data1
+declare buffer tmp_data2
+declare buffer tmp_data3
+declare buffer tmp_data4
+declare integer tmp_addr
+declare integer tmp_type
+declare integer tmp_time1
+declare integer tmp_time2
+declare string tmp_char1
+declare string tmp_char2
+declare string tmp_str
+
+declare string esua_apcon
+declare integer esua_address
+declare buffer esua_quality
+declare buffer esua_context
+declare buffer esua_demand
+
+declare string gs_name
+declare integer gs_other_addr
+setto 0 gs_other_addr
+declare buffer gs_addr
+
+declare string dt_namer
+declare string dt_namei
+declare integer dt_namei_addr
+declare buffer dt_context
+declare buffer dt_quality
+declare buffer dt_userdata
+declare integer dt_want_data_token
+declare integer dt_want_sync_token
+
+declare integer CODE_APCON_REQ
+declare integer CODE_APCON_RESP
+setto 1 CODE_APCON_REQ
+setto 2 CODE_APCON_RESP
+```
+
+## ЭСУА
+
+### A_ASSOCIATE.REQ
+
+Эту операцию могут инициировать прикладной процесс (AP) напрямую,
+через справочную службу (GS) вызовом A_RESOLVE.REQ
+или через службу передачи данных (DT) вызовом A_TRANSFER_INIT.REQ,
+что определяется параметром apcon.
+
+```
+;параметры: namer (буфер), namei (буфер), quality (буфер), demand (буфер), context (буфер), apcon (строка)
+namer_addr 1 namer_name sizeof( namer) - 1 unpack namer
+namei_addr 1 namei_name sizeof( namei) - 1 unpack namei
+out CurrentSystemName() " A_ASSOCIATE.REQ namer " $namer_addr $namer_name " namei " $namei_addr $namei_name " quality " $quality " demand " $demand " context " $context " apcon " $apcon
+
+setto $apcon esua_apcon
+setto $demand esua_demand
+generatedown P_CONNECT.REQ address $namer_addr quality $quality demand $demand context $context
+```
+
+### A_ASSOCIATE.RESP
+```
+;параметры: namei (буфер), context (буфер), quality (буфер), apcon (строка)
+namei_addr 1 namei_name sizeof( namei) - 1 unpack namei
+out CurrentSystemName() " A_ASSOCIATE.RESP namei " $namei_addr $namei_name " quality " $quality " context " $context " apcon " $apcon
+
+generatedown P_CONNECT.RESP address $namei_addr quality $quality context $context
+```
+
+### A_RELEASE.REQ
+```
+;параметры: apcon (строка)
+out "A_RELEASE.REQ apcon " $apcon
+
+generatedown P_RELEASE.REQ
+```
+
+### A_RELEASE.RESP
+```
+;параметры: apcon (строка)
+out "A_RELEASE.RESP apcon " $apcon
+
+generatedown P_RELEASE.RESP
+```
+
+### P_CONNECT.CONF
+```
+;параметры:  quality (буфер), context (буфер)
+out CurrentSystemName() " P_CONNECT.CONF quality " $quality " context " $context
+
+if dt $esua_apcon == "DT"
+gs:
+tmp_data pack sizeof(gs_name) + 1 3 1 $gs_name sizeof(gs_name)
+userdata $tmp_data 0 timer dummy_timer A_DATA.REQ.GS
+return
+dt:
+context $context quality $quality up A_TRANSFER_INIT.CONF
+```
+
+### P_CONNECT.IND
+В A_ASSOCIATE.IND нужно передать apcon, который можно передать через P_EXPEDITED_DATA.
+P_EXPEDITED_DATA можно использовать до завершения установки P-соединения,
+поэтому тут просто сохраняются все данные для передачи в A_ASSOCIATE.IND
+и запрашивается apcon.
+
+```
+;параметры:  address (число), quality (буфер), demand (буфер)
+out CurrentSystemName() " P_CONNECT.IND address " $address " quality " $quality " demand " $demand
+
+; кешируем адрес SystemA
+setto $address gs_other_addr
+setto "DT" esua_apcon
+namei locguide($address) quality $quality up A_TRANSFER_INIT.IND
+```
+
+### P_RELEASE.CONF
+```
+;параметры:  нет
+out CurrentSystemName() " P_RELEASE.CONF"
+if dt $esua_apcon == "DT"
+gs:
+address $gs_addr 0 timer dummy_timer A_RESOLVE.IND.DT
+return
+
+dt:
+up A_TERMINATE.CONF
+```
+
+### P_RELEASE.IND
+```
+;параметры:  нет
+out CurrentSystemName() " P_RELEASE.IND"
+if dt $esua_apcon == "DT"
+gs:
+generatedown P_RELEASE.RESP
+return
+
+dt:
+up A_TERMINATE.IND
+```
+
+## GS
+
+### A_RESOLVE.REQ
+Адрес либо вернётся из locguide(), либо нужно будет установить ассоциацию (т.е. соединение) с Guide
+и спросить у Guide адрес. Обработчик очень похож на A_ASSOCIATE.REQ
+```
+;параметры: name (строка)
+out CurrentSystemName() " A_RESOLVE.REQ name " $name
+
+if give_saved_address $gs_other_addr != 0
+
+check_locguide:
+setto locguide($name) tmp_data
+tmp_type 1 tmp_addr 1 tmp_time1 1 tmp_time2 1 tmp_char1 1 tmp_char2 1 unpack tmp_data
+
+out CurrentSystemName() " A_RESOLVE.REQ locguide(" $name ") = " $tmp_type "," $tmp_addr "," $tmp_time1 "," $tmp_time2 "," $tmp_char1 "," $tmp_char2
+if name_found $tmp_type == 0
+if name_wait_time1 $tmp_type == 1
+if name_wait_time12 $tmp_type == 2
+if name_not_found_locally $tmp_type == 3
+if name_suggest_replace $tmp_type == 4
+return
+
+give_saved_address:
+tmp_data pack 4 0 1 $gs_other_addr 1 "<" 1 ">" 1
+if resolve_dt $gs_apcon == "DT"
+goto resolve_ap
+
+name_found:
+tmp_data pack 4 0 1 $tmp_addr 1 "<" 1 ">" 1
+if resolve_dt $gs_apcon == "DT"
+resolve_ap:
+address $tmp_data up A_RESOLVE.IND
+return
+resolve_dt:
+address $tmp_data 0 timer dummy_timer A_RESOLVE.IND.DT
+return
+
+name_wait_time1:
+name_wait_time2:
+name $name $tmp_time1 timer dummy_timer A_RESOLVE.REQ
+return
+
+name_not_found_locally:
+name_suggest_replace:
+setto $name gs_name
+setto locguide("Guide") tmp_data
+tmp_type 1 tmp_addr 1 tmp_time1 1 tmp_time2 1 tmp_char1 1 tmp_char2 1 unpack tmp_data
+out CurrentSystemName() " A_RESOLVE.REQ locguide(Guide) = " $tmp_type "," $tmp_addr "," $tmp_time1 "," $tmp_time2 "," $tmp_char1 "," $tmp_char2
+tmp_data pack 6 $tmp_addr 1 "Guide" 5
+
+setto CurrentSystemName() tmp_str
+setto locguide($tmp_str) tmp_data1
+tmp_type 1 tmp_addr 1 tmp_time1 1 tmp_time2 1 tmp_char1 1 tmp_char2 1 unpack tmp_data1
+out "A_RESOLVE.REQ locguide(" $tmp_str ") = " $tmp_type "," $tmp_addr "," $tmp_time1 "," $tmp_time2 "," $tmp_char1 "," $tmp_char2
+tmp_data1 pack 1 + sizeof(tmp_str) $tmp_addr 1 $tmp_str sizeof(tmp_str)
+
+tmp_data2 pack 2 0 1 0 1
+tmp_data3 pack 1 1 1
+tmp_data4 pack 4 "<" 1 ">" 1 1 1 2 1
+namer $tmp_data namei $tmp_data1 quality $tmp_data2 demand $tmp_data3 context $tmp_data4 apcon "GS" 0 timer dummy_timer A_ASSOCIATE.REQ
+```
+
+## DT
+
+### A_DATA.REQ
+```
+;параметры: userdata (буфер)
+out "A_DATA.REQ userdata " $userdata
+generatedown P_EXPEDITED_DATA.REQ userdata $userdata
+```
+
+### A_DATA.REQ.GS
+```
+;параметры: userdata (буфер)
+out "A_DATA.REQ.GS userdata " $userdata
+setto $userdata dt_userdata
+generatedown P_DATA.REQ userdata $userdata
+5 timer dummy_timer A_SYNC_MAJOR.REQ
+```
+
+### A_RESOLVE.IND.DT
+```
+;параметры: address (буфер)
+tmp_type 1 tmp_addr 1 tmp_char1 1 tmp_char2 1 unpack address
+out CurrentSystemName() " P_RELEASE.CONF A_RESOLVE.IND.DT address " $tmp_type "," $tmp_addr "," $tmp_char1 "," $tmp_char2
+tmp_data pack 1 + sizeof(dt_namer) $tmp_addr 1 $dt_namer sizeof(dt_namer)
+
+setto locguide($dt_namei) tmp_data1
+tmp_type 1 tmp_addr 1 tmp_time1 1 tmp_time2 1 tmp_char1 1 tmp_char2 1 unpack tmp_data1
+out "A_RESOLVE.REQ locguide(" $dt_namei ") = " $tmp_type "," $tmp_addr "," $tmp_time1 "," $tmp_time2 "," $tmp_char1 "," $tmp_char2
+tmp_data1 pack 1 + sizeof(dt_namei) $tmp_addr 1 $dt_namei sizeof(dt_namei)
+
+tmp_data2 pack 1 1 1
+namer $tmp_data namei $tmp_data1 quality $dt_quality demand $tmp_data2 context $dt_context apcon "DT" 0 timer dummy_timer A_ASSOCIATE.REQ
+```
+
+### A_TERMINATE.REQ
+```
+;параметры: нет
+out "A_TERMINATE.REQ"
+
+apcon "DT" 0 timer dummy_timer A_RELEASE.REQ
+```
+
+### A_TERMINATE.RESP
+```
+;параметры: нет
+out "A_TERMINATE.RESP"
+
+apcon "DT" 0 timer dummy_timer A_RELEASE.RESP
+```
+
+### A_TRANSFER_INIT.REQ
+```
+;параметры: namer (строка), namei (строка), context (буфер), quality (буфер)
+out "A_TRANSFER_INIT.REQ namer " $namer " namei " $namei " quality " $quality " context " $context
+setto $namer dt_namer
+setto $namei dt_namei
+setto $context dt_context
+setto $quality dt_quality
+name $namer 0 timer dummy_timer A_RESOLVE.REQ
+```
+
+### A_TRANSFER_INIT.RESP
+```
+;параметры: namei (строка), context (буфер), quality (буфер)
+out CurrentSystemName() " A_TRANSFER_INIT.RESP namei " $namei " quality " $quality " context " $context
+
+tmp_data pack 1 + sizeof(namei) $gs_other_addr 1 $namei sizeof(namei)
+namei $tmp_data context $context quality $quality apcon "DT" 0 timer dummy_timer A_ASSOCIATE.RESP
+```
+
+## Общее
+
+### A_SYNC_MAJOR.REQ
+```
+generatedown P_SYNC_MAJOR.REQ
+```
+
+### P_DATA.IND
+```
+;параметры:  userdata (буфер)
+out CurrentSystemName() " P_DATA.IND userdata " $userdata
+
+if dt $esua_apcon == "DT"
+gs:
+tmp_data 1 tmp_type 1 tmp_addr 1 tmp_time1 1 tmp_time2 1 tmp_char1 1 tmp_char2 1 unpack userdata
+out CurrentSystemName() " P_DATA.IND Guide received for " $gs_name " " $tmp_type "," $tmp_addr "," $tmp_time1 "," $tmp_time2 "," $tmp_char1 "," $tmp_char2
+
+if gs_time ($tmp_type == 1) || ($tmp_type == 2)
+if gs_resolve ($tmp_type == 3) || ($tmp_type == 4)
+save_systemb_addr:
+; кешируем адрес SystemB
+setto $tmp_addr gs_other_addr
+gs_resolve:
+gs_addr pack 4 $tmp_type / 2 1 $tmp_addr 1 $tmp_char1 1 $tmp_char2 1
+generatedown P_RELEASE.REQ
+return
+
+gs_time:
+tmp_data pack sizeof(gs_name) + 1 3 1 $gs_name sizeof(gs_name)
+userdata $tmp_data $tmp_time1 timer dummy_timer A_DATA.REQ.GS
+return
+
+setto locguide($gs_name) tmp_data
+tmp_type 1 tmp_addr 1 tmp_time1 1 tmp_time2 1 tmp_char1 1 tmp_char2 1 unpack tmp_data
+out CurrentSystemName() " P_DATA.IND locguide(" $gs_name ") = " $tmp_type "," $tmp_addr "," $tmp_time1 "," $tmp_time2 "," $tmp_char1 "," $tmp_char2
+return
+
+dt:
+userdata $userdata up A_DATA.IND
+return
+```
+
+### P_EXPEDITED_DATA.IND
+```
+;параметры:  userdata (буфер)
+userdata $userdata up A_DATA.IND
+```
+
+### P_GIVE_TOKENS.IND
+```
+;параметры:  token (число)
+if resend ($token == 1) && ($dt_want_data_token == 1)
+if sync ($token == 2) && ($dt_want_sync_token == 1)
+resend:
+userdata $dt_userdata 0 timer dummy_timer A_DATA.REQ.GS
+setto 0 dt_want_data_token
+return
+sync:
+0 timer dummy_timer A_SYNC_MAJOR.REQ
+setto 0 dt_want_data_token
+return
+```
+
+### P_P_EXCEPTION.IND
+```
+;параметры:  error (число)
+if resynchronize $error == 3
+if sync $error == 2
+data:
+setto 1 dt_want_data_token
+generatedown P_PLEASE_TOKENS.REQ token 1
+return
+sync:
+setto 1 dt_want_sync_token
+generatedown P_PLEASE_TOKENS.REQ token 2
+return
+resynchronize:
+generatedown P_RESYNCHRONIZE.REQ token 1
+return
+```
+
+### P_PLEASE_TOKENS.IND
+```
+;параметры:  token (число)
+out CurrentSystemName() " P_PLEASE_TOKENS.IND token " $token
+generatedown P_GIVE_TOKENS.REQ token $token
+```
+
+### P_RESYNCHRONIZE.CONF
+```
+;параметры:  token (число)
+out CurrentSystemName() " P_RESYNCHRONIZE.CONF token " $token
+```
+
+### P_RESYNCHRONIZE.IND
+```
+;параметры:  token (число)
+out CurrentSystemName() " P_RESYNCHRONIZE.IND token " $token
+generatedown P_RESYNCHRONIZE.RESP
+```
+
+### P_SYNC_MAJOR.CONF
+```
+;параметры:  нет
+out CurrentSystemName() " P_SYNC_MAJOR.CONF"
+```
+
+### P_SYNC_MAJOR.IND
+```
+;параметры:  нет
+out CurrentSystemName() " P_SYNC_MAJOR.IND"
+generatedown P_SYNC_MAJOR.RESP
+```
+
 # Уровень представления
 
 Скопировано из asvaselyuk и затем переделано
@@ -121,6 +533,66 @@ output pack sizeof(output)+1 sizeof(output) 1 $output sizeof(output)
 send:
 output pack sizeof(output)+1 $code_pac 1 $output sizeof(output)
 generatedown S_DATA.REQ userdata $output
+skip_me:
+setto 6 Q6
+```
+
+## P_EXPEDITED_DATA.REQ
+```
+;параметры:  userdata (буфер)
+code_pac 1 current_buffer sizeof(userdata)-1 unpack userdata
+if struct $code_pac == 1
+no_struct:
+if sized_no_struct $current_syntax == 1
+output pack sizeof(current_buffer)+sizeof(TERMINAL) $current_buffer sizeof(current_buffer) $TERMINAL sizeof(TERMINAL)
+goto send
+
+sized_no_struct:
+if skip_me $Q5 == 6
+output pack sizeof(current_buffer)+1 sizeof(current_buffer) 1 $current_buffer sizeof(current_buffer)
+goto send
+
+struct:
+setto 0 loops
+sizes pack 0
+output pack 0
+tmp 1 current_buffer sizeof(current_buffer)-2 unpack current_buffer
+setto 0 pos_1
+setto 0 pos_2
+loop:
+setto 6 Q6
+setto $loops+1 loops
+if break_loop $loops >= 5
+tmp $pos_2 current_buffer sizeof(current_buffer)-$pos_2 unpack current_buffer
+tmp sizeof(current_buffer) unpack current_buffer
+setto pos($left_border,tmp) pos_1
+setto pos($right_border,tmp) pos_2
+break_loop if ($pos_2 == 0) && ($pos_1 == 0)
+;empty if $pos_2 <= $pos_1 + 1
+tmp $pos_1 prefix $pos_2-$pos_1-1 unpack current_buffer
+goto append
+;empty:
+;0 pack prefix
+;goto append
+
+append:
+if sized_append $current_syntax == 1
+prefix pack sizeof(prefix)+sizeof(TERMINAL) $prefix sizeof(prefix) $TERMINAL sizeof(TERMINAL)
+output pack sizeof(output)+sizeof(prefix) $output sizeof(output) $prefix sizeof(prefix)
+goto loop
+
+sized_append:
+output pack sizeof(prefix)+1+sizeof(output) $output sizeof(output) sizeof(prefix) 1 $prefix sizeof(prefix)
+goto loop
+
+break_loop:
+if send $current_syntax == 2
+output pack sizeof(output)+1 sizeof(output) 1 $output sizeof(output)
+
+send:
+current_buffer pack 2+sizeof(output) $Q3 1 $code_pac 1 $output sizeof(output)
+tmp sizeof(current_buffer) unpack current_buffer
+generatedown S_EXPEDITED_DATA.REQ userdata $current_buffer
 skip_me:
 setto 6 Q6
 ```
@@ -276,11 +748,12 @@ return
 
 syntax_req:
 setto 10 Q6
-syntax_pac sizeof(syntax_pac) current_buffer sizeof(current_buffer)-sizeof(syntax_pac) unpack current_buffer
-current_syntax sizeof(current_syntax) allowed_syntaxes sizeof(allowed_syntaxes)-sizeof(current_syntax) unpack allowed_syntaxes
+syntax_pac 1 current_buffer sizeof(current_buffer)-1 unpack current_buffer
+tmp sizeof(current_buffer) unpack current_buffer
+current_syntax 1 allowed_syntaxes sizeof(allowed_syntaxes)-1 unpack allowed_syntaxes
 if send_syntax $current_syntax == $syntax_pac
 if skip_second_syntax_pac sizeof(current_buffer) == 0
-syntax_pac2 sizeof(syntax_pac2) unpack current_buffer
+syntax_pac2 1 unpack current_buffer
 if send_syntax $current_syntax == $syntax_pac2
 skip_second_syntax_pac:
 if abort sizeof(allowed_syntaxes) == 0
@@ -846,6 +1319,10 @@ declare integer msg_crc
 ;параметры:  address (число)
 if skip $state == "F"
 setto "D" state
+setto 0 req_num
+setto 0 ind_num
+setto 0 max_ack
+untimer $resend_timer
 address $address up T_CONNECT.CONF
 untimer $reconnect_timer
 return
@@ -860,6 +1337,10 @@ setto "D" state
 if resp $state == "G"
 setto "A" state
 setto $address remote_address
+setto 0 req_num
+setto 0 ind_num
+setto 0 max_ack
+untimer $resend_timer
 address $address up T_CONNECT.IND
 return
 resp:
@@ -925,10 +1406,11 @@ untimer $resend_timer
 return
 wait_connect:
 setto "G" state
-41 timer wait_connect_timer CANCEL_WAIT
+121 timer wait_connect_timer CANCEL_WAIT
 return
 reconnect:
 setto "F" state
+setto 5 connattempt
 generatedown N_CONNECT.REQ address $remote_address
 31 timer reconnect_timer RECONNECT1
 return
@@ -939,6 +1421,8 @@ setto "S" state
 ## RECONNECT1
 ```
 ; параметры: нет
+if skip $connattempt == 0
+setto $connattempt-1 connattempt
 generatedown N_DISCONNECT.REQ address $remote_address
 4 timer reconnect_timer RECONNECT2
 if skip $state == "F"
@@ -977,6 +1461,7 @@ if strange_state $state == "E"
 ; state == S
 setto "B" state
 setto $address remote_address
+setto 5 connattempt
 generatedown N_CONNECT.REQ address $address
 31 timer reconnect_timer RECONNECT1
 return
