@@ -1,6 +1,6 @@
 # Общее
 
-Синтаксис STX2
+Синтаксис STX5
 
 Год создания 2021
 
@@ -722,7 +722,7 @@ if $fin_synt != 3 continue
 	1 varset fin_synt
 continue: 
 2 101 1 $fin_synt 1 bufferit pack_buf 
-S_EXPEDITED_DATA.REQ generatedown userdata $pack_buf
+P_EXPEDITED_DATA.REQ generatedown userdata $pack_buf
 goto end
 con_resp:
 unpack fin_synt 1 data
@@ -1210,7 +1210,7 @@ if $type == 11 resync_response
 if $type == 12 normal_discon_request 
 if $type == 14 forced_discon_request 
 out "неизвестный тип пакета ! " 
-retrurn 
+return 
 
 param_propose: 
 ;ut "пришла индикация S_CONNECT.IND" 
