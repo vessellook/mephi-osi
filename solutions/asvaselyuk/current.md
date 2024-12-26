@@ -1121,21 +1121,19 @@ initial_markers указывает, как изначально распреде
 
 и в зависимости от типа <данные> это
 
-```
-1:<quality_size| 1 слово><demand_size| 1 слово><quality| quality_size слов><demand | demand_size слов> - параметры запроса на соединение, причём quality_size = 2 и demand_size = 1
-2:<quality_size| 1 слово><quality| quality_size слов> - параметры ответа на запрос на соединение, причём quality_size = 2
-3:пустой буфер - запрос о разъединении
-4:[<crc| 1 слово>]<userdata> - запрос на передачу данных, crc присутствует для соединений с защитой, вроде бы такой совет даёт преподаватель
-5:[<crc| 1 слово>]<userdata> - запрос на передачу срочных данных, crc присутствует для соединений с защитой, вроде бы такой совет даёт преподаватель
-6:пустой буфер - запрос на упорядоченное разъединение
-7:пустой буфер - ответ на запрос на упорядоченное разъединение
-8:пустой буфер - запрос на основную синхронизацию
-9:пустой буфер - ответ на запрос об основной синхронизации
-10:<token| 1 слово> - запрос на ресинхронизацию
-12:<token| 1 слово> - ответ на запрос на ресинхронизацию
-12:<token| 1 слово> - запрос на маркер
-13:<token| 1 слово> - передача маркера
-```
+- 1:<quality_size| 1 слово><demand_size| 1 слово><quality| quality_size слов><demand | demand_size слов> - параметры запроса на соединение, причём quality_size = 2 и demand_size = 1
+- 2:<quality_size| 1 слово><quality| quality_size слов> - параметры ответа на запрос на соединение, причём quality_size = 2
+- 3:пустой буфер - запрос о разъединении
+- 4:[<crc| 1 слово>]<userdata> - запрос на передачу данных, crc присутствует для соединений с защитой, вроде бы такой совет даёт преподаватель
+- 5:[<crc| 1 слово>]<userdata> - запрос на передачу срочных данных, crc присутствует для соединений с защитой, вроде бы такой совет даёт преподаватель
+- 6:пустой буфер - запрос на упорядоченное разъединение
+- 7:пустой буфер - ответ на запрос на упорядоченное разъединение
+- 8:пустой буфер - запрос на основную синхронизацию
+- 9:пустой буфер - ответ на запрос об основной синхронизации
+- = 10:<token| 1 слово> - запрос на ресинхронизацию
+- 12:<token| 1 слово> - ответ на запрос на ресинхронизацию
+- 12:<token| 1 слово> - запрос на маркер
+- 13:<token| 1 слово> - передача маркера
 
 буфер quality имеет формат <protect_flag| 1 слово><initial_sync_point| 1 слово>
 
@@ -1555,69 +1553,65 @@ return
 
 ## ФОРМАТ СООБЩЕНИЙ
 
-```
-Подтверждение: <контрольная сумма><тип 1><номер>
-Завершение от сервера клиенту: <контрольная сумма><тип 2><номер>
-Данные: <контрольная сумма><тип 3><номер><данные>
-```
+- Подтверждение: <контрольная сумма><тип 1><номер>
+- Завершение от сервера клиенту: <контрольная сумма><тип 2><номер>
+- Данные: <контрольная сумма><тип 3><номер><данные>
 
 ## ПЕРЕХОДЫ СОСТОЯНИЯ 
 
-```
-формат: <исходное состояние> <конечное состояние> <полученное событие> -> <действия>
+- формат: <исходное состояние> <конечное состояние> <полученное событие> -> <действия>
 
-0 - ожидание новой T сессии, исходное состояние. N соединения нет
-0 1 N_CONNECT.IND -> eventup T_CONNECT.IND
-0 2 T_CONNECT.REQ -> generatedown N_CONNECT.REQ
+- 0 - ожидание новой T сессии, исходное состояние. N соединения нет
+- 0 1 N_CONNECT.IND -> eventup T_CONNECT.IND
+- 0 2 T_CONNECT.REQ -> generatedown N_CONNECT.REQ
 
-1 - огранизация входящего T соединения
-1 3 T_CONNECT.RESP -> generatedown N_CONNECT.RESP
-1 0 T_DISCONNECT.REQ -> generatedown N_DISCONNECT.REQ
+- 1 - огранизация входящего T соединения
+- 1 3 T_CONNECT.RESP -> generatedown N_CONNECT.RESP
+- 1 0 T_DISCONNECT.REQ -> generatedown N_DISCONNECT.REQ
 
-2 - организация исходящего T соединения
-2 4 N_CONNECT.CONF -> eventup T_CONNECT.CONF
-2 0 N_DISCONNECT.IND -> eventup T_DISCONNECT.IND
+- 2 - организация исходящего T соединения
+- 2 4 N_CONNECT.CONF -> eventup T_CONNECT.CONF
+- 2 0 N_DISCONNECT.IND -> eventup T_DISCONNECT.IND
 
-3 - готовность передачи данных по входящему T соединению
-3 3 T_DATA.REQ -> generatedown N_DATA.REQ
-3 3 N_DATA.IND DATA -> eventup T_DATA.IND, generatedown N_DATA.REQ ACK
-3 3 N_DATA.IND ACK -> (do nothing)
-сервер никогда не посылает N_DISCONNECT.REQ,  но уведомляет клиента о намерении через сообщение "STOP"
-3 5 T_DISCONNECT.REQ -> settimer T_REPEAT_STOP 0
-3 7 N_DISCONNECT.IND -> settimer T_SERVER_DISCONNECT $const_MAX_TRANSFER_DELAY*2+1
+- 3 - готовность передачи данных по входящему T соединению
+- 3 3 T_DATA.REQ -> generatedown N_DATA.REQ
+- 3 3 N_DATA.IND DATA -> eventup T_DATA.IND, generatedown N_DATA.REQ ACK
+- 3 3 N_DATA.IND ACK -> (do nothing)
+- сервер никогда не посылает N_DISCONNECT.REQ,  но уведомляет клиента о намерении через сообщение "STOP"
+- 3 5 T_DISCONNECT.REQ -> settimer T_REPEAT_STOP 0
+- 3 7 N_DISCONNECT.IND -> settimer T_SERVER_DISCONNECT $const_MAX_TRANSFER_DELAY*2+1
 
-4 - готовность передачи данных по исходящему T соединению
-4 4 T_DATA.REQ -> generatedown N_DATA.REQ
-4 4 N_DATA.IND DATA -> eventup T_DATA.IND, generatedown N_DATA.REQ ACK
-4 4 N_DATA.IND ACK -> (do nothing)
-4 0 N_DATA.IND STOP -> generatedown N_DISCONNECT.REQ, eventup T_DISCONNECT.IND
-4 0 T_DISCONNECT.REQ -> generatedown N_DISCONNECT.REQ
-сервер не посылает N_DISCONNECT.REQ, так что это случайный разрыв, клиент переподключается
-4 6 N_DISCONNECT.IND -> generatedown N_CONNECT.REQ
+- 4 - готовность передачи данных по исходящему T соединению
+- 4 4 T_DATA.REQ -> generatedown N_DATA.REQ
+- 4 4 N_DATA.IND DATA -> eventup T_DATA.IND, generatedown N_DATA.REQ ACK
+- 4 4 N_DATA.IND ACK -> (do nothing)
+- 4 0 N_DATA.IND STOP -> generatedown N_DISCONNECT.REQ, eventup T_DISCONNECT.IND
+- 4 0 T_DISCONNECT.REQ -> generatedown N_DISCONNECT.REQ
+- сервер не посылает N_DISCONNECT.REQ, так что это случайный разрыв, клиент переподключается
+- 4 6 N_DISCONNECT.IND -> generatedown N_CONNECT.REQ
 
-5 - ожидание завершения соединения со стороны клиента
-тут приходится терять пакет
-5 5 N_DATA.IND DATA -> (skip)
-5 5 N_DATA.IND ACK -> (skip)
-тут приходится разрывать T соединение, пока не завершится N соединение
-5 5 T_CONNECT.REQ -> eventup T_DISCONNECT.IND
-5 0 N_DISCONNECT.IND -> untimer  REPEAT_STOP
-5 5 T_REPEAT_STOP -> generatedown N_DATA.REQ "STOP", settimer T_REPEAT_STOP $const_MAX_TRANSFER_DELAY*2+1
+- 5 - ожидание завершения соединения со стороны клиента
+- тут приходится терять пакет
+- 5 5 N_DATA.IND DATA -> (skip)
+- 5 5 N_DATA.IND ACK -> (skip)
+- тут приходится разрывать T соединение, пока не завершится N соединение
+- 5 5 T_CONNECT.REQ -> eventup T_DISCONNECT.IND
+- 5 0 N_DISCONNECT.IND -> untimer  REPEAT_STOP
+- 5 5 T_REPEAT_STOP -> generatedown N_DATA.REQ "STOP", settimer T_REPEAT_STOP $const_MAX_TRANSFER_DELAY*2+1
 
-6 - ожидание подтверждения переподключения
-6 4 N_CONNECT.CONF -> (do nothing)
-6 0 N_DISCONNECT.IND -> (do nothing)
-тут приходится терять пакет (ещё можно в очередь поместить)
-6 6 T_DATA.REQ -> (skip)
-6 0 T_DISCONNECT.REQ -> N_DISCONNECT.REQ
+- 6 - ожидание подтверждения переподключения
+- 6 4 N_CONNECT.CONF -> (do nothing)
+- 6 0 N_DISCONNECT.IND -> (do nothing)
+- тут приходится терять пакет (ещё можно в очередь поместить)
+- 6 6 T_DATA.REQ -> (skip)
+- 6 0 T_DISCONNECT.REQ -> N_DISCONNECT.REQ
 
-7 - ожидание переподключения клиента
-7 0 T_DISCONNECT.REQ -> (skip)
-7 0 T_SERVER_DISCONNECT -> eventup T_DISCONNECT.IND
-7 3 N_CONNECT.IND -> generatedown N_CONNECT.RESP, untimer server_disconnect_timer
-тут приходится терять пакет (ещё его можно в очередь поместить)
-7 7 T_DATA.REQ -> (skip)
-```
+- 7 - ожидание переподключения клиента
+- 7 0 T_DISCONNECT.REQ -> (skip)
+- 7 0 T_SERVER_DISCONNECT -> eventup T_DISCONNECT.IND
+- 7 3 N_CONNECT.IND -> generatedown N_CONNECT.RESP, untimer server_disconnect_timer
+- тут приходится терять пакет (ещё его можно в очередь поместить)
+- 7 7 T_DATA.REQ -> (skip)
 
 ## T_INIT.REQ
 ```
